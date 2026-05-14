@@ -6,9 +6,6 @@ const API_URL = "https://bewerberfuchs-1.onrender.com";
 export default function Checkout({ goDashboard, selectedProduct }) {
   const [loading, setLoading] = useState(false);
 
-  const isAdmin =
-    new URLSearchParams(window.location.search).get("admin") === "true";
-
   const products = {
     resume: {
       title: "Lebenslauf Optimierung",
