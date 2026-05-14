@@ -356,6 +356,15 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
           </div>
         </div>
       </footer>
+      <div className="fixed bottom-0 left-0 right-0 md:hidden z-50 p-4 bg-[#0b0f19]/95 backdrop-blur-xl border-t border-white/10">
+        <button
+          onClick={() => goCheckout("bundle")}
+          className="w-full bg-orange-500 hover:bg-orange-400 text-black font-black py-4 rounded-2xl text-lg shadow-2xl"
+        >
+          🔥 Bundle für 5€ starten
+        </button>
+      </div>
     </div>
   );
 }
+   
