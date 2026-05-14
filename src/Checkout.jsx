@@ -49,13 +49,6 @@ export default function Checkout({ goDashboard, selectedProduct }) {
   const current = products[selectedProduct] || products.bundle;
 
   async function startCheckout() {
-    if (isAdmin) {
-      window.location.href = `/?success=true&product=${
-        selectedProduct || "bundle"
-      }&admin=true`;
-      return;
-    }
-
     try {
       setLoading(true);
 
@@ -73,10 +66,11 @@ export default function Checkout({ goDashboard, selectedProduct }) {
 
       if (data.url) {
         window.location.href = data.url;
-      } else {
-        setLoading(false);
-        alert("Stripe Checkout konnte nicht gestartet werden.");
+        return;
       }
+
+      setLoading(false);
+      alert("Stripe Checkout konnte nicht gestartet werden.");
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -96,12 +90,6 @@ export default function Checkout({ goDashboard, selectedProduct }) {
           >
             ← Zurück zum Dashboard
           </button>
-
-          {isAdmin && (
-            <div className="mb-8 bg-green-500/10 border border-green-500/30 text-green-300 rounded-2xl p-5 font-bold">
-              Admin-Testmodus aktiv · Zahlung wird übersprungen
-            </div>
-          )}
 
           <div className="mb-12">
             <p className="text-orange-400 font-semibold mb-3">
@@ -127,12 +115,10 @@ export default function Checkout({ goDashboard, selectedProduct }) {
             </div>
 
             <div className="bg-orange-500 text-black rounded-[32px] p-8">
-              <p className="font-semibold mb-3">
-                {isAdmin ? "Admin-Test" : "Einmalzahlung"}
-              </p>
+              <p className="font-semibold mb-3">Einmalzahlung</p>
 
               <div className="text-7xl font-black mb-8">
-                {isAdmin ? "0€" : current.price}
+                {current.price}
               </div>
 
               <button
@@ -140,17 +126,11 @@ export default function Checkout({ goDashboard, selectedProduct }) {
                 disabled={loading}
                 className="w-full bg-black text-white font-bold py-5 rounded-2xl hover:bg-neutral-900 transition text-lg disabled:opacity-60"
               >
-                {loading
-                  ? "Stripe wird geöffnet..."
-                  : isAdmin
-                  ? "Kostenlos testen"
-                  : current.button}
+                {loading ? "Stripe wird geöffnet..." : current.button}
               </button>
 
               <p className="text-black/70 text-sm mt-5">
-                {isAdmin
-                  ? "Nur für lokale Tests"
-                  : "Keine Abos · Sichere Zahlung über Stripe · Sofortiger Zugriff"}
+                Keine Abos · Sichere Zahlung über Stripe · Sofortiger Zugriff
               </p>
             </div>
           </div>
