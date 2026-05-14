@@ -3,176 +3,158 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   }
 
-  return (
-    <div className="min-h-screen bg-[#0b0f19] text-white">
-      <nav className="sticky top-0 z-50 backdrop-blur-xl bg-[#0b0f19]/80 border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <button
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="flex items-center gap-3"
-          >
-            <div className="w-11 h-11 rounded-2xl bg-orange-500 flex items-center justify-center text-black font-black text-xl">
-              🦊
-            </div>
-            <div className="text-left">
-              <div className="text-xl font-black">
-                Bewerber<span className="text-orange-400">Fuchs</span>
-              </div>
-              <div className="text-xs text-gray-400">KI Bewerbungstool</div>
-            </div>
-          </button>
-
-          <div className="hidden md:flex items-center gap-8 text-gray-300">
-            <button onClick={() => scrollTo("funktion")} className="hover:text-white">
-              So funktioniert’s
-            </button>
-            <button onClick={() => scrollTo("vergleich")} className="hover:text-white">
-              Vorher/Nachher
-            </button>
-            <button onClick={() => scrollTo("preise")} className="hover:text-white">
-              Preise
-            </button>
-            <button onClick={() => scrollTo("faq")} className="hover:text-white">
-              FAQ
-            </button>
+ return (
+  <div className="min-h-screen bg-[#0b0f19] text-white">
+    <nav className="sticky top-0 z-50 backdrop-blur-xl bg-[#0b0f19]/80 border-b border-white/10">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="flex items-center gap-3"
+        >
+          <div className="w-11 h-11 rounded-2xl bg-orange-500 flex items-center justify-center text-black font-black text-xl">
+            🦊
           </div>
+          <div className="text-left">
+            <div className="text-xl font-black">
+              Bewerber<span className="text-orange-400">Fuchs</span>
+            </div>
+            <div className="text-xs text-gray-400">KI Bewerbungstool</div>
+          </div>
+        </button>
 
-          <button
-            onClick={goDashboard}
-            className="bg-orange-500 hover:bg-orange-400 transition text-black font-bold px-5 py-3 rounded-2xl"
-          >
-            Jetzt starten
+        <div className="hidden md:flex items-center gap-8 text-gray-300">
+          <button onClick={() => scrollTo("funktion")} className="hover:text-white">
+            So funktioniert’s
+          </button>
+          <button onClick={() => scrollTo("vergleich")} className="hover:text-white">
+            Vorher/Nachher
+          </button>
+          <button onClick={() => scrollTo("preise")} className="hover:text-white">
+            Preise
+          </button>
+          <button onClick={() => scrollTo("faq")} className="hover:text-white">
+            FAQ
           </button>
         </div>
-      </nav>
 
-      <section className="px-6 py-20 max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
-        <div>
-          <div className="inline-flex px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 mb-8">
-            🚀 KI-Bewerbungen für Deutschland, Österreich & Schweiz
-          </div>
-
-          <h1 className="text-4xl md:text-6xl font-black leading-tight mb-8 max-w-2xl">
-            Professionelle Bewerbungen in wenigen Minuten.
-          </h1>
-
-          <p className="text-xl text-gray-400 leading-relaxed mb-10">
-            BewerberFuchs analysiert deinen Lebenslauf, erkennt wichtige Keywords aus der Stellenanzeige
-            und erstellt daraus professionelle Bewerbungsunterlagen mit modernem Design.
-          </p>
-
-          <div className="grid grid-cols-3 gap-3 mb-8">
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-              <p className="text-2xl font-black text-orange-400">91%</p>
-              <p className="text-xs text-gray-400">ATS Score möglich</p>
-            </div>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-              <p className="text-2xl font-black text-orange-400">5€</p>
-              <p className="text-xs text-gray-400">Bundle Preis</p>
-            </div>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-              <p className="text-2xl font-black text-orange-400">PDF</p>
-              <p className="text-xs text-gray-400">Download inklusive</p>
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-4">
-            <button
-              onClick={goDashboard}
-              className="bg-orange-500 hover:bg-orange-400 transition px-8 py-5 rounded-2xl text-black font-black text-lg"
-            >
-              Kostenlos analysieren
-            </button>
-
-            <button
-              onClick={() => scrollTo("preise")}
-              className="border border-white/10 hover:border-orange-500/40 transition px-8 py-5 rounded-2xl text-lg"
-            >
-              Preise ansehen
-            </button>
-          </div>
-
-          <p className="text-gray-500 text-sm mt-6">
-            Keine Abos · Sofort nutzbar · Sichere Zahlung · PDF-Download inklusive
-          </p>
-        </div>
-
-        <div className="bg-white/5 border border-white/10 rounded-[36px] p-6 shadow-2xl">
-          <div className="bg-black/40 rounded-[28px] p-6">
-            <div className="flex justify-between mb-6">
-              <div>
-                <p className="text-gray-400 text-sm">ATS-Score Verbesserung</p>
-                <h3 className="text-5xl font-black">
-                  <span className="text-red-400">48%</span>
-                  <span className="text-gray-500 mx-3">→</span>
-                  <span className="text-orange-400">91%</span>
-                </h3>
-              </div>
-              <div className="bg-green-500/20 text-green-400 px-4 py-2 rounded-full h-fit">
-                Optimiert
-              </div>
-            </div>
-
-            <div className="w-full h-4 bg-white/10 rounded-full overflow-hidden mb-8">
-              <div className="h-full w-[91%] bg-orange-500 rounded-full"></div>
-            </div>
-
-            <div className="space-y-4">
-              {[
-                "Stellenanzeige analysiert",
-                "ATS-Keywords übernommen",
-                "Anschreiben angepasst",
-                "Lebenslauf professionell strukturiert",
-              ].map((item) => (
-                <div
-                  key={item}
-                  className="bg-white/5 border border-white/10 rounded-2xl p-4 flex justify-between"
-                >
-                  <span>{item}</span>
-                  <span className="text-green-400">✓</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-        <section className="px-6 py-8 border-y border-white/10 bg-black/20">
-  <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-    {[
-      ["⚡", "In unter 2 Minuten erstellt"],
-      ["📄", "PDF Download inklusive"],
-      ["🔒", "Sichere Stripe Zahlung"],
-      ["🤖", "ATS-optimierte Bewerbungen"],
-    ].map((item) => (
-      <div
-        key={item[1]}
-        className="bg-white/5 border border-white/10 rounded-2xl p-5"
-      >
-        <div className="text-3xl mb-3">{item[0]}</div>
-        <p className="font-semibold text-sm text-gray-300">
-          {item[1]}
-        </p>
+        <button
+          onClick={goDashboard}
+          className="bg-orange-500 hover:bg-orange-400 transition text-black font-bold px-5 py-3 rounded-2xl"
+        >
+          Jetzt starten
+        </button>
       </div>
-    ))}
-  </div>
-</section>
-      <section className="px-6 pb-12">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-4">
+    </nav>
+
+    <section className="px-6 py-16 md:py-20 max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
+      <div>
+        <div className="inline-flex px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 mb-8">
+          🚀 KI-Bewerbungen für Deutschland, Österreich & Schweiz
+        </div>
+
+        <h1 className="text-4xl md:text-6xl font-black leading-tight mb-8 max-w-2xl">
+          Professionelle Bewerbungen in wenigen Minuten.
+        </h1>
+
+        <p className="text-lg md:text-xl text-gray-400 leading-relaxed mb-10 max-w-2xl">
+          Lade deinen Lebenslauf hoch oder füge eine Stellenanzeige ein. BewerberFuchs erstellt daraus moderne, ATS-optimierte Bewerbungen.
+        </p>
+
+        <div className="grid grid-cols-3 gap-3 mb-8 max-w-2xl">
           {[
-            "⭐ Moderne Bewerbungstexte",
-            "✅ ATS-optimiert",
-            "🚀 Sofortiger Download",
-            "🔒 Sichere Zahlung über Stripe",
+            ["91%", "ATS Score möglich"],
+            ["5€", "Bundle Preis"],
+            ["PDF", "Download inklusive"],
           ].map((item) => (
             <div
-              key={item}
-              className="bg-white/5 border border-white/10 rounded-2xl p-5 text-center font-bold"
+              key={item[0]}
+              className="bg-white/5 border border-white/10 rounded-2xl p-4"
             >
-              {item}
+              <p className="text-2xl font-black text-orange-400">{item[0]}</p>
+              <p className="text-xs text-gray-400">{item[1]}</p>
             </div>
           ))}
         </div>
-      </section>
+
+        <div className="flex flex-col sm:flex-row gap-4">
+          <button
+            onClick={goDashboard}
+            className="bg-orange-500 hover:bg-orange-400 transition px-8 py-5 rounded-2xl text-black font-black text-lg"
+          >
+            Kostenlos analysieren
+          </button>
+
+          <button
+            onClick={() => scrollTo("preise")}
+            className="border border-white/10 hover:border-orange-500/40 transition px-8 py-5 rounded-2xl text-lg"
+          >
+            Preise ansehen
+          </button>
+        </div>
+
+        <p className="text-gray-500 text-sm mt-6">
+          Keine Abos · Sofort nutzbar · Sichere Zahlung · PDF-Download inklusive
+        </p>
+      </div>
+
+      <div className="bg-white/5 border border-white/10 rounded-[36px] p-6 shadow-2xl shadow-black/40">
+        <div className="bg-black/40 rounded-[28px] p-6">
+          <div className="flex justify-between gap-4 mb-6">
+            <div>
+              <p className="text-gray-400 text-sm">ATS-Score Verbesserung</p>
+              <h3 className="text-4xl md:text-5xl font-black">
+                <span className="text-red-400">48%</span>
+                <span className="text-gray-500 mx-3">→</span>
+                <span className="text-orange-400">91%</span>
+              </h3>
+            </div>
+            <div className="bg-green-500/20 text-green-400 px-4 py-2 rounded-full h-fit text-sm">
+              Optimiert
+            </div>
+          </div>
+
+          <div className="w-full h-4 bg-white/10 rounded-full overflow-hidden mb-8">
+            <div className="h-full w-[91%] bg-orange-500 rounded-full"></div>
+          </div>
+
+          <div className="space-y-4">
+            {[
+              "Stellenanzeige analysiert",
+              "ATS-Keywords übernommen",
+              "Anschreiben angepasst",
+              "Lebenslauf professionell strukturiert",
+            ].map((item) => (
+              <div
+                key={item}
+                className="bg-white/5 border border-white/10 rounded-2xl p-4 flex justify-between"
+              >
+                <span>{item}</span>
+                <span className="text-green-400">✓</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section className="px-6 py-8 border-y border-white/10 bg-black/20">
+      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        {[
+          ["⚡", "In unter 2 Minuten erstellt"],
+          ["📄", "PDF Download inklusive"],
+          ["🔒", "Sichere Stripe Zahlung"],
+          ["🤖", "ATS-optimierte Bewerbungen"],
+        ].map((item) => (
+          <div
+            key={item[1]}
+            className="bg-white/5 border border-white/10 rounded-2xl p-5"
+          >
+            <div className="text-3xl mb-3">{item[0]}</div>
+            <p className="font-semibold text-sm text-gray-300">{item[1]}</p>
+          </div>
+        ))}
+      </div>
+    </section>
 
       <section id="vergleich" className="px-6 py-24 bg-black/20">
         <div className="max-w-7xl mx-auto">
