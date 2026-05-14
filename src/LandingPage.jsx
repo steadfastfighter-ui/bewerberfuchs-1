@@ -26,8 +26,8 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
             <button onClick={() => scrollTo("funktion")} className="hover:text-white">
               So funktioniert’s
             </button>
-            <button onClick={() => scrollTo("demo")} className="hover:text-white">
-              Demo
+            <button onClick={() => scrollTo("vergleich")} className="hover:text-white">
+              Vorher/Nachher
             </button>
             <button onClick={() => scrollTo("preise")} className="hover:text-white">
               Preise
@@ -46,27 +46,42 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
         </div>
       </nav>
 
-      <section className="px-6 py-24 max-w-7xl mx-auto grid lg:grid-cols-2 gap-14 items-center">
+      <section className="px-6 py-20 max-w-7xl mx-auto grid lg:grid-cols-2 gap-14 items-center">
         <div>
           <div className="inline-flex px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 mb-8">
-            🚀 Lebenslauf & Anschreiben in Minuten erstellen
+            🚀 KI-Bewerbungen für Deutschland, Österreich & Schweiz
           </div>
 
           <h1 className="text-5xl md:text-7xl font-black leading-tight mb-8">
-            Bewirb dich schneller, besser und professioneller.
+            Mehr Chancen auf Vorstellungsgespräche.
           </h1>
 
           <p className="text-xl text-gray-400 leading-relaxed mb-10">
-            BewerberFuchs analysiert deinen Lebenslauf, nutzt die Stellenanzeige
-            und erstellt daraus optimierte Bewerbungsunterlagen mit modernem Design.
+            BewerberFuchs analysiert deinen Lebenslauf, erkennt wichtige Keywords aus der Stellenanzeige
+            und erstellt daraus professionelle Bewerbungsunterlagen mit modernem Design.
           </p>
+
+          <div className="grid grid-cols-3 gap-3 mb-8">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
+              <p className="text-2xl font-black text-orange-400">91%</p>
+              <p className="text-xs text-gray-400">ATS Score möglich</p>
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
+              <p className="text-2xl font-black text-orange-400">5€</p>
+              <p className="text-xs text-gray-400">Bundle Preis</p>
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
+              <p className="text-2xl font-black text-orange-400">PDF</p>
+              <p className="text-xs text-gray-400">Download inklusive</p>
+            </div>
+          </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
             <button
               onClick={goDashboard}
               className="bg-orange-500 hover:bg-orange-400 transition px-8 py-5 rounded-2xl text-black font-black text-lg"
             >
-              Kostenlos starten
+              Kostenlos analysieren
             </button>
 
             <button
@@ -78,7 +93,7 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
           </div>
 
           <p className="text-gray-500 text-sm mt-6">
-            Keine Abos · Sofort nutzbar · PDF-Download inklusive
+            Keine Abos · Sofort nutzbar · Sichere Zahlung · PDF-Download inklusive
           </p>
         </div>
 
@@ -86,8 +101,12 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
           <div className="bg-black/40 rounded-[28px] p-6">
             <div className="flex justify-between mb-6">
               <div>
-                <p className="text-gray-400 text-sm">ATS-Score</p>
-                <h3 className="text-5xl font-black text-orange-400">91%</h3>
+                <p className="text-gray-400 text-sm">ATS-Score Verbesserung</p>
+                <h3 className="text-5xl font-black">
+                  <span className="text-red-400">48%</span>
+                  <span className="text-gray-500 mx-3">→</span>
+                  <span className="text-orange-400">91%</span>
+                </h3>
               </div>
               <div className="bg-green-500/20 text-green-400 px-4 py-2 rounded-full h-fit">
                 Optimiert
@@ -100,10 +119,10 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
 
             <div className="space-y-4">
               {[
-                "Stellenanzeige erkannt",
+                "Stellenanzeige analysiert",
                 "ATS-Keywords übernommen",
                 "Anschreiben angepasst",
-                "Lebenslauf strukturiert",
+                "Lebenslauf professionell strukturiert",
               ].map((item) => (
                 <div
                   key={item}
@@ -118,12 +137,58 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
         </div>
       </section>
 
+      <section className="px-6 pb-12">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-4">
+          {[
+            "⭐ Moderne Bewerbungstexte",
+            "✅ ATS-optimiert",
+            "🚀 Sofortiger Download",
+            "🔒 Sichere Zahlung über Stripe",
+          ].map((item) => (
+            <div
+              key={item}
+              className="bg-white/5 border border-white/10 rounded-2xl p-5 text-center font-bold"
+            >
+              {item}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="vergleich" className="px-6 py-24 bg-black/20">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-14">
+            <p className="text-orange-400 font-semibold mb-3">Vorher / Nachher</p>
+            <h2 className="text-4xl md:text-6xl font-black">
+              Aus Standard-Sätzen werden starke Bewerbungen.
+            </h2>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-6">
+            <div className="bg-red-500/10 border border-red-500/20 rounded-[28px] p-8">
+              <p className="text-red-400 font-black mb-4">Vorher</p>
+              <p className="text-gray-300 leading-relaxed">
+                Hiermit bewerbe ich mich auf Ihre Stelle. Ich bin zuverlässig,
+                pünktlich und arbeite gerne im Team. Über eine Einladung würde ich mich freuen.
+              </p>
+            </div>
+
+            <div className="bg-green-500/10 border border-green-500/20 rounded-[28px] p-8">
+              <p className="text-green-400 font-black mb-4">Nach BewerberFuchs</p>
+              <p className="text-gray-200 leading-relaxed">
+                Durch meine Erfahrung im Lager- und Logistikbereich bringe ich eine zuverlässige,
+                strukturierte Arbeitsweise mit. Besonders die Kommissionierung,
+                Warenkontrolle und termingerechte Bearbeitung von Aufträgen passen sehr gut zu den Anforderungen Ihrer Stelle.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="funktion" className="px-6 py-20">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <p className="text-orange-400 font-semibold mb-3">
-              So funktioniert’s
-            </p>
+            <p className="text-orange-400 font-semibold mb-3">So funktioniert’s</p>
             <h2 className="text-4xl md:text-6xl font-black">
               In 3 Schritten zur Bewerbung
             </h2>
@@ -158,9 +223,8 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
               Nicht nur schreiben. Passend zur Stelle optimieren.
             </h2>
             <p className="text-gray-400 text-lg leading-relaxed mb-8">
-              BewerberFuchs nutzt nicht nur deinen Lebenslauf, sondern auch die
-              Stellenanzeige. Dadurch werden Anschreiben und Lebenslauf gezielter,
-              relevanter und überzeugender.
+              BewerberFuchs nutzt nicht nur deinen Lebenslauf, sondern auch die Stellenanzeige.
+              Dadurch werden Anschreiben und Lebenslauf gezielter, relevanter und überzeugender.
             </p>
 
             <button
@@ -221,14 +285,14 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
               </div>
             ))}
 
-            <div className="bg-orange-500 text-black rounded-[28px] p-6">
+            <div className="bg-orange-500 text-black rounded-[28px] p-6 scale-[1.03] shadow-2xl shadow-orange-500/20">
               <p className="bg-black text-white inline-block px-3 py-1 rounded-full text-xs font-bold mb-4">
-                BELIEBT
+                🔥 BELIEBTESTE WAHL
               </p>
               <h3 className="text-2xl font-black mb-3">Bundle</h3>
               <div className="text-5xl font-black mb-6">5€</div>
               <p className="text-black/70 mb-6">
-                Lebenslauf + Anschreiben als Paket
+                Lebenslauf + Anschreiben als komplettes Bewerbungspaket.
               </p>
               <button
                 onClick={() => goCheckout("bundle")}
