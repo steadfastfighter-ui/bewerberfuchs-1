@@ -220,11 +220,13 @@ export default function Dashboard({
               BewerberFuchs Dashboard
             </p>
 
-            <h1 className="text-5xl font-black mt-3">Dein ATS-Report</h1>
+             <h1 className="text-5xl font-black mt-3">
+                Erstelle deine professionelle Bewerbung
+             </h1>
 
             <p className="text-gray-400 mt-4 text-lg">
-              Lade eine Datei hoch, wähle ein Design und ergänze deine
-              Bewerbungsdaten.
+               Füge deinen Lebenslauf und die Stellenanzeige ein. BewerberFuchs analysiert alles und erstellt daraus optimierte Unterlagen.
+              
             </p>
           </div>
 
@@ -369,7 +371,7 @@ export default function Dashboard({
                 className="bg-white text-black p-5 rounded-2xl font-black hover:bg-gray-100 transition text-left"
               >
                 <div className="text-2xl mb-2">🔥</div>
-                <div>Bundle erstellen</div>
+                <div>Beste Wahl: Bundle erstellen</div>
                 <div className="text-black/60 text-sm mt-1">
                   Lebenslauf + Anschreiben
                 </div>
