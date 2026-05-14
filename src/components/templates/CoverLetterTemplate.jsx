@@ -58,46 +58,66 @@ export default function CoverLetterTemplate({ optimizedText, candidateData }) {
   const letterText = cleanText(optimizedText);
 
   return (
-    <div className="bg-white text-black min-h-[1120px] p-12">
-      <div className="flex justify-between items-start mb-10">
-        <div>
-          <h1 className="text-4xl font-black text-[#111827] mb-4">
-            {fullName || "Vorname Nachname"}
-          </h1>
+    <div className="bg-[#f3f4f6] text-[#111827] min-h-[1120px] p-10 font-sans">
+      <div className="bg-white rounded-[32px] overflow-hidden border border-gray-200 shadow-sm">
+        <div className="bg-[#0f172a] text-white px-10 py-9 flex justify-between gap-8">
+          <div>
+            <p className="text-orange-400 text-sm font-black uppercase tracking-[0.25em] mb-3">
+              Bewerbung
+            </p>
 
-          <div className="space-y-1 text-gray-700 text-sm">
+            <h1 className="text-4xl font-black leading-tight">
+              {fullName || "Vorname Nachname"}
+            </h1>
+
+            <p className="text-gray-300 mt-3">
+              Bewerbung als {position}
+            </p>
+          </div>
+
+          <div className="text-right text-sm text-gray-300 leading-6">
             {address && <p>{address}</p>}
             {candidateData?.email && <p>{candidateData.email}</p>}
             {candidateData?.phone && <p>{candidateData.phone}</p>}
+            {city && <p className="mt-4">{city}</p>}
+            <p>{today}</p>
           </div>
         </div>
 
-        <div className="text-right text-sm text-gray-600">
-          {city && <p>{city}</p>}
-          <p>{today}</p>
+        <div className="px-10 py-10">
+          <div className="grid grid-cols-[1fr_1.4fr] gap-10 mb-10">
+            <div className="bg-[#f9fafb] border border-gray-100 rounded-2xl p-6">
+              <p className="text-orange-500 font-black text-xs uppercase tracking-[0.25em] mb-4">
+                Empfänger
+              </p>
+
+              <div className="text-sm text-gray-700 leading-7">
+                {company && <p className="font-bold text-[#111827]">{company}</p>}
+                {recruiter && <p>{recruiter}</p>}
+                {city && <p>{city}</p>}
+              </div>
+            </div>
+
+            <div>
+              <p className="text-orange-500 font-black text-xs uppercase tracking-[0.25em] mb-4">
+                Betreff
+              </p>
+
+              <h2 className="text-3xl font-black leading-tight">
+                Bewerbung als {position}
+              </h2>
+            </div>
+          </div>
+
+          <div className="whitespace-pre-wrap leading-8 text-[15px] text-gray-800">
+            {letterText}
+          </div>
+
+          <div className="mt-12 pt-8 border-t border-gray-200">
+            <p className="mb-8 text-gray-800">Mit freundlichen Grüßen</p>
+            <p className="font-black text-[#111827] text-lg">{fullName}</p>
+          </div>
         </div>
-      </div>
-
-      <div className="mb-8 text-sm text-gray-800 leading-6">
-        {company && <p className="font-semibold">{company}</p>}
-        {recruiter && <p>{recruiter}</p>}
-        {city && <p>{city}</p>}
-      </div>
-
-      <div className="mb-6">
-        <h2 className="text-2xl font-black text-[#111827] border-b-4 border-orange-500 inline-block pb-2">
-          Bewerbung als {position}
-        </h2>
-      </div>
-
-      <div className="whitespace-pre-wrap leading-7 text-[15px] text-gray-800">
-        {letterText}
-      </div>
-
-      <div className="mt-10">
-        <p className="mb-8 text-gray-800">Mit freundlichen Grüßen</p>
-
-        <p className="font-semibold text-[#111827]">{fullName}</p>
       </div>
     </div>
   );
