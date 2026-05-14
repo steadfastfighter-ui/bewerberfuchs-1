@@ -348,6 +348,8 @@ ${resumeText || ""}
   }
 });
 
-app.listen(4242, () => {
-  console.log("Server läuft auf http://localhost:4242");
+const PORT = process.env.PORT || 4242;
+
+app.listen(PORT, () => {
+  console.log(`Server läuft auf Port ${PORT}`);
 });
