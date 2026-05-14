@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Topbar from "./components/Topbar";
 
+const API_URL = "https://bewerberfuchs-1.onrender.com";
+
 export default function Checkout({ goDashboard, selectedProduct }) {
   const [loading, setLoading] = useState(false);
 
@@ -51,25 +53,24 @@ export default function Checkout({ goDashboard, selectedProduct }) {
 
   async function startCheckout() {
     if (isAdmin) {
-      window.location.href = `/?success=true&product=${selectedProduct || "bundle"}&admin=true`;
+      window.location.href = `/?success=true&product=${
+        selectedProduct || "bundle"
+      }&admin=true`;
       return;
     }
 
     try {
       setLoading(true);
 
-      const response = await fetch(
-        "http://localhost:4242/create-checkout-session",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            product: selectedProduct || "bundle",
-          }),
-        }
-      );
+      const response = await fetch(`${API_URL}/create-checkout-session`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          product: selectedProduct || "bundle",
+        }),
+      });
 
       const data = await response.json();
 

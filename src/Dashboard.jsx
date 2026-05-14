@@ -135,7 +135,7 @@ export default function Dashboard({
     setResult(null);
 
     try {
-      const response = await fetch("http://localhost:4242/analyze", {
+      const response = await fetch("https://bewerberfuchs-1.onrender.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -179,7 +179,7 @@ export default function Dashboard({
       const formData = new FormData();
       formData.append("resume", uploadedFile);
 
-      const response = await fetch("http://localhost:4242/analyze-pdf", {
+      const response = await fetch("https://bewerberfuchs-1.onrender.com", {
         method: "POST",
         body: formData,
       });
