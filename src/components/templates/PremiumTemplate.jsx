@@ -7,89 +7,90 @@ export default function PremiumTemplate({
 }) {
   const sections = parseResumeText(optimizedText);
 
-  function formatName(value = "") {
-    return value
-      .trim()
-      .split(" ")
-      .filter(Boolean)
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(" ");
+  function clean(value = "") {
+    return value.trim();
   }
 
-  function formatText(value = "") {
-    const cleaned = value.trim();
-    if (!cleaned) return "";
-    return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
-  }
+  const fullName = clean(candidateData?.fullName) || "Vorname Nachname";
+  const jobTitle = clean(candidateData?.jobTitle) || "Berufsbezeichnung";
 
-  const fullName = formatName(candidateData?.fullName || "");
-  const jobTitle = formatText(candidateData?.jobTitle || "");
-  const address = formatText(candidateData?.address || "");
+  const contactItems = [
+    candidateData?.email,
+    candidateData?.phone,
+    candidateData?.address,
+    candidateData?.linkedin,
+  ].filter(Boolean);
+
+  function cleanLine(item) {
+    return item.replace("-", "").replace("•", "").trim();
+  }
 
   return (
-    <div className="bg-[#f8fafc] min-h-[1200px] text-[#111827]">
-      <div className="grid grid-cols-[320px_1fr]">
-        <aside className="bg-[#111827] text-white p-10">
-          <div className="flex flex-col items-center text-center">
+    <div className="bg-[#f3f4f6] min-h-[1200px] text-[#111827] font-sans">
+      <div className="grid grid-cols-[300px_1fr] min-h-[1200px]">
+        <aside className="bg-[#0f172a] text-white p-9">
+          <div className="text-center">
             {profilePhoto ? (
               <img
                 src={profilePhoto}
                 alt="Profilbild"
-                className="w-40 h-40 rounded-full object-cover border-4 border-orange-500 shadow-2xl mb-6"
+                className="w-36 h-36 rounded-full object-cover border-4 border-orange-500 mx-auto mb-6 shadow-xl"
               />
             ) : (
-              <div className="w-40 h-40 rounded-full bg-white/10 border-4 border-orange-500 mb-6" />
+              <div className="w-36 h-36 rounded-full bg-white/10 border-4 border-orange-500 mx-auto mb-6" />
             )}
 
-            <h1 className="text-3xl font-black">
-              {fullName || "Vorname Nachname"}
+            <h1 className="text-3xl font-black leading-tight">
+              {fullName}
             </h1>
 
-            <p className="text-orange-400 mt-3 text-sm font-semibold">
-              {jobTitle || "Berufsbezeichnung"}
+            <p className="text-orange-400 mt-3 text-sm font-bold uppercase tracking-wide">
+              {jobTitle}
             </p>
           </div>
 
-          <div className="mt-14">
-            <h2 className="text-orange-400 font-black text-lg mb-5">
+          <div className="mt-12">
+            <h2 className="text-orange-400 font-black text-sm uppercase tracking-[0.2em] mb-5">
               Kontakt
             </h2>
 
-            <div className="space-y-3 text-sm text-gray-300">
-              {candidateData?.email && <p>{candidateData.email}</p>}
-              {candidateData?.phone && <p>{candidateData.phone}</p>}
-              {address && <p>{address}</p>}
-              {candidateData?.linkedin && <p>{candidateData.linkedin}</p>}
+            <div className="space-y-3 text-sm text-gray-300 break-words">
+              {contactItems.map((item, index) => (
+                <p key={index}>{item}</p>
+              ))}
             </div>
           </div>
 
-          {sections.sprachen && (
-            <div className="mt-14">
-              <h2 className="text-orange-400 font-black text-lg mb-5">
-                Sprachen
-              </h2>
-
-              <div className="space-y-3 text-sm text-gray-300">
-                {lines(sections.sprachen).map((item, index) => (
-                  <div key={index}>• {item.replace("-", "").trim()}</div>
-                ))}
-              </div>
-            </div>
-          )}
-
           {sections.kenntnisse && (
-            <div className="mt-14">
-              <h2 className="text-orange-400 font-black text-lg mb-5">
+            <div className="mt-12">
+              <h2 className="text-orange-400 font-black text-sm uppercase tracking-[0.2em] mb-5">
                 Kenntnisse
               </h2>
 
               <div className="flex flex-wrap gap-2">
                 {lines(sections.kenntnisse).map((item, index) => (
-                  <div
+                  <span
                     key={index}
-                    className="bg-white/10 border border-white/10 px-3 py-2 rounded-xl text-xs"
+                    className="bg-white/10 border border-white/10 px-3 py-2 rounded-xl text-xs text-gray-100"
                   >
-                    {item.replace("-", "").trim()}
+                    {cleanLine(item)}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {sections.sprachen && (
+            <div className="mt-12">
+              <h2 className="text-orange-400 font-black text-sm uppercase tracking-[0.2em] mb-5">
+                Sprachen
+              </h2>
+
+              <div className="space-y-3 text-sm text-gray-300">
+                {lines(sections.sprachen).map((item, index) => (
+                  <div key={index} className="flex gap-2">
+                    <span className="text-orange-400">•</span>
+                    <span>{cleanLine(item)}</span>
                   </div>
                 ))}
               </div>
@@ -97,56 +98,69 @@ export default function PremiumTemplate({
           )}
         </aside>
 
-        <main className="p-14">
-          {sections.profil && (
-            <section className="mb-14">
-              <h2 className="text-2xl font-black mb-5 border-b-4 border-orange-500 inline-block pb-2">
-                Profil
-              </h2>
+        <main className="p-12">
+          <div className="bg-white rounded-[32px] p-10 shadow-sm border border-gray-200">
+            {sections.profil && (
+              <section className="mb-10">
+                <p className="text-orange-500 font-black text-sm uppercase tracking-[0.25em] mb-3">
+                  Profil
+                </p>
+                <p className="text-gray-700 leading-8 text-[15px] whitespace-pre-wrap">
+                  {sections.profil}
+                </p>
+              </section>
+            )}
 
-              <p className="text-gray-700 leading-8 whitespace-pre-wrap">
-                {sections.profil}
-              </p>
-            </section>
-          )}
+            {sections.berufserfahrung && (
+              <section className="mb-10">
+                <p className="text-orange-500 font-black text-sm uppercase tracking-[0.25em] mb-5">
+                  Berufserfahrung
+                </p>
 
-          {sections.berufserfahrung && (
-            <section className="mb-14">
-              <h2 className="text-2xl font-black mb-6 border-b-4 border-orange-500 inline-block pb-2">
-                Berufserfahrung
-              </h2>
+                <div className="space-y-4">
+                  {lines(sections.berufserfahrung).map((item, index) => (
+                    <div
+                      key={index}
+                      className="border-l-4 border-orange-500 bg-[#f9fafb] rounded-r-2xl px-5 py-4"
+                    >
+                      <p className="text-gray-700 leading-7 text-[15px]">
+                        {cleanLine(item)}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
 
-              <div className="space-y-6">
-                {lines(sections.berufserfahrung).map((item, index) => (
-                  <div
-                    key={index}
-                    className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100"
-                  >
-                    <p className="leading-7 text-gray-700">{item}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
+            {sections.ausbildung && (
+              <section className="mb-10">
+                <p className="text-orange-500 font-black text-sm uppercase tracking-[0.25em] mb-5">
+                  Ausbildung
+                </p>
 
-          {sections.ausbildung && (
-            <section>
-              <h2 className="text-2xl font-black mb-6 border-b-4 border-orange-500 inline-block pb-2">
-                Ausbildung
-              </h2>
+                <div className="space-y-4">
+                  {lines(sections.ausbildung).map((item, index) => (
+                    <div
+                      key={index}
+                      className="bg-[#f9fafb] border border-gray-100 rounded-2xl px-5 py-4"
+                    >
+                      <p className="text-gray-700 leading-7 text-[15px]">
+                        {cleanLine(item)}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
 
-              <div className="space-y-5">
-                {lines(sections.ausbildung).map((item, index) => (
-                  <div
-                    key={index}
-                    className="border-l-4 border-orange-500 pl-5 py-1"
-                  >
-                    <p className="text-gray-700 leading-7">{item}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
+            {!sections.profil &&
+              !sections.berufserfahrung &&
+              !sections.ausbildung && (
+                <p className="whitespace-pre-wrap leading-8 text-gray-700">
+                  {optimizedText}
+                </p>
+              )}
+          </div>
         </main>
       </div>
     </div>
