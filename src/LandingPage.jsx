@@ -136,7 +136,26 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
           </div>
         </div>
       </section>
-
+        <section className="px-6 py-8 border-y border-white/10 bg-black/20">
+  <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+    {[
+      ["⚡", "In unter 2 Minuten erstellt"],
+      ["📄", "PDF Download inklusive"],
+      ["🔒", "Sichere Stripe Zahlung"],
+      ["🤖", "ATS-optimierte Bewerbungen"],
+    ].map((item) => (
+      <div
+        key={item[1]}
+        className="bg-white/5 border border-white/10 rounded-2xl p-5"
+      >
+        <div className="text-3xl mb-3">{item[0]}</div>
+        <p className="font-semibold text-sm text-gray-300">
+          {item[1]}
+        </p>
+      </div>
+    ))}
+  </div>
+</section>
       <section className="px-6 pb-12">
         <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-4">
           {[
@@ -304,7 +323,52 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
           </div>
         </div>
       </section>
+        <section className="px-6 py-20">
+  <div className="max-w-5xl mx-auto text-center">
+    <p className="text-orange-400 font-semibold mb-3">
+      Nutzerfeedback
+    </p>
 
+    <h2 className="text-4xl md:text-5xl font-black mb-14">
+      Warum Bewerber BewerberFuchs nutzen
+    </h2>
+
+    <div className="grid md:grid-cols-3 gap-6">
+      {[
+        [
+          "★★★★★",
+          "Ich hatte endlich ein professionelles Anschreiben ohne stundenlang zu schreiben.",
+          "Sabrina K.",
+        ],
+        [
+          "★★★★★",
+          "Die ATS Analyse hat mir gezeigt warum ich vorher kaum Antworten bekam.",
+          "Mehmet A.",
+        ],
+        [
+          "★★★★★",
+          "Sehr schnell, modern und einfach zu benutzen.",
+          "Luca M.",
+        ],
+      ].map((item, index) => (
+        <div
+          key={index}
+          className="bg-white/5 border border-white/10 rounded-[28px] p-8 text-left"
+        >
+          <div className="text-orange-400 text-xl mb-4">
+            {item[0]}
+          </div>
+
+          <p className="text-gray-300 leading-relaxed mb-6">
+            {item[1]}
+          </p>
+
+          <p className="font-bold">{item[2]}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
       <section id="faq" className="px-6 py-24 bg-black/20">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
@@ -361,7 +425,7 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
           onClick={() => goCheckout("bundle")}
           className="w-full bg-orange-500 hover:bg-orange-400 text-black font-black py-4 rounded-2xl text-lg shadow-2xl"
         >
-          🔥 Bundle für 5€ starten
+          🔥 Jetzt Bewerbung erstellen • 5€
         </button>
       </div>
     </div>
