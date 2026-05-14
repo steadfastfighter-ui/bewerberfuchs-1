@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import CookieBanner from "./components/CookieBanner";
 import LandingPage from "./LandingPage";
 import Dashboard from "./Dashboard";
 import Checkout from "./Checkout";
@@ -132,16 +132,15 @@ export default function App() {
     }
   }, []);
 
+  let content;
+
   if (page === "dashboard") {
-    return (
+    content = (
       <Dashboard
         goHome={goStartseite}
         goCheckout={(product) => {
           setSelectedProduct(product || "bundle");
-          localStorage.setItem(
-            "selectedProduct",
-            product || "bundle"
-          );
+          localStorage.setItem("selectedProduct", product || "bundle");
           setPage("checkout");
         }}
         setAppResumeText={saveResumeText}
@@ -155,29 +154,23 @@ export default function App() {
         setJobText={saveJobText}
       />
     );
-  }
-
-  if (page === "checkout") {
-    return (
+  } else if (page === "checkout") {
+    content = (
       <Checkout
         goDashboard={() => setPage("dashboard")}
         selectedProduct={selectedProduct || "bundle"}
       />
     );
-  }
-
-  if (page === "success" && paymentSuccess) {
-    return (
+  } else if (page === "success" && paymentSuccess) {
+    content = (
       <Success
         goDashboard={goStartseite}
         goOptimized={() => setPage("optimized")}
         selectedProduct={selectedProduct || "bundle"}
       />
     );
-  }
-
-  if (page === "optimized" && paymentSuccess) {
-    return (
+  } else if (page === "optimized" && paymentSuccess) {
+    content = (
       <OptimizedResume
         goDashboard={goStartseite}
         resumeText={resumeText}
@@ -188,36 +181,32 @@ export default function App() {
         candidateData={candidateData}
       />
     );
-  }
-
-  if (page === "impressum") {
-    return <LegalPage type="impressum" goHome={goStartseite} />;
-  }
-
-  if (page === "datenschutz") {
-    return <LegalPage type="datenschutz" goHome={goStartseite} />;
-  }
-
-  if (page === "agb") {
-    return <LegalPage type="agb" goHome={goStartseite} />;
-  }
-
-  if (page === "kontakt") {
-    return <LegalPage type="kontakt" goHome={goStartseite} />;
+  } else if (page === "impressum") {
+    content = <LegalPage type="impressum" goHome={goStartseite} />;
+  } else if (page === "datenschutz") {
+    content = <LegalPage type="datenschutz" goHome={goStartseite} />;
+  } else if (page === "agb") {
+    content = <LegalPage type="agb" goHome={goStartseite} />;
+  } else if (page === "kontakt") {
+    content = <LegalPage type="kontakt" goHome={goStartseite} />;
+  } else {
+    content = (
+      <LandingPage
+        goDashboard={() => setPage("dashboard")}
+        goCheckout={(product) => {
+          setSelectedProduct(product || "bundle");
+          localStorage.setItem("selectedProduct", product || "bundle");
+          setPage("checkout");
+        }}
+        goLegal={(legalPage) => setPage(legalPage)}
+      />
+    );
   }
 
   return (
-    <LandingPage
-      goDashboard={() => setPage("dashboard")}
-      goCheckout={(product) => {
-        setSelectedProduct(product || "bundle");
-        localStorage.setItem(
-          "selectedProduct",
-          product || "bundle"
-        );
-        setPage("checkout");
-      }}
-      goLegal={(legalPage) => setPage(legalPage)}
-    />
+    <>
+      {content}
+      <CookieBanner />
+    </>
   );
 }
