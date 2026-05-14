@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Topbar from "./components/Topbar";
 
+const API_URL = "https://bewerberfuchs-1.onrender.com";
+
 export default function Dashboard({
   goHome,
   goCheckout,
@@ -135,7 +137,7 @@ export default function Dashboard({
     setResult(null);
 
     try {
-      const response = await fetch("https://bewerberfuchs-1.onrender.com", {
+      const response = await fetch(`${API_URL}/analyze`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -157,7 +159,7 @@ export default function Dashboard({
         score: 0,
         weaknesses: ["Fehler bei der Analyse. Prüfe, ob dein Backend läuft."],
         keywords: [],
-        improvements: ["Backend auf Port 4242 starten."],
+        improvements: ["Backend-Verbindung prüfen."],
       });
       setAnalyzed(true);
     } finally {
@@ -179,7 +181,7 @@ export default function Dashboard({
       const formData = new FormData();
       formData.append("resume", uploadedFile);
 
-      const response = await fetch("https://bewerberfuchs-1.onrender.com", {
+      const response = await fetch(`${API_URL}/analyze-pdf`, {
         method: "POST",
         body: formData,
       });
@@ -338,41 +340,43 @@ export default function Dashboard({
               placeholder="Hier Stellenanzeige einfügen..."
               className="w-full min-h-[240px] bg-black/30 border border-white/10 rounded-2xl p-5 text-white placeholder:text-gray-500 outline-none focus:border-orange-500"
             />
+
+            <div className="mt-6 grid md:grid-cols-3 gap-4">
+              <button
+                onClick={() => startCheckout("resume")}
+                className="bg-black text-white p-5 rounded-2xl font-bold hover:bg-neutral-900 transition text-left border border-white/10"
+              >
+                <div className="text-2xl mb-2">📄</div>
+                <div>Lebenslauf erstellen</div>
+                <div className="text-white/60 text-sm mt-1">
+                  Nur mit deinen Daten + Stellenanzeige
+                </div>
+              </button>
+
+              <button
+                onClick={() => startCheckout("coverLetter")}
+                className="bg-orange-500 text-black p-5 rounded-2xl font-black hover:bg-orange-400 transition text-left"
+              >
+                <div className="text-2xl mb-2">✉️</div>
+                <div>Anschreiben erstellen</div>
+                <div className="text-black/70 text-sm mt-1">
+                  Direkt aus der Stellenanzeige
+                </div>
+              </button>
+
+              <button
+                onClick={() => startCheckout("bundle")}
+                className="bg-white text-black p-5 rounded-2xl font-black hover:bg-gray-100 transition text-left"
+              >
+                <div className="text-2xl mb-2">🔥</div>
+                <div>Bundle erstellen</div>
+                <div className="text-black/60 text-sm mt-1">
+                  Lebenslauf + Anschreiben
+                </div>
+              </button>
+            </div>
           </div>
-               <div className="mt-6 grid md:grid-cols-3 gap-4">
-  <button
-    onClick={() => startCheckout("resume")}
-    className="bg-black text-white p-5 rounded-2xl font-bold hover:bg-neutral-900 transition text-left border border-white/10"
-  >
-    <div className="text-2xl mb-2">📄</div>
-    <div>Lebenslauf erstellen</div>
-    <div className="text-white/60 text-sm mt-1">
-      Nur mit deinen Daten + Stellenanzeige
-    </div>
-  </button>
 
-  <button
-    onClick={() => startCheckout("coverLetter")}
-    className="bg-orange-500 text-black p-5 rounded-2xl font-black hover:bg-orange-400 transition text-left"
-  >
-    <div className="text-2xl mb-2">✉️</div>
-    <div>Anschreiben erstellen</div>
-    <div className="text-black/70 text-sm mt-1">
-      Direkt aus der Stellenanzeige
-    </div>
-  </button>
-
-  <button
-    onClick={() => startCheckout("bundle")}
-    className="bg-white text-black p-5 rounded-2xl font-black hover:bg-gray-100 transition text-left"
-  >
-    <div className="text-2xl mb-2">🔥</div>
-    <div>Bundle erstellen</div>
-    <div className="text-black/60 text-sm mt-1">
-      Lebenslauf + Anschreiben
-    </div>
-  </button>
-</div>
           <div className="grid lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 bg-white/5 border border-white/10 rounded-[32px] p-8">
               <h2 className="text-3xl font-bold mb-6">
