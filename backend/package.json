@@ -4,8 +4,8 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "start": "node backend/server.js",
-    "dev": "node backend/server.js",
+    "start": "node server.js",
+    "dev": "node server.js",
     "build": "vite build"
   },
   "keywords": [],
