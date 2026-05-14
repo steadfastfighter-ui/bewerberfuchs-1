@@ -1,0 +1,50 @@
+import { useState } from "react";
+import LandingPage from "./LandingPage";
+import Dashboard from "./Dashboard";
+import Checkout from "./Checkout";
+import Success from "./Success";
+import OptimizedResume from "./OptimizedResume";
+
+ export default function Dashboard({ goHome, goCheckout, setAppResumeText }) {
+  const [page, setPage] = useState("landing");
+  const [resumeText, setResumeText] = useState("");
+
+  if (page === "dashboard") {
+    return (
+      <Dashboard
+        goHome={() => setPage("landing")}
+        goCheckout={() => setPage("checkout")}
+        setAppResumeText={setResumeText}
+      />
+    );
+  }
+
+  if (page === "checkout") {
+    return (
+      <Checkout
+        goDashboard={() => setPage("dashboard")}
+        goSuccess={() => setPage("success")}
+      />
+    );
+  }
+
+  if (page === "success") {
+    return (
+      <Success
+        goDashboard={() => setPage("dashboard")}
+        goOptimized={() => setPage("optimized")}
+      />
+    );
+  }
+
+  if (page === "optimized") {
+    return (
+      <OptimizedResume
+        goDashboard={() => setPage("dashboard")}
+        resumeText={resumeText}
+      />
+    );
+  }
+
+  return <LandingPage goDashboard={() => setPage("dashboard")} />;
+}

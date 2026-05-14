@@ -1,0 +1,478 @@
+import { useEffect, useRef, useState } from "react";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import Topbar from "./components/Topbar";
+import ClassicTemplate from "./components/templates/ClassicTemplate";
+import ModernTemplate from "./components/templates/ModernTemplate";
+import PremiumTemplate from "./components/templates/PremiumTemplate";
+import CoverLetterTemplate from "./components/templates/CoverLetterTemplate";
+
+export default function OptimizedResume({
+  goDashboard,
+  resumeText,
+  jobText,
+  selectedProduct,
+  selectedTemplate,
+  profilePhoto,
+  candidateData,
+}) {
+  const [optimizedText, setOptimizedText] = useState("");
+  const [loading, setLoading] = useState(true);
+  const resumeRef = useRef(null);
+  const coverLetterRef = useRef(null);
+  const titles = {
+    resume: "Optimierter Lebenslauf",
+    coverLetter: "Anschreiben",
+    bundle: "Bewerbungspaket",
+  };
+
+  const title = titles[selectedProduct] || "Bewerbungspaket";
+
+  function cleanCoverLetterText(text) {
+    if (!text) return "";
+
+    let cleaned = text;
+
+    if (cleaned.includes("=== ANSCHREIBEN ===")) {
+      cleaned = cleaned.split("=== ANSCHREIBEN ===")[1] || "";
+    }
+
+    if (cleaned.includes("ANSCHREIBEN")) {
+      cleaned = cleaned.split("ANSCHREIBEN").pop() || "";
+    }
+
+    cleaned = cleaned
+      .replace(/PROFIL[\s\S]*?(?=Sehr geehrte|Sehr geehrter|Guten Tag|Hallo)/i, "")
+      .replace(/BERUFLICHE ERFAHRUNG[\s\S]*?(?=Sehr geehrte|Sehr geehrter|Guten Tag|Hallo)/i, "")
+      .replace(/KENNTNISSE[\s\S]*?(?=Sehr geehrte|Sehr geehrter|Guten Tag|Hallo)/i, "")
+      .replace(/STÄRKEN[\s\S]*?(?=Sehr geehrte|Sehr geehrter|Guten Tag|Hallo)/i, "")
+      .replace(/AUSBILDUNG[\s\S]*?(?=Sehr geehrte|Sehr geehrter|Guten Tag|Hallo)/i, "")
+      .replace(/\[Ort\],?\s*\[Datum\]/gi, "")
+      .replace(/\[Name des Ansprechpartners\]/gi, "")
+      .replace(/\[Firma\]/gi, "")
+      .replace(/\[Adresse\]/gi, "")
+      .replace(/\[Stellenbezeichnung\]/gi, "")
+      .replace(/Betreff:\s*Bewerbung als.*$/gim, "")
+      .replace(/Bewerbung als .*$/gim, "")
+      .replace(/Mit freundlichen Grüßen[\s\S]*$/i, "")
+      .trim();
+
+    return cleaned;
+  }
+
+  const resumePart =
+    selectedProduct === "bundle"
+      ? optimizedText
+          .split("=== ANSCHREIBEN ===")[0]
+          .replace("=== LEBENSLAUF ===", "")
+          .trim()
+      : optimizedText;
+
+  const coverLetterPart =
+    selectedProduct === "bundle"
+      ? cleanCoverLetterText(
+          optimizedText.split("=== ANSCHREIBEN ===")[1]?.trim() || ""
+        )
+      : cleanCoverLetterText(optimizedText);
+
+  useEffect(() => {
+    async function optimize() {
+      try {
+        setLoading(true);
+        setOptimizedText("");
+
+        const response = await fetch("http://localhost:4242/optimize", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            resumeText:
+              resumeText ||
+              "Motivierter Bewerber mit Teamfähigkeit und Berufserfahrung.",
+            jobText: jobText || "",
+            product: selectedProduct || "bundle",
+            candidateData,
+          }),
+        });
+
+        const data = await response.json();
+        setOptimizedText(data.optimizedText || "Keine Optimierung erhalten.");
+      } catch (error) {
+        console.log(error);
+        setOptimizedText(
+          "Fehler bei der Optimierung. Bitte prüfe, ob das Backend läuft."
+        );
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    optimize();
+  }, [resumeText, jobText, selectedProduct, candidateData]);
+
+  function copyText(text) {
+    if (!text.trim()) {
+      alert("Bitte warte, bis das Ergebnis fertig erstellt wurde.");
+      return;
+    }
+
+    navigator.clipboard.writeText(text);
+    alert("Text wurde kopiert.");
+  }
+
+  function addWrappedText(doc, text, x, y, maxWidth, lineHeight) {
+    const lines = doc.splitTextToSize(text, maxWidth);
+    let currentY = y;
+
+    lines.forEach((line) => {
+      if (currentY > 275) {
+        doc.addPage();
+        currentY = 25;
+      }
+
+      doc.text(line, x, currentY);
+      currentY += lineHeight;
+    });
+  }
+
+  function addCandidateInfo(doc, x, y) {
+    const lines = [
+      candidateData?.fullName,
+      candidateData?.jobTitle,
+      candidateData?.email,
+      candidateData?.phone,
+      candidateData?.address,
+      candidateData?.linkedin,
+    ].filter(Boolean);
+
+    let currentY = y;
+
+    lines.forEach((line) => {
+      doc.text(line, x, currentY);
+      currentY += 6;
+    });
+
+    return currentY;
+  }
+
+  function addPhoto(doc, x, y, w, h) {
+    if (!profilePhoto) return;
+
+    try {
+      doc.addImage(profilePhoto, "JPEG", x, y, w, h);
+    } catch {
+      try {
+        doc.addImage(profilePhoto, "PNG", x, y, w, h);
+      } catch {}
+    }
+  }
+
+  function downloadResumePdf(text = resumePart) {
+    if (!text.trim()) {
+      alert("Bitte warte, bis das Ergebnis fertig erstellt wurde.");
+      return;
+    }
+
+    const doc = new jsPDF("p", "mm", "a4");
+
+    if (selectedTemplate === "modern") {
+      doc.setFillColor(249, 115, 22);
+      doc.rect(0, 0, 58, 297, "F");
+
+      doc.setTextColor(255, 255, 255);
+      addPhoto(doc, 14, 18, 32, 32);
+
+      doc.setFontSize(16);
+      doc.text(candidateData?.fullName || "Profil", 10, 70);
+
+      doc.setFontSize(9);
+      addCandidateInfo(doc, 10, 82);
+
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(22);
+      doc.text("Lebenslauf", 70, 25);
+
+      doc.setFontSize(11);
+      addWrappedText(doc, text, 70, 45, 120, 6);
+    } else if (selectedTemplate === "premium") {
+      doc.setFillColor(10, 10, 10);
+      doc.rect(0, 0, 210, 48, "F");
+
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(22);
+      doc.text(candidateData?.fullName || "Lebenslauf", 20, 22);
+
+      doc.setFontSize(12);
+      doc.text(candidateData?.jobTitle || "Lebenslauf", 20, 32);
+
+      addPhoto(doc, 165, 8, 28, 28);
+
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(9);
+      addCandidateInfo(doc, 20, 60);
+
+      doc.setFontSize(11);
+      addWrappedText(doc, text, 20, 90, 170, 6);
+    } else {
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(22);
+      doc.text(candidateData?.fullName || "Lebenslauf", 20, 25);
+
+      doc.setFontSize(12);
+      doc.text(candidateData?.jobTitle || "", 20, 34);
+
+      addPhoto(doc, 160, 15, 30, 30);
+
+      doc.setFontSize(9);
+      addCandidateInfo(doc, 20, 46);
+
+      doc.setLineWidth(0.3);
+      doc.line(20, 75, 190, 75);
+
+      doc.setFontSize(11);
+      addWrappedText(doc, text, 20, 90, 170, 6);
+    }
+
+    doc.save("lebenslauf.pdf");
+  }
+
+  function downloadCoverLetterPdf(text = coverLetterPart) {
+    text = cleanCoverLetterText(text);
+
+    if (!text.trim()) {
+      alert("Bitte warte, bis das Anschreiben fertig erstellt wurde.");
+      return;
+    }
+
+    const doc = new jsPDF("p", "mm", "a4");
+    const today = new Date().toLocaleDateString("de-DE");
+
+    doc.setTextColor(0, 0, 0);
+
+    doc.setFontSize(18);
+    doc.text(candidateData?.fullName || "Vorname Nachname", 20, 25);
+
+    doc.setFontSize(9);
+    let senderY = 34;
+
+    [candidateData?.address, candidateData?.email, candidateData?.phone]
+      .filter(Boolean)
+      .forEach((line) => {
+        doc.text(line, 20, senderY);
+        senderY += 5;
+      });
+
+    let companyY = 65;
+
+    [candidateData?.company, candidateData?.recruiter, candidateData?.city]
+      .filter(Boolean)
+      .forEach((line) => {
+        doc.text(line, 20, companyY);
+        companyY += 6;
+      });
+
+    doc.setFontSize(10);
+    doc.text(`${candidateData?.city || ""}, ${today}`, 140, 95);
+
+    doc.setFontSize(12);
+    doc.setFont(undefined, "bold");
+    doc.text(
+      `Bewerbung als ${
+        candidateData?.position ||
+        candidateData?.jobTitle ||
+        "Mitarbeiter/in"
+      }`,
+      20,
+      115
+    );
+
+    doc.setFont(undefined, "normal");
+    doc.setFontSize(11);
+    addWrappedText(doc, text, 20, 132, 170, 6);
+
+    doc.text("Mit freundlichen Grüßen", 20, 260);
+    doc.text(candidateData?.fullName || "", 20, 280);
+
+    doc.save("anschreiben.pdf");
+  }
+
+  function renderResumeTemplate(text) {
+    if (selectedTemplate === "modern") {
+      return (
+        <ModernTemplate
+          title="Lebenslauf"
+          optimizedText={text}
+          profilePhoto={profilePhoto}
+          candidateData={candidateData}
+        />
+      );
+    }
+
+    if (selectedTemplate === "premium") {
+      return (
+        <PremiumTemplate
+          title="Lebenslauf"
+          optimizedText={text}
+          profilePhoto={profilePhoto}
+          candidateData={candidateData}
+        />
+      );
+    }
+
+    return (
+      <ClassicTemplate
+        title="Lebenslauf"
+        optimizedText={text}
+        profilePhoto={profilePhoto}
+        candidateData={candidateData}
+      />
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-[#0b0f19] text-white">
+      <Topbar goHome={goDashboard} />
+
+      <div className="p-6">
+        <div className="max-w-6xl mx-auto">
+          <button
+            onClick={goDashboard}
+            className="mb-8 text-gray-400 hover:text-white"
+          >
+            ← Zurück zum Dashboard
+          </button>
+
+          <div className="mb-10">
+            <p className="text-orange-400 font-semibold">Premium Ergebnis</p>
+
+            <h1 className="text-5xl font-black mt-3">{title}</h1>
+
+            <p className="text-gray-400 mt-4 text-lg">
+              Dein Ergebnis wurde mit KI optimiert und im passenden Design
+              erstellt.
+            </p>
+          </div>
+
+          {loading ? (
+            <div className="bg-white/5 border border-white/10 rounded-[32px] p-8">
+              <div className="space-y-4 text-gray-300">
+                <div className="animate-pulse">
+                  🧠 KI optimiert deinen Text...
+                </div>
+                <div className="animate-pulse">
+                  📄 Dokument wird erstellt...
+                </div>
+                <div className="animate-pulse">
+                  ✨ Design wird vorbereitet...
+                </div>
+              </div>
+            </div>
+          ) : selectedProduct === "bundle" ? (
+            <div className="space-y-10">
+              <div>
+                <div className="mb-5 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
+                  <h2 className="text-3xl font-black">Lebenslauf</h2>
+
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => copyText(resumePart)}
+                      className="bg-orange-500 hover:bg-orange-400 text-black font-bold px-6 py-3 rounded-2xl"
+                    >
+                      Text kopieren
+                    </button>
+
+                    <button
+                      onClick={() => downloadResumePdf(resumePart)}
+                      className="border border-white/10 hover:border-orange-500/40 px-6 py-3 rounded-2xl font-bold"
+                    >
+                      Lebenslauf PDF
+                    </button>
+                  </div>
+                </div>
+
+                <div className="bg-white text-black rounded-[32px] overflow-hidden">
+                  {renderResumeTemplate(resumePart)}
+                </div>
+              </div>
+
+              <div>
+                <div className="mb-5 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
+                  <h2 className="text-3xl font-black">Anschreiben</h2>
+
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => copyText(coverLetterPart)}
+                      className="bg-orange-500 hover:bg-orange-400 text-black font-bold px-6 py-3 rounded-2xl"
+                    >
+                      Text kopieren
+                    </button>
+
+                    <button
+                      onClick={() => downloadCoverLetterPdf(coverLetterPart)}
+                      className="border border-white/10 hover:border-orange-500/40 px-6 py-3 rounded-2xl font-bold"
+                    >
+                      Anschreiben PDF
+                    </button>
+                  </div>
+                </div>
+
+                <div className="bg-white text-black rounded-[32px] overflow-hidden">
+                  <CoverLetterTemplate
+                    optimizedText={coverLetterPart}
+                    candidateData={candidateData}
+                  />
+                </div>
+              </div>
+            </div>
+          ) : selectedProduct === "coverLetter" ? (
+            <>
+              <div className="bg-white text-black rounded-[32px] overflow-hidden">
+                <CoverLetterTemplate
+                  optimizedText={coverLetterPart}
+                  candidateData={candidateData}
+                />
+              </div>
+
+              <div className="mt-8 flex flex-col sm:flex-row gap-4">
+                <button
+                  onClick={() => copyText(coverLetterPart)}
+                  className="bg-orange-500 hover:bg-orange-400 text-black font-bold px-8 py-4 rounded-2xl"
+                >
+                  Text kopieren
+                </button>
+
+                <button
+                  onClick={() => downloadCoverLetterPdf(coverLetterPart)}
+                  className="border border-white/10 hover:border-orange-500/40 px-8 py-4 rounded-2xl font-bold"
+                >
+                  Anschreiben PDF herunterladen
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="bg-white text-black rounded-[32px] overflow-hidden">
+                {renderResumeTemplate(optimizedText)}
+              </div>
+
+              <div className="mt-8 flex flex-col sm:flex-row gap-4">
+                <button
+                  onClick={() => copyText(optimizedText)}
+                  className="bg-orange-500 hover:bg-orange-400 text-black font-bold px-8 py-4 rounded-2xl"
+                >
+                  Text kopieren
+                </button>
+
+                <button
+                  onClick={() => downloadResumePdf(optimizedText)}
+                  className="border border-white/10 hover:border-orange-500/40 px-8 py-4 rounded-2xl font-bold"
+                >
+                  Lebenslauf PDF herunterladen
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
