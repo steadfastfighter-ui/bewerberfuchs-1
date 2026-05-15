@@ -308,11 +308,11 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
         <section className="px-6 py-20">
   <div className="max-w-5xl mx-auto text-center">
     <p className="text-orange-400 font-semibold mb-3">
-      Nutzerfeedback
+      Beispielhafte Rückmeldungen
     </p>
 
     <h2 className="text-4xl md:text-5xl font-black mb-14">
-      Warum Bewerber BewerberFuchs nutzen
+      So kann BewerberFuchs im Alltag helfen
     </h2>
 
     <div className="grid md:grid-cols-3 gap-6">
