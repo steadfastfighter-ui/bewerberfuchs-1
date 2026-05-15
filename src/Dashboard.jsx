@@ -26,7 +26,7 @@ export default function Dashboard({
     "bg-black/30 border border-white/10 rounded-2xl p-4 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all";
 
   const cardClass =
-    "bg-white/5 border border-white/10 rounded-[32px] p-8 shadow-2xl shadow-black/30";
+    "bg-gradient-to-b from-white/[0.07] to-white/[0.03] border border-white/10 rounded-[36px] p-8 md:p-10 shadow-[0_10px_60px_rgba(0,0,0,0.45)] backdrop-blur-xl";
 
   const templates = [
     {
@@ -211,18 +211,18 @@ export default function Dashboard({
     <div className="min-h-screen bg-[#0b0f19] text-white">
       <Topbar goHome={goHome} />
 
-      <div className="p-6 bg-[radial-gradient(circle_at_top,rgba(255,122,0,0.08),transparent_35%)]">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-12">
+      <div className="px-8 xl:px-14 py-10 bg-[radial-gradient(circle_at_top,rgba(255,122,0,0.08),transparent_35%)]">
+        <div className="max-w-[1650px] mx-auto">
+          <div className="mb-16 max-w-5xl">
             <div className="inline-flex px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 mb-6">
               🚀 KI Bewerbung Optimierung
             </div>
 
-            <h1 className="text-5xl md:text-6xl font-black leading-tight mb-5">
+            <h1 className="text-4xl md:text-6xl xl:text-7xl font-black leading-[1.05] tracking-tight mb-7 max-w-6xl">
               Erstelle professionelle Bewerbungen mit KI.
             </h1>
 
-            <p className="text-gray-400 text-xl max-w-3xl leading-relaxed">
+            <p className="text-gray-400 text-lg md:text-xl max-w-4xl leading-relaxed">
               Lade deinen Lebenslauf hoch oder füge Text ein. BewerberFuchs analysiert deine Bewerbung,
               erkennt ATS-Keywords und erstellt optimierte Unterlagen.
             </p>
@@ -260,7 +260,7 @@ export default function Dashboard({
               value={jobText || ""}
               onChange={(e) => setJobText(e.target.value)}
               placeholder="Hier Stellenanzeige einfügen..."
-              className={`${inputClass} w-full min-h-[240px] text-white placeholder:text-gray-500`}
+              className={`${inputClass} w-full min-h-[320px] text-white placeholder:text-gray-500`}
             />
 
             <div className="mt-6 grid md:grid-cols-3 gap-4">
@@ -270,7 +270,7 @@ export default function Dashboard({
                 <div className="text-white/60 text-sm mt-1">Nur mit deinen Daten + Stellenanzeige</div>
               </button>
 
-              <button onClick={() => startCheckout("coverLetter")} className="bg-orange-500 text-black p-5 rounded-2xl font-black hover:bg-orange-400 transition text-left">
+              <button onClick={() => startCheckout("coverLetter")} className="bg-orange-500 text-black p-6 rounded-[28px] font-black hover:bg-orange-400 transition text-left">
                 <div className="text-2xl mb-2">✉️</div>
                 <div>Anschreiben erstellen</div>
                 <div className="text-black/70 text-sm mt-1">Direkt aus der Stellenanzeige</div>
@@ -284,7 +284,7 @@ export default function Dashboard({
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8 mt-8">
+          <div className="grid lg:grid-cols-3 gap-10 mt-10 items-start">
             <div className={`lg:col-span-2 ${cardClass}`}>
               <h2 className="text-3xl font-bold mb-6">Lebenslauf analysieren</h2>
 
@@ -326,7 +326,7 @@ export default function Dashboard({
                 value={resumeText}
                 onChange={(e) => saveResumeText(e.target.value)}
                 placeholder="Oder füge hier den Text aus deinem Lebenslauf ein..."
-                className={`${inputClass} w-full min-h-[220px] text-white placeholder:text-gray-500`}
+                className={`${inputClass} w-full min-h-[320px] text-white placeholder:text-gray-500`}
               />
 
               <button onClick={analyzeText} disabled={loading} className="mt-5 bg-orange-500 hover:bg-orange-400 disabled:opacity-60 text-black font-bold px-8 py-4 rounded-2xl">
@@ -337,7 +337,7 @@ export default function Dashboard({
             <div className={cardClass}>
               <p className="text-gray-400 mb-2">ATS Score</p>
 
-              <h2 className="text-7xl font-black text-orange-400 mb-6 tracking-tight">
+              <h2 className="text-6xl xl:text-7xl font-black text-orange-400 mb-8 tracking-tight">
                 {loading ? "Scan..." : result?.score ? `${result.score}%` : "--"}
               </h2>
 
@@ -397,7 +397,7 @@ export default function Dashboard({
                     )}
                   </div>
 
-                  <div className="bg-white rounded-2xl p-4 mb-5 text-black min-h-[210px]">
+                  <div className="bg-white rounded-2xl p-4 mb-5 text-black min-h-[260px]">
                     {template.id === "classic" && (
                       <div>
                         <div className="h-5 bg-gray-900 rounded w-2/3 mb-3"></div>
