@@ -46,13 +46,14 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
       </div>
     </nav>
 
-    <section className="px-6 py-16 md:py-20 max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
+<section className="px-6 py-20 max-w-7xl mx-auto grid lg:grid-cols-2 gap-14 items-center">
+    
       <div>
         <div className="inline-flex px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 mb-8">
           🚀 KI-Bewerbungen für Deutschland, Österreich & Schweiz
         </div>
 
-        <h1 className="text-4xl md:text-6xl font-black leading-tight mb-8 max-w-2xl">
+         <h1 className="text-4xl md:text-5xl xl:text-6xl font-black leading-[1.05] mb-8 max-w-xl"> 
           Professionelle Bewerbungen in wenigen Minuten.
         </h1>
 
@@ -97,7 +98,7 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
         </p>
       </div>
 
-      <div className="bg-white/5 border border-white/10 rounded-[36px] p-6 shadow-2xl shadow-black/40">
+      <div className="bg-white/5 border border-white/10 rounded-[36px] p-6 shadow-2xl shadow-black/40 w-full max-w-[640px] mx-auto">
         <div className="bg-black/40 rounded-[28px] p-6">
           <div className="flex justify-between gap-4 mb-6">
             <div>
