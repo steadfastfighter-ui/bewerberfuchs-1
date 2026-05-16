@@ -65,13 +65,13 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
       </nav>
 
       <main className="relative z-10">
-        <section className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-14 pt-10 sm:pt-14 lg:pt-16 pb-10 sm:pb-16 lg:pb-20 grid lg:grid-cols-[0.92fr_1.08fr] gap-8 lg:gap-14 items-center">
+        <section className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-14 pt-8 sm:pt-12 lg:pt-16 pb-8 sm:pb-14 lg:pb-20 grid lg:grid-cols-[0.92fr_1.08fr] gap-6 lg:gap-14 items-center">
           <div className="max-w-[640px]">
-            <div className="inline-flex items-center gap-2 px-3 sm:px-5 py-2 sm:py-3 rounded-2xl border border-white/15 bg-white/5 text-orange-500 text-xs sm:text-sm font-bold mb-6 sm:mb-8">
+            <div className="inline-flex items-center gap-2 px-3 sm:px-5 py-2 sm:py-3 rounded-2xl border border-white/15 bg-white/5 text-orange-500 text-xs sm:text-sm font-bold mb-5 sm:mb-8">
               ⚡ KI-POWERED BEWERBUNGSOPTIMIERUNG
             </div>
 
-            <h1 className="text-[42px] sm:text-6xl lg:text-[66px] xl:text-[72px] leading-[1.02] font-extrabold tracking-tight mb-5 sm:mb-7">
+            <h1 className="text-[40px] sm:text-6xl lg:text-[66px] xl:text-[72px] leading-[1.02] font-extrabold tracking-tight mb-5 sm:mb-7">
               Professionelle
               <br />
               Bewerbungen
@@ -79,7 +79,7 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
               <span className="text-orange-500">in wenigen Minuten.</span>
             </h1>
 
-            <p className="text-base sm:text-xl text-gray-300 leading-relaxed mb-7 sm:mb-8 max-w-[580px]">
+            <p className="text-base sm:text-xl text-gray-300 leading-relaxed mb-6 sm:mb-8 max-w-[580px]">
               ATS-optimierte Lebensläufe und Anschreiben, erstellt mit künstlicher Intelligenz.
               Mehr Interviews. Mehr Jobangebote. Weniger Absagen.
             </p>
@@ -107,18 +107,18 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
             </div>
           </div>
 
-          <div className="relative flex items-center justify-center min-h-[360px] sm:min-h-[560px] lg:min-h-[720px] mt-4 lg:mt-0">
-            <div className="absolute w-[420px] h-[420px] sm:w-[620px] sm:h-[620px] lg:w-[760px] lg:h-[760px] rounded-full bg-orange-500/20 blur-[110px] sm:blur-[140px]" />
+          <div className="relative flex items-center justify-center min-h-[300px] sm:min-h-[480px] lg:min-h-[720px] mt-0 lg:mt-0">
+            <div className="absolute w-[340px] h-[340px] sm:w-[560px] sm:h-[560px] lg:w-[760px] lg:h-[760px] rounded-full bg-orange-500/20 blur-[90px] sm:blur-[140px]" />
 
             <img
               src="/fox-hero.png"
               alt="BewerberFuchs Hero"
-              className="relative z-10 w-full max-w-[430px] sm:max-w-[620px] lg:max-w-[860px] xl:max-w-[940px] object-contain drop-shadow-[0_0_45px_rgba(255,115,0,0.4)]"
+              className="relative z-10 w-[112%] sm:w-full max-w-[470px] sm:max-w-[660px] lg:max-w-[860px] xl:max-w-[940px] object-contain scale-[1.08] sm:scale-100 drop-shadow-[0_0_45px_rgba(255,115,0,0.4)]"
             />
           </div>
         </section>
 
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-5 sm:py-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 bg-white/[0.03] border border-white/10 rounded-3xl p-5 sm:p-7">
             {benefits.map((item) => (
               <div key={item[1]} className="flex items-center gap-4 sm:gap-5 md:border-r md:border-white/10 last:border-r-0">
