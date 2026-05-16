@@ -250,7 +250,6 @@ export default function Dashboard({
 
           <div className={`${cardClass} mt-10`}>
   <div className="mb-8">
-   <div className={`${cardClass} mt-10`}>
   <p className="text-orange-400 font-semibold mb-3">
     Stellenanzeige
   </p>
@@ -274,7 +273,6 @@ export default function Dashboard({
     placeholder="Kopiere hier die Stellenanzeige hinein..."
     className={`${inputClass} w-full min-h-[260px] text-white placeholder:text-gray-500 resize-none`}
   />
-</div>
     <p className="text-orange-400 font-bold mb-3">Design auswählen</p>
     <h2 className="text-3xl md:text-4xl font-black mb-3">
       Wähle deine Bewerbungs-Vorlage
@@ -424,12 +422,40 @@ export default function Dashboard({
                 )}
               </div>
 
-              <textarea
-                value={resumeText}
-                onChange={(e) => saveResumeText(e.target.value)}
-                placeholder="Oder füge hier den Text aus deinem Lebenslauf ein..."
-                className={`${inputClass} w-full min-h-[320px] text-white placeholder:text-gray-500`}
-              />
+             <textarea
+  value={resumeText}
+  onChange={(e) => setResumeText(e.target.value)}
+  placeholder="Füge hier deinen Lebenslauftext ein..."
+  className="
+    w-full
+    min-h-[180px]
+    md:min-h-[260px]
+
+    rounded-[28px]
+    border
+    border-orange-500/60
+
+    bg-[#060b14]
+    text-white
+    placeholder:text-gray-500
+
+    text-[18px]
+    leading-relaxed
+
+    p-5
+    md:p-7
+
+    outline-none
+    resize-none
+
+    focus:border-orange-400
+    focus:ring-4
+    focus:ring-orange-500/20
+
+    transition-all
+    duration-300
+  "
+/>
 
               <button onClick={analyzeText} disabled={loading} className="mt-5 bg-orange-500 hover:bg-orange-400 disabled:opacity-60 text-black font-bold px-8 py-4 rounded-2xl">
                 {loading ? "Analyse läuft..." : "Text analysieren"}
