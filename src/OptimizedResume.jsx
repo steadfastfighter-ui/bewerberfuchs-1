@@ -198,11 +198,11 @@ export default function OptimizedResume({
   }
 
   return (
-    <div className="min-h-screen bg-[#0b0f19] text-white">
+    <div className="min-h-screen bg-[#030712] text-white overflow-x-hidden">
       <Topbar goHome={goDashboard} />
-
-      <div className="p-6">
-        <div className="max-w-6xl mx-auto">
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(255,115,0,0.14),transparent_30%),radial-gradient(circle_at_left,rgba(0,90,255,0.08),transparent_25%)]" />
+      <div className="relative px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="max-w-[1450px] mx-auto">
           <button
             onClick={goDashboard}
             className="mb-8 text-gray-400 hover:text-white"
@@ -210,19 +210,19 @@ export default function OptimizedResume({
             ← Zurück zum Dashboard
           </button>
 
-          <div className="mb-10">
+          <div className="mb-12 sm:mb-16">
             <p className="text-orange-400 font-semibold">Premium Ergebnis</p>
 
-            <h1 className="text-5xl font-black mt-3">{title}</h1>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mt-3 leading-[0.95] tracking-tight">{title}</h1>
 
-            <p className="text-gray-400 mt-4 text-lg">
+            <p className="text-gray-400 mt-4 text-base sm:text-lg max-w-3xl leading-relaxed">
               Dein Ergebnis wurde mit KI optimiert und im passenden Design
               erstellt.
             </p>
           </div>
 
           {loading ? (
-            <div className="bg-white/5 border border-white/10 rounded-[32px] p-8">
+            <div className="bg-white/5 border border-white/10 bg-white/[0.03] hover:border-orange-500/40 hover:bg-white/5 transition rounded-[32px] p-8">
               <div className="space-y-4 text-gray-300">
                 <div className="animate-pulse">
                   🧠 KI optimiert deinen Text...
@@ -241,17 +241,17 @@ export default function OptimizedResume({
                 <div className="mb-5 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
                   <h2 className="text-3xl font-black">Lebenslauf</h2>
 
-                  <div className="flex gap-3">
+                  <div className="bg-gradient-to-r from-orange-500 to-orange-600 hover:scale-[1.02] transition">
                     <button
                       onClick={() => copyText(resumePart)}
-                      className="bg-orange-500 hover:bg-orange-400 text-black font-bold px-6 py-3 rounded-2xl"
+                      className="bg-orange-500 hover:bg-orange-400 text-black font-bold px-6 py-3 rounded-[22px]"
                     >
                       Text kopieren
                     </button>
 
                     <button
                       onClick={downloadResumePdf}
-                      className="border border-white/10 hover:border-orange-500/40 px-6 py-3 rounded-2xl font-bold"
+                      className="border border-white/10 bg-white/[0.03] hover:border-orange-500/40 hover:bg-white/5 transition hover:border-orange-500/40 px-6 py-3 rounded-[22px] font-bold"
                     >
                       Lebenslauf PDF
                     </button>
@@ -260,7 +260,7 @@ export default function OptimizedResume({
 
                 <div
                   ref={resumeRef}
-                  className="bg-white text-black overflow-hidden"
+                  className="bg-white text-black overflow-hidden rounded-[30px] shadow-[0_10px_50px_rgba(0,0,0,0.45)]"
                 >
                   {renderResumeTemplate(resumePart)}
                 </div>
@@ -270,17 +270,17 @@ export default function OptimizedResume({
                 <div className="mb-5 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
                   <h2 className="text-3xl font-black">Anschreiben</h2>
 
-                  <div className="flex gap-3">
+                  <div className="bg-gradient-to-r from-orange-500 to-orange-600 hover:scale-[1.02] transition">
                     <button
                       onClick={() => copyText(coverLetterPart)}
-                      className="bg-orange-500 hover:bg-orange-400 text-black font-bold px-6 py-3 rounded-2xl"
+                      className="bg-orange-500 hover:bg-orange-400 text-black font-bold px-6 py-3 rounded-[22px]"
                     >
                       Text kopieren
                     </button>
 
                     <button
                       onClick={downloadCoverLetterPdf}
-                      className="border border-white/10 hover:border-orange-500/40 px-6 py-3 rounded-2xl font-bold"
+                      className="border border-white/10 bg-white/[0.03] hover:border-orange-500/40 hover:bg-white/5 transition hover:border-orange-500/40 px-6 py-3 rounded-[22px] font-bold"
                     >
                       Anschreiben PDF
                     </button>
@@ -289,7 +289,7 @@ export default function OptimizedResume({
 
                 <div
                   ref={coverLetterRef}
-                  className="bg-white text-black overflow-hidden"
+                  className="bg-white text-black overflow-hidden rounded-[30px] shadow-[0_10px_50px_rgba(0,0,0,0.45)]"
                 >
                   <CoverLetterTemplate
                     optimizedText={coverLetterPart}
@@ -302,7 +302,7 @@ export default function OptimizedResume({
             <>
               <div
                 ref={coverLetterRef}
-                className="bg-white text-black overflow-hidden"
+                className="bg-white text-black overflow-hidden rounded-[30px] shadow-[0_10px_50px_rgba(0,0,0,0.45)]"
               >
                 <CoverLetterTemplate
                   optimizedText={coverLetterPart}
@@ -313,14 +313,14 @@ export default function OptimizedResume({
               <div className="mt-8 flex flex-col sm:flex-row gap-4">
                 <button
                   onClick={() => copyText(coverLetterPart)}
-                  className="bg-orange-500 hover:bg-orange-400 text-black font-bold px-8 py-4 rounded-2xl"
+                  className="bg-orange-500 hover:bg-orange-400 text-black font-bold px-8 py-4 rounded-[22px]"
                 >
                   Text kopieren
                 </button>
 
                 <button
                   onClick={downloadCoverLetterPdf}
-                  className="border border-white/10 hover:border-orange-500/40 px-8 py-4 rounded-2xl font-bold"
+                  className="border border-white/10 bg-white/[0.03] hover:border-orange-500/40 hover:bg-white/5 transition hover:border-orange-500/40 px-8 py-4 rounded-[22px] font-bold"
                 >
                   Anschreiben PDF herunterladen
                 </button>
@@ -330,7 +330,7 @@ export default function OptimizedResume({
             <>
               <div
                 ref={resumeRef}
-                className="bg-white text-black overflow-hidden"
+                className="bg-white text-black overflow-hidden rounded-[30px] shadow-[0_10px_50px_rgba(0,0,0,0.45)]"
               >
                 {renderResumeTemplate(optimizedText)}
               </div>
@@ -338,14 +338,14 @@ export default function OptimizedResume({
               <div className="mt-8 flex flex-col sm:flex-row gap-4">
                 <button
                   onClick={() => copyText(optimizedText)}
-                  className="bg-orange-500 hover:bg-orange-400 text-black font-bold px-8 py-4 rounded-2xl"
+                  className="bg-orange-500 hover:bg-orange-400 text-black font-bold px-8 py-4 rounded-[22px]"
                 >
                   Text kopieren
                 </button>
 
                 <button
                   onClick={downloadResumePdf}
-                  className="border border-white/10 hover:border-orange-500/40 px-8 py-4 rounded-2xl font-bold"
+                  className="border border-white/10 bg-white/[0.03] hover:border-orange-500/40 hover:bg-white/5 transition hover:border-orange-500/40 px-8 py-4 rounded-[22px] font-bold"
                 >
                   Lebenslauf PDF herunterladen
                 </button>
