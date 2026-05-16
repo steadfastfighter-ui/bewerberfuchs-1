@@ -248,41 +248,118 @@ export default function Dashboard({
             </div>
           </div>
 
-          <div className={`${cardClass} mt-8`}>
-            <p className="text-orange-400 font-semibold mb-3">Stellenanzeige</p>
-            <h2 className="text-3xl font-black mb-5">Jobanzeige einfügen</h2>
+          <div className={`${cardClass} mt-10`}>
+  <div className="mb-8">
+    <p className="text-orange-400 font-bold mb-3">Design auswählen</p>
+    <h2 className="text-3xl md:text-4xl font-black mb-3">
+      Wähle deine Bewerbungs-Vorlage
+    </h2>
+    <p className="text-gray-400">
+      Diese Vorlage wird später für deinen Lebenslauf und dein Anschreiben verwendet.
+    </p>
+  </div>
 
-            <p className="text-gray-400 mb-6">
-              Füge hier die komplette Stellenbeschreibung ein. Dadurch erstellt die KI ein besser passendes Anschreiben.
-            </p>
+  <div className="grid md:grid-cols-3 gap-6">
+    {templates.map((template) => {
+      const active = selectedTemplate === template.id;
 
-            <textarea
-              value={jobText || ""}
-              onChange={(e) => setJobText(e.target.value)}
-              placeholder="Hier Stellenanzeige einfügen..."
-              className={`${inputClass} w-full min-h-[320px] text-white placeholder:text-gray-500`}
-            />
+      return (
+        <button
+          key={template.id}
+          onClick={() => setSelectedTemplate(template.id)}
+          className={`relative text-left rounded-[28px] border p-5 transition-all overflow-hidden ${
+            active
+              ? "bg-orange-500 text-black border-orange-400 shadow-2xl shadow-orange-500/25 scale-[1.02]"
+              : "bg-black/30 text-white border-white/10 hover:border-orange-500/60 hover:bg-white/5"
+          }`}
+        >
+          {active && (
+            <div className="absolute top-4 right-4 bg-black text-white text-xs font-bold px-3 py-1 rounded-full">
+              Ausgewählt
+            </div>
+          )}
 
-            <div className="mt-6 grid md:grid-cols-3 gap-4">
-              <button onClick={() => startCheckout("resume")} className="bg-black text-white p-5 rounded-2xl font-bold hover:bg-neutral-900 transition text-left border border-white/10">
-                <div className="text-2xl mb-2">📄</div>
-                <div>Lebenslauf erstellen</div>
-                <div className="text-white/60 text-sm mt-1">Nur mit deinen Daten + Stellenanzeige</div>
-              </button>
+          <div className="flex items-center gap-4 mb-5">
+            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-3xl ${
+              active ? "bg-black/15" : "bg-white/5"
+            }`}>
+              {template.icon}
+            </div>
 
-              <button onClick={() => startCheckout("coverLetter")} className="bg-orange-500 text-black p-6 rounded-[28px] font-black hover:bg-orange-400 transition text-left">
-                <div className="text-2xl mb-2">✉️</div>
-                <div>Anschreiben erstellen</div>
-                <div className="text-black/70 text-sm mt-1">Direkt aus der Stellenanzeige</div>
-              </button>
-
-              <button onClick={() => startCheckout("bundle")} className="bg-white text-black p-5 rounded-2xl font-black hover:bg-gray-100 transition text-left">
-                <div className="text-2xl mb-2">🔥</div>
-                <div>Beste Wahl: Bundle erstellen</div>
-                <div className="text-black/60 text-sm mt-1">Lebenslauf + Anschreiben</div>
-              </button>
+            <div>
+              <h3 className="text-2xl font-black">{template.name}</h3>
+              <p className={active ? "text-black/70 text-sm" : "text-gray-400 text-sm"}>
+                {template.description}
+              </p>
             </div>
           </div>
+
+          <div className="bg-white rounded-2xl p-4 mb-5 text-black h-[220px] overflow-hidden">
+            {template.id === "classic" && (
+              <div>
+                <div className="h-5 bg-gray-900 rounded w-2/3 mb-3"></div>
+                <div className="h-2 bg-gray-300 rounded w-full mb-2"></div>
+                <div className="h-2 bg-gray-300 rounded w-5/6 mb-5"></div>
+                <div className="border-t border-gray-300 pt-3">
+                  <div className="h-3 bg-gray-800 rounded w-1/3 mb-3"></div>
+                  <div className="h-2 bg-gray-300 rounded w-full mb-2"></div>
+                  <div className="h-2 bg-gray-300 rounded w-4/5"></div>
+                </div>
+              </div>
+            )}
+
+            {template.id === "modern" && (
+              <div className="flex gap-3 h-full">
+                <div className="w-1/3 bg-orange-500 rounded-xl p-2">
+                  <div className="w-12 h-12 bg-white rounded-full mb-4"></div>
+                  <div className="h-2 bg-white/80 rounded mb-2"></div>
+                  <div className="h-2 bg-white/60 rounded"></div>
+                </div>
+                <div className="flex-1">
+                  <div className="h-5 bg-gray-900 rounded w-3/4 mb-3"></div>
+                  <div className="h-2 bg-gray-300 rounded w-full mb-2"></div>
+                  <div className="h-2 bg-gray-300 rounded w-4/5 mb-5"></div>
+                  <div className="h-3 bg-gray-800 rounded w-1/2 mb-3"></div>
+                  <div className="h-2 bg-gray-300 rounded w-full mb-2"></div>
+                </div>
+              </div>
+            )}
+
+            {template.id === "premium" && (
+              <div>
+                <div className="bg-gray-900 rounded-xl p-3 mb-4 flex items-center gap-3">
+                  <div className="w-12 h-12 bg-orange-500 rounded-full"></div>
+                  <div className="flex-1">
+                    <div className="h-3 bg-white rounded w-2/3 mb-2"></div>
+                    <div className="h-2 bg-white/60 rounded w-1/2"></div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <div className="h-3 bg-gray-800 rounded mb-3"></div>
+                    <div className="h-2 bg-gray-300 rounded mb-2"></div>
+                    <div className="h-2 bg-gray-300 rounded"></div>
+                  </div>
+                  <div>
+                    <div className="h-3 bg-orange-500 rounded mb-3"></div>
+                    <div className="h-2 bg-gray-300 rounded mb-2"></div>
+                    <div className="h-2 bg-gray-300 rounded"></div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className={`w-full text-center rounded-2xl py-3 font-black ${
+            active ? "bg-black text-white" : "bg-orange-500 text-black"
+          }`}>
+            {active ? "✓ Vorlage ausgewählt" : "Diese Vorlage wählen"}
+          </div>
+        </button>
+      );
+    })}
+  </div>
+</div>
 
           <div className="grid lg:grid-cols-3 gap-10 mt-10 items-start">
             <div className={`lg:col-span-2 ${cardClass}`}>
