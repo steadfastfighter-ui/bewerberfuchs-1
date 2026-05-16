@@ -22,15 +22,14 @@ export default function Dashboard({
   const [result, setResult] = useState(null);
   const [resumeText, setResumeText] = useState("");
 
-  const inputClass =
-    "w-full bg-black/30 border border-white/10 rounded-2xl px-4 py-3 md:p-4 text-base md:text-lg outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all";
+ const inputClass =
+  "w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 text-[16px] md:text-lg text-white placeholder:text-gray-500 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all";
 
-  const textareaClass =
-    "w-full min-h-[170px] md:min-h-[260px] rounded-[24px] md:rounded-[28px] border border-orange-500/50 bg-[#060b14] text-white placeholder:text-gray-500 text-base md:text-lg leading-relaxed p-4 md:p-6 outline-none resize-none focus:border-orange-400 focus:ring-4 focus:ring-orange-500/20 transition-all";
+const textareaClass =
+  "w-full min-h-[210px] md:min-h-[260px] rounded-[24px] border border-orange-500/60 bg-[#060b14] text-white placeholder:text-gray-500 text-[16px] md:text-lg leading-relaxed px-6 py-6 outline-none resize-none focus:border-orange-400 focus:ring-4 focus:ring-orange-500/20 transition-all";
 
-  const cardClass =
-    "bg-gradient-to-b from-white/[0.07] to-white/[0.03] border border-white/10 rounded-[26px] md:rounded-[36px] p-5 md:p-10 shadow-[0_10px_60px_rgba(0,0,0,0.45)] backdrop-blur-xl";
-
+const cardClass =
+  "bg-gradient-to-b from-white/[0.07] to-white/[0.03] border border-white/10 rounded-[28px] md:rounded-[36px] px-6 py-7 md:p-10 shadow-[0_10px_60px_rgba(0,0,0,0.45)] backdrop-blur-xl";
   const templates = [
     {
       id: "classic",
@@ -216,7 +215,7 @@ export default function Dashboard({
     <div className="min-h-screen bg-[#0b0f19] text-white overflow-x-hidden">
       <Topbar goHome={goHome} />
 
-      <div className="px-4 md:px-8 xl:px-14 py-8 md:py-10 bg-[radial-gradient(circle_at_top,rgba(255,122,0,0.08),transparent_35%)]">
+      <div className="px-5 md:px-8 xl:px-14 py-8 md:py-10 bg-[radial-gradient(circle_at_top,rgba(255,122,0,0.08),transparent_35%)]">
         <div className="max-w-[1650px] mx-auto">
           <div className="mb-10 md:mb-16 max-w-5xl">
             <div className="inline-flex px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 mb-5 md:mb-6 text-sm md:text-base">
