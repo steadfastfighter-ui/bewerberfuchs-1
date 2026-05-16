@@ -10,42 +10,26 @@ import LegalPage from "./LegalPage";
 export default function App() {
   const [page, setPage] = useState("landing");
 
-  const [resumeText, setResumeText] = useState(() => {
-    return localStorage.getItem("resumeText") || "";
-  });
-
-  const [jobText, setJobText] = useState(() => {
-    return localStorage.getItem("jobText") || "";
-  });
-
-  const [selectedProduct, setSelectedProduct] = useState(() => {
-    return localStorage.getItem("selectedProduct") || "";
-  });
-
-  const [selectedTemplate, setSelectedTemplate] = useState(() => {
-    return localStorage.getItem("selectedTemplate") || "classic";
-  });
-
-  const [profilePhoto, setProfilePhoto] = useState(() => {
-    return localStorage.getItem("profilePhoto") || "";
-  });
+  const [resumeText, setResumeText] = useState(() => localStorage.getItem("resumeText") || "");
+  const [jobText, setJobText] = useState(() => localStorage.getItem("jobText") || "");
+  const [selectedProduct, setSelectedProduct] = useState(() => localStorage.getItem("selectedProduct") || "");
+  const [selectedTemplate, setSelectedTemplate] = useState(() => localStorage.getItem("selectedTemplate") || "classic");
+  const [profilePhoto, setProfilePhoto] = useState(() => localStorage.getItem("profilePhoto") || "");
 
   const [candidateData, setCandidateData] = useState(() => {
     try {
-      return (
-        JSON.parse(localStorage.getItem("candidateData")) || {
-          fullName: "",
-          jobTitle: "",
-          email: "",
-          phone: "",
-          address: "",
-          linkedin: "",
-          company: "",
-          recruiter: "",
-          position: "",
-          city: "",
-        }
-      );
+      return JSON.parse(localStorage.getItem("candidateData")) || {
+        fullName: "",
+        jobTitle: "",
+        email: "",
+        phone: "",
+        address: "",
+        linkedin: "",
+        company: "",
+        recruiter: "",
+        position: "",
+        city: "",
+      };
     } catch {
       return {
         fullName: "",
@@ -64,6 +48,21 @@ export default function App() {
 
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
+  function goStartseite() {
+    setPage("landing");
+    setPaymentSuccess(false);
+    window.history.replaceState({}, "", "/");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function goCheckout(product) {
+    const selected = product || "bundle";
+    setSelectedProduct(selected);
+    localStorage.setItem("selectedProduct", selected);
+    setPage("checkout");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   function saveResumeText(text) {
     setResumeText(text);
     localStorage.setItem("resumeText", text);
@@ -81,12 +80,8 @@ export default function App() {
 
   function saveProfilePhoto(photo) {
     setProfilePhoto(photo);
-
-    if (photo) {
-      localStorage.setItem("profilePhoto", photo);
-    } else {
-      localStorage.removeItem("profilePhoto");
-    }
+    if (photo) localStorage.setItem("profilePhoto", photo);
+    else localStorage.removeItem("profilePhoto");
   }
 
   function saveCandidateData(data) {
@@ -94,45 +89,25 @@ export default function App() {
     localStorage.setItem("candidateData", JSON.stringify(data));
   }
 
- function goStartseite() {
-  setPage("landing");
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
-
-  window.history.replaceState({}, "", "/");
-}
-
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
 
     if (params.get("success") === "true") {
       const product = params.get("product") || "bundle";
-
       setSelectedProduct(product);
       localStorage.setItem("selectedProduct", product);
-
       setPaymentSuccess(true);
       setPage("success");
-
       window.history.replaceState({}, "", "/");
     }
 
     if (params.get("canceled") === "true") {
       const product = params.get("product") || "bundle";
-
       setSelectedProduct(product);
       localStorage.setItem("selectedProduct", product);
-
       setPaymentSuccess(false);
       setPage("checkout");
-
-      alert(
-        "Zahlung wurde abgebrochen. Du kannst es jederzeit erneut versuchen."
-      );
-
+      alert("Zahlung wurde abgebrochen. Du kannst es jederzeit erneut versuchen.");
       window.history.replaceState({}, "", "/");
     }
   }, []);
@@ -143,11 +118,7 @@ export default function App() {
     content = (
       <Dashboard
         goHome={goStartseite}
-        goCheckout={(product) => {
-          setSelectedProduct(product || "bundle");
-          localStorage.setItem("selectedProduct", product || "bundle");
-          setPage("checkout");
-        }}
+        goCheckout={goCheckout}
         setAppResumeText={saveResumeText}
         selectedTemplate={selectedTemplate}
         setSelectedTemplate={saveTemplate}
@@ -166,34 +137,30 @@ export default function App() {
         selectedProduct={selectedProduct || "bundle"}
       />
     );
- } else if (page === "success") {
-  content = (
-    <Success
-      goDashboard={goStartseite}
-      goOptimized={() => {
-        setPage("optimized");
-
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-      }}
-      selectedProduct={selectedProduct || "bundle"}
-    />
-  );
-} else if (page === "optimized") {
-  content = (
-    <OptimizedResume
-      goDashboard={goStartseite}
-      resumeText={resumeText}
-      jobText={jobText}
-      selectedProduct={selectedProduct || "bundle"}
-      selectedTemplate={selectedTemplate}
-      profilePhoto={profilePhoto}
-      candidateData={candidateData}
-    />
-  );
-}
+  } else if (page === "success") {
+    content = (
+      <Success
+        goDashboard={goStartseite}
+        goOptimized={() => {
+          setPaymentSuccess(true);
+          setPage("optimized");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+        selectedProduct={selectedProduct || "bundle"}
+      />
+    );
+  } else if (page === "optimized") {
+    content = (
+      <OptimizedResume
+        goDashboard={goStartseite}
+        resumeText={resumeText}
+        jobText={jobText}
+        selectedProduct={selectedProduct || "bundle"}
+        selectedTemplate={selectedTemplate}
+        profilePhoto={profilePhoto}
+        candidateData={candidateData}
+      />
+    );
   } else if (page === "impressum") {
     content = <LegalPage type="impressum" goHome={goStartseite} />;
   } else if (page === "datenschutz") {
@@ -206,22 +173,18 @@ export default function App() {
     content = (
       <LandingPage
         goDashboard={() => setPage("dashboard")}
-        goCheckout={(product) => {
-          setSelectedProduct(product || "bundle");
-          localStorage.setItem("selectedProduct", product || "bundle");
-          setPage("checkout");
-        }}
+        goCheckout={goCheckout}
         goLegal={(legalPage) => setPage(legalPage)}
       />
     );
   }
 
-return (
-  <div className="min-h-screen w-full overflow-x-hidden bg-[#030712] text-white">
-    <div className="relative overflow-x-hidden">
-      {content}
-      <CookieBanner />
+  return (
+    <div className="min-h-screen w-full overflow-x-hidden bg-[#030712] text-white">
+      <div className="relative overflow-x-hidden">
+        {content}
+        <CookieBanner />
+      </div>
     </div>
-  </div>
-);
+  );
 }
