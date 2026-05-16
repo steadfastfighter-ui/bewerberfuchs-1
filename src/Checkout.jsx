@@ -78,64 +78,148 @@ export default function Checkout({ goDashboard, selectedProduct }) {
     }
   }
 
-  return (
-    <div className="min-h-screen bg-[#0b0f19] text-white">
-      <Topbar goHome={goDashboard} />
+ return (
+  <div className="min-h-screen bg-[#030712] text-white overflow-x-hidden">
+    <Topbar goHome={goDashboard} />
 
-      <div className="p-6">
-        <div className="max-w-5xl mx-auto">
-          <button
-            onClick={goDashboard}
-            className="mb-8 text-gray-400 hover:text-white"
-          >
-            ← Zurück zum Dashboard
-          </button>
+    <section className="relative px-4 sm:px-6 lg:px-8 py-8 sm:py-14">
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(255,115,0,0.18),transparent_30%),radial-gradient(circle_at_left,rgba(0,90,255,0.08),transparent_25%)]" />
 
-          <div className="mb-12">
-            <p className="text-orange-400 font-semibold mb-3">
-              BewerberFuchs Checkout
-            </p>
+      <div className="relative z-10 max-w-6xl mx-auto">
+        
+        {/* BACK BUTTON */}
+        <button
+          onClick={goDashboard}
+          className="mb-8 text-gray-400 hover:text-white transition text-sm sm:text-base"
+        >
+          ← Zurück zum Dashboard
+        </button>
 
-            <h1 className="text-5xl md:text-6xl font-black mb-6">
-              {current.title}
-            </h1>
+        {/* HEADER */}
+        <div className="mb-10 sm:mb-16">
+          <p className="text-orange-400 font-bold uppercase tracking-wide text-sm mb-3">
+            BewerberFuchs Checkout
+          </p>
 
-            <p className="text-gray-400 text-lg">{current.description}</p>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-[0.95] mb-5">
+            {current.title}
+          </h1>
+
+          <p className="text-gray-400 text-base sm:text-lg max-w-2xl leading-relaxed">
+            {current.description}
+          </p>
+        </div>
+
+        {/* GRID */}
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-start">
+          
+          {/* FEATURES */}
+          <div className="bg-white/[0.03] border border-white/10 backdrop-blur-xl rounded-3xl sm:rounded-[32px] p-6 sm:p-8">
+            <h2 className="text-2xl sm:text-3xl font-black mb-6">
+              Enthalten
+            </h2>
+
+            <div className="space-y-4">
+              {current.features.map((feature) => (
+                <div
+                  key={feature}
+                  className="flex items-center gap-3 text-gray-300 text-sm sm:text-base"
+                >
+                  <div className="w-7 h-7 rounded-full bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-orange-400 text-sm">
+                    ✓
+                  </div>
+
+                  <span>{feature}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
-            <div className="bg-white/5 border border-white/10 rounded-[32px] p-8">
-              <h2 className="text-3xl font-black mb-6">Enthalten</h2>
+          {/* PAYMENT CARD */}
+          <div className="relative overflow-hidden rounded-3xl sm:rounded-[32px] bg-gradient-to-b from-orange-500 to-orange-600 p-[1px] shadow-[0_0_40px_rgba(255,115,0,0.25)]">
+            
+            <div className="rounded-3xl sm:rounded-[32px] bg-[#111827] p-6 sm:p-8 h-full">
+              
+              <div className="absolute top-0 right-0 w-56 h-56 bg-orange-500/20 blur-3xl pointer-events-none" />
 
-              <div className="space-y-4 text-gray-300">
-                {current.features.map((feature) => (
-                  <div key={feature}>✅ {feature}</div>
-                ))}
+              <div className="relative z-10">
+                <p className="text-orange-300 font-semibold mb-3 text-sm uppercase tracking-wide">
+                  Einmalzahlung
+                </p>
+
+                <div className="text-6xl sm:text-7xl font-black mb-8">
+                  {current.price}
+                </div>
+
+                <button
+                  onClick={startCheckout}
+                  disabled={loading}
+                  className="
+                    w-full
+                    bg-gradient-to-r
+                    from-orange-500
+                    to-orange-600
+                    hover:scale-[1.01]
+                    active:scale-[0.99]
+                    transition
+                    text-white
+                    font-black
+                    py-4 sm:py-5
+                    rounded-2xl
+                    text-base sm:text-lg
+                    shadow-lg
+                    shadow-orange-500/20
+                    disabled:opacity-60
+                  "
+                >
+                  {loading
+                    ? "Stripe wird geöffnet..."
+                    : current.button}
+                </button>
+
+                <div className="mt-6 space-y-2 text-sm text-gray-400">
+                  <div>✓ Keine Abos</div>
+                  <div>✓ Sichere Stripe Zahlung</div>
+                  <div>✓ Sofortiger Zugriff</div>
+                  <div>✓ PDF Download inklusive</div>
+                </div>
               </div>
-            </div>
-
-            <div className="bg-orange-500 text-black rounded-[32px] p-8">
-              <p className="font-semibold mb-3">Einmalzahlung</p>
-
-              <div className="text-7xl font-black mb-8">
-                {current.price}
-              </div>
-
-              <button
-                onClick={startCheckout}
-                disabled={loading}
-                className="w-full bg-black text-white font-bold py-5 rounded-2xl hover:bg-neutral-900 transition text-lg disabled:opacity-60"
-              >
-                {loading ? "Stripe wird geöffnet..." : current.button}
-              </button>
-
-              <p className="text-black/70 text-sm mt-5">
-                Keine Abos · Sichere Zahlung über Stripe · Sofortiger Zugriff
-              </p>
             </div>
           </div>
         </div>
+
+        {/* TRUST SECTION */}
+        <div className="mt-10 sm:mt-14 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          
+          <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-5 text-center">
+            <div className="text-orange-400 text-3xl font-black mb-2">
+              4.9★
+            </div>
+            <p className="text-gray-400 text-sm">
+              Zufriedene Nutzer
+            </p>
+          </div>
+
+          <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-5 text-center">
+            <div className="text-orange-400 text-3xl font-black mb-2">
+              92%
+            </div>
+            <p className="text-gray-400 text-sm">
+              ATS Erfolgsquote
+            </p>
+          </div>
+
+          <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-5 text-center">
+            <div className="text-orange-400 text-3xl font-black mb-2">
+              PDF
+            </div>
+            <p className="text-gray-400 text-sm">
+              Sofort Downloadbar
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
-  );
+    </section>
+  </div>
+);
 }

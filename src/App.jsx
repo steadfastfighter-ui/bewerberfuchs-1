@@ -203,10 +203,12 @@ export default function App() {
     );
   }
 
-  return (
-    <>
+return (
+  <div className="min-h-screen w-full overflow-x-hidden bg-[#030712] text-white">
+    <div className="relative overflow-x-hidden">
       {content}
       <CookieBanner />
-    </>
-  );
+    </div>
+  </div>
+);
 }

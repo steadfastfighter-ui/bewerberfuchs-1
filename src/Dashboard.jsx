@@ -218,7 +218,7 @@ export default function Dashboard({
               🚀 KI Bewerbung Optimierung
             </div>
 
-            <h1 className="text-4xl md:text-6xl xl:text-7xl font-black leading-[1.05] tracking-tight mb-7 max-w-6xl">
+            <h1 className="text-4xl md:text-4xl md:text-6xl xl:text-7xl font-black leading-[1.05] tracking-tight mb-7 max-w-6xl">
               Erstelle professionelle Bewerbungen mit KI.
             </h1>
 
@@ -414,7 +414,7 @@ export default function Dashboard({
             <div className={cardClass}>
               <p className="text-gray-400 mb-2">ATS Score</p>
 
-              <h2 className="text-6xl xl:text-7xl font-black text-orange-400 mb-8 tracking-tight">
+              <h2 className="text-4xl md:text-6xl xl:text-7xl font-black text-orange-400 mb-8 tracking-tight">
                 {loading ? "Scan..." : result?.score ? `${result.score}%` : "--"}
               </h2>
 
