@@ -94,11 +94,16 @@ export default function App() {
     localStorage.setItem("candidateData", JSON.stringify(data));
   }
 
-  function goStartseite() {
-    window.history.replaceState({}, "", "/");
-    setPaymentSuccess(false);
-    setPage("landing");
-  }
+ function goStartseite() {
+  setPage("landing");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+
+  window.history.replaceState({}, "", "/");
+}
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -161,26 +166,34 @@ export default function App() {
         selectedProduct={selectedProduct || "bundle"}
       />
     );
-  } else if (page === "success" && paymentSuccess) {
-    content = (
-      <Success
-        goDashboard={goStartseite}
-        goOptimized={() => setPage("optimized")}
-        selectedProduct={selectedProduct || "bundle"}
-      />
-    );
-  } else if (page === "optimized" && paymentSuccess) {
-    content = (
-      <OptimizedResume
-        goDashboard={goStartseite}
-        resumeText={resumeText}
-        jobText={jobText}
-        selectedProduct={selectedProduct || "bundle"}
-        selectedTemplate={selectedTemplate}
-        profilePhoto={profilePhoto}
-        candidateData={candidateData}
-      />
-    );
+ } else if (page === "success") {
+  content = (
+    <Success
+      goDashboard={goStartseite}
+      goOptimized={() => {
+        setPage("optimized");
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }}
+      selectedProduct={selectedProduct || "bundle"}
+    />
+  );
+} else if (page === "optimized") {
+  content = (
+    <OptimizedResume
+      goDashboard={goStartseite}
+      resumeText={resumeText}
+      jobText={jobText}
+      selectedProduct={selectedProduct || "bundle"}
+      selectedTemplate={selectedTemplate}
+      profilePhoto={profilePhoto}
+      candidateData={candidateData}
+    />
+  );
+}
   } else if (page === "impressum") {
     content = <LegalPage type="impressum" goHome={goStartseite} />;
   } else if (page === "datenschutz") {
