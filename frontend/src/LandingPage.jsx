@@ -66,12 +66,12 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
 
       <main className="relative z-10">
         <section className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-14 pt-8 sm:pt-12 lg:pt-16 pb-8 sm:pb-14 lg:pb-20 grid lg:grid-cols-[0.92fr_1.08fr] gap-6 lg:gap-14 items-center">
-          <div className="max-w-[640px]">
+          <div className="max-w-[720px] relative z-20">
             <div className="inline-flex items-center gap-2 px-3 sm:px-5 py-2 sm:py-3 rounded-2xl border border-white/15 bg-white/5 text-orange-500 text-xs sm:text-sm font-bold mb-5 sm:mb-8">
               ⚡ KI-POWERED BEWERBUNGSOPTIMIERUNG
             </div>
 
-            <h1 className="text-[40px] sm:text-6xl lg:text-[66px] xl:text-[72px] leading-[1.02] font-extrabold tracking-tight mb-5 sm:mb-7">
+            <h1 className="text-[46px] sm:text-6xl lg:text-[72px] xl:text-[82px] leading-[1.02] font-extrabold tracking-tight mb-5 sm:mb-7">
               Professionelle
               <br />
               Bewerbungen
@@ -79,7 +79,7 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
               <span className="text-orange-500">in wenigen Minuten.</span>
             </h1>
 
-            <p className="text-base sm:text-xl text-gray-300 leading-relaxed mb-6 sm:mb-8 max-w-[580px]">
+            <p className="text-lg sm:text-xl text-gray-300 leading-relaxed mb-6 sm:mb-8 max-w-[580px]">
               ATS-optimierte Lebensläufe und Anschreiben, erstellt mit künstlicher Intelligenz.
               Mehr Interviews. Mehr Jobangebote. Weniger Absagen.
             </p>
@@ -113,15 +113,16 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
             <img
               src="/fox-hero.png"
               alt="BewerberFuchs Hero"
-              className="relative z-10 w-[112%] sm:w-full max-w-[470px] sm:max-w-[660px] lg:max-w-[860px] xl:max-w-[940px] object-contain scale-[1.08] sm:scale-100 drop-shadow-[0_0_45px_rgba(255,115,0,0.4)]"
+              className="relative z-10 w-[112%] sm:w-full max-w-[470px] sm:max-w-[660px] lg:max-w-[860px] xl:max-w-[940px] object-contain scale-[1.08] sm:scale-100 drop-shadow-[0_0_90px_rgba(255,115,0,0.45)]"
             />
           </div>
         </section>
 
         <section className="max-w-7xl mx-auto px-4 sm:px-6 py-5 sm:py-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 bg-white/[0.03] border border-white/10 rounded-3xl p-5 sm:p-7">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 bg-white/[0.04] backdrop-blur-xl border border-white/10 rounded-3xl p-5 sm:p-7">
             {benefits.map((item) => (
-              <div key={item[1]} className="flex items-center gap-4 sm:gap-5 md:border-r md:border-white/10 last:border-r-0">
+              <div key={item[1]} 
+             className="flex items-center gap-4 sm:gap-5 md:border-r md:border-white/10 last:border-r-0">
                 <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border border-orange-500/50 text-orange-500 flex items-center justify-center text-2xl sm:text-3xl shrink-0">
                   {item[0]}
                 </div>
@@ -142,7 +143,7 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-8 lg:gap-10">
             {steps.map((item, index) => (
-              <div key={item[1]} className="relative bg-white/[0.03] border border-white/10 rounded-2xl p-6 sm:p-9 text-center min-h-[220px] sm:min-h-[250px]">
+              <div key={item[1]} className="relative bg-white/[0.04] backdrop-blur-xl border border-white/10 rounded-2xl p-6 sm:p-9 text-center min-h-[220px] sm:min-h-[250px]">
                 <div className="text-orange-500 text-4xl sm:text-5xl mb-5 sm:mb-6">{item[0]}</div>
 
                 <div className="flex items-center justify-center gap-3 mb-4">
@@ -168,7 +169,7 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
             {plans.map((plan) => (
-              <div key={plan[0]} className="bg-white/[0.03] border border-white/10 rounded-2xl p-5 sm:p-7">
+              <div key={plan[0]} className="bg-white/[0.04] backdrop-blur-xl border border-white/10 rounded-2xl p-5 sm:p-7">
                 <h3 className="text-xl font-bold mb-4">{plan[0]}</h3>
                 <div className="text-5xl sm:text-6xl font-extrabold mb-4">{plan[1]}</div>
                 <p className="text-gray-300 text-sm mb-7">{plan[2]}</p>
@@ -221,7 +222,7 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
             {faqs.map((faq) => (
-              <details key={faq[0]} className="group bg-white/[0.03] border border-white/10 rounded-xl p-5">
+              <details key={faq[0]} className="group bg-white/[0.04] backdrop-blur-xl border border-white/10 rounded-xl p-5">
                 <summary className="cursor-pointer flex justify-between items-center font-medium gap-4">
                   {faq[0]}
                   <span className="group-open:rotate-180 transition">⌄</span>

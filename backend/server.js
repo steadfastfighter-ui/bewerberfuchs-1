@@ -6,6 +6,8 @@ import OpenAI from "openai";
 import multer from "multer";
 import mammoth from "mammoth";
 import { createRequire } from "module";
+import rateLimit from "express-rate-limit";
+import helmet from "helmet";
 
 dotenv.config();
 
@@ -14,11 +16,27 @@ const pdfParse = requireModule("pdf-parse");
 
 const app = express();
 
-app.use(cors());
+app.use(helmet());
+
+app.use(
+  rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+  })
+);
+
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    credentials: true,
+  })
+);
+
 app.use(express.json({ limit: "10mb" }));
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
+  timeout: 30000,
 });
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -28,7 +46,32 @@ const upload = multer({
   limits: {
     fileSize: 5 * 1024 * 1024,
   },
+  fileFilter: (req, file, cb) => {
+    const allowed = [
+      "application/pdf",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ];
+
+    if (!allowed.includes(file.mimetype)) {
+      return cb(new Error("Nur PDF oder DOCX erlaubt."));
+    }
+
+    cb(null, true);
+  },
 });
+
+function safeParseJson(text) {
+  try {
+    return JSON.parse(text);
+  } catch {
+    return {
+      score: 70,
+      weaknesses: ["Die Analyse konnte nicht sauber gelesen werden."],
+      keywords: [],
+      improvements: ["Bitte Analyse erneut starten."],
+    };
+  }
+}
 
 function buildAnalysisPrompt(resumeText) {
   return `
@@ -133,6 +176,13 @@ app.get("/", (req, res) => {
   res.send("Server läuft 🚀");
 });
 
+app.get("/health", (req, res) => {
+  res.json({
+    status: "ok",
+    uptime: process.uptime(),
+  });
+});
+
 app.post("/analyze", async (req, res) => {
   try {
     const { resumeText } = req.body;
@@ -153,10 +203,10 @@ app.post("/analyze", async (req, res) => {
     });
 
     res.json({
-      result: completion.choices[0].message.content,
+      result: safeParseJson(completion.choices[0].message.content),
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({ error: "Analyse fehlgeschlagen" });
   }
 });
@@ -181,10 +231,6 @@ app.post("/analyze-pdf", upload.single("resume"), async (req, res) => {
       });
 
       resumeText = result.value || "";
-    } else {
-      return res.status(400).json({
-        error: "Nur PDF oder DOCX Dateien erlaubt.",
-      });
     }
 
     if (!resumeText.trim()) {
@@ -209,11 +255,11 @@ app.post("/analyze-pdf", upload.single("resume"), async (req, res) => {
     });
 
     res.json({
-      result: completion.choices[0].message.content,
+      result: safeParseJson(completion.choices[0].message.content),
       extractedText: resumeText,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({ error: "Datei Analyse fehlgeschlagen." });
   }
 });
@@ -261,7 +307,7 @@ app.post("/create-checkout-session", async (req, res) => {
 
     res.json({ url: session.url });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({
       error: "Stripe Checkout konnte nicht erstellt werden.",
     });
@@ -340,8 +386,7 @@ ${resumeText || ""}
       optimizedText: completion.choices[0].message.content,
     });
   } catch (error) {
-    console.log(error);
-
+    console.error(error);
     res.status(500).json({
       error: "Optimierung fehlgeschlagen",
     });
