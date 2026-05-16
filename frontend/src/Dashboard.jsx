@@ -250,6 +250,31 @@ export default function Dashboard({
 
           <div className={`${cardClass} mt-10`}>
   <div className="mb-8">
+   <div className={`${cardClass} mt-10`}>
+  <p className="text-orange-400 font-semibold mb-3">
+    Stellenanzeige
+  </p>
+
+  <h2 className="text-3xl font-black mb-4">
+    Stelle mit analysieren
+  </h2>
+
+  <p className="text-gray-400 mb-6 leading-relaxed">
+    Füge hier die komplette Stellenanzeige ein.
+    BewerberFuchs erkennt automatisch:
+    ATS Keywords,
+    Fähigkeiten,
+    Anforderungen
+    und optimiert deine Bewerbung passend dazu.
+  </p>
+
+  <textarea
+    value={jobText}
+    onChange={(e) => setJobText(e.target.value)}
+    placeholder="Kopiere hier die Stellenanzeige hinein..."
+    className={`${inputClass} w-full min-h-[260px] text-white placeholder:text-gray-500 resize-none`}
+  />
+</div>
     <p className="text-orange-400 font-bold mb-3">Design auswählen</p>
     <h2 className="text-3xl md:text-4xl font-black mb-3">
       Wähle deine Bewerbungs-Vorlage
