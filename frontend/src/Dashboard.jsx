@@ -23,10 +23,13 @@ export default function Dashboard({
   const [resumeText, setResumeText] = useState("");
 
   const inputClass =
-    "bg-black/30 border border-white/10 rounded-2xl p-4 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all";
+    "w-full bg-black/30 border border-white/10 rounded-2xl px-4 py-3 md:p-4 text-base md:text-lg outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all";
+
+  const textareaClass =
+    "w-full min-h-[170px] md:min-h-[260px] rounded-[24px] md:rounded-[28px] border border-orange-500/50 bg-[#060b14] text-white placeholder:text-gray-500 text-base md:text-lg leading-relaxed p-4 md:p-6 outline-none resize-none focus:border-orange-400 focus:ring-4 focus:ring-orange-500/20 transition-all";
 
   const cardClass =
-    "bg-gradient-to-b from-white/[0.07] to-white/[0.03] border border-white/10 rounded-[36px] p-8 md:p-10 shadow-[0_10px_60px_rgba(0,0,0,0.45)] backdrop-blur-xl";
+    "bg-gradient-to-b from-white/[0.07] to-white/[0.03] border border-white/10 rounded-[26px] md:rounded-[36px] p-5 md:p-10 shadow-[0_10px_60px_rgba(0,0,0,0.45)] backdrop-blur-xl";
 
   const templates = [
     {
@@ -90,6 +93,8 @@ export default function Dashboard({
   }
 
   function parseAiResult(data) {
+    if (typeof data.result === "object") return data.result;
+
     try {
       return JSON.parse(data.result);
     } catch {
@@ -208,21 +213,21 @@ export default function Dashboard({
   }
 
   return (
-    <div className="min-h-screen bg-[#0b0f19] text-white">
+    <div className="min-h-screen bg-[#0b0f19] text-white overflow-x-hidden">
       <Topbar goHome={goHome} />
 
-      <div className="px-8 xl:px-14 py-10 bg-[radial-gradient(circle_at_top,rgba(255,122,0,0.08),transparent_35%)]">
+      <div className="px-4 md:px-8 xl:px-14 py-8 md:py-10 bg-[radial-gradient(circle_at_top,rgba(255,122,0,0.08),transparent_35%)]">
         <div className="max-w-[1650px] mx-auto">
-          <div className="mb-16 max-w-5xl">
-            <div className="inline-flex px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 mb-6">
+          <div className="mb-10 md:mb-16 max-w-5xl">
+            <div className="inline-flex px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 mb-5 md:mb-6 text-sm md:text-base">
               🚀 KI Bewerbung Optimierung
             </div>
 
-            <h1 className="text-4xl md:text-4xl md:text-6xl xl:text-7xl font-black leading-[1.05] tracking-tight mb-7 max-w-6xl">
+            <h1 className="text-4xl md:text-6xl xl:text-7xl font-black leading-[1.02] tracking-tight mb-5 md:mb-7 max-w-6xl">
               Erstelle professionelle Bewerbungen mit KI.
             </h1>
 
-            <p className="text-gray-400 text-lg md:text-xl max-w-4xl leading-relaxed">
+            <p className="text-gray-400 text-base md:text-xl max-w-4xl leading-relaxed">
               Lade deinen Lebenslauf hoch oder füge Text ein. BewerberFuchs analysiert deine Bewerbung,
               erkennt ATS-Keywords und erstellt optimierte Unterlagen.
             </p>
@@ -230,11 +235,12 @@ export default function Dashboard({
 
           <div className={cardClass}>
             <p className="text-orange-400 font-semibold mb-3">Persönliche Daten</p>
-            <h2 className="text-3xl font-black mb-8">
+
+            <h2 className="text-3xl md:text-4xl font-black mb-6 md:mb-8">
               Angaben für Lebenslauf & Anschreiben
             </h2>
 
-            <div className="grid md:grid-cols-2 gap-5">
+            <div className="grid md:grid-cols-2 gap-4 md:gap-5">
               <input type="text" placeholder="Vorname Nachname" value={candidateData.fullName || ""} onChange={(e) => updateCandidateData("fullName", e.target.value)} className={inputClass} />
               <input type="text" placeholder="Berufsbezeichnung" value={candidateData.jobTitle || ""} onChange={(e) => updateCandidateData("jobTitle", e.target.value)} className={inputClass} />
               <input type="email" placeholder="E-Mail" value={candidateData.email || ""} onChange={(e) => updateCandidateData("email", e.target.value)} className={inputClass} />
@@ -248,154 +254,153 @@ export default function Dashboard({
             </div>
           </div>
 
-          <div className={`${cardClass} mt-10`}>
-  <div className="mb-8">
-  <p className="text-orange-400 font-semibold mb-3">
-    Stellenanzeige
-  </p>
+          <div className={`${cardClass} mt-8 md:mt-10`}>
+            <p className="text-orange-400 font-semibold mb-3">Stellenanzeige</p>
 
-  <h2 className="text-3xl font-black mb-4">
-    Stelle mit analysieren
-  </h2>
+            <h2 className="text-3xl md:text-4xl font-black mb-4">
+              Stelle mit analysieren
+            </h2>
 
-  <p className="text-gray-400 mb-6 leading-relaxed">
-    Füge hier die komplette Stellenanzeige ein.
-    BewerberFuchs erkennt automatisch:
-    ATS Keywords,
-    Fähigkeiten,
-    Anforderungen
-    und optimiert deine Bewerbung passend dazu.
-  </p>
+            <p className="text-gray-400 mb-6 leading-relaxed text-base md:text-lg">
+              Füge hier die komplette Stellenanzeige ein. BewerberFuchs erkennt automatisch ATS-Keywords,
+              Fähigkeiten und Anforderungen.
+            </p>
 
-  <textarea
-    value={jobText}
-    onChange={(e) => setJobText(e.target.value)}
-    placeholder="Kopiere hier die Stellenanzeige hinein..."
-    className={`${inputClass} w-full min-h-[260px] text-white placeholder:text-gray-500 resize-none`}
-  />
-    <p className="text-orange-400 font-bold mb-3">Design auswählen</p>
-    <h2 className="text-3xl md:text-4xl font-black mb-3">
-      Wähle deine Bewerbungs-Vorlage
-    </h2>
-    <p className="text-gray-400">
-      Diese Vorlage wird später für deinen Lebenslauf und dein Anschreiben verwendet.
-    </p>
-  </div>
+            <textarea
+              value={jobText}
+              onChange={(e) => setJobText(e.target.value)}
+              placeholder="Kopiere hier die Stellenanzeige hinein..."
+              className={textareaClass}
+            />
+          </div>
 
-  <div className="grid md:grid-cols-3 gap-6">
-    {templates.map((template) => {
-      const active = selectedTemplate === template.id;
+          <div className={`${cardClass} mt-8 md:mt-10`}>
+            <div className="mb-6 md:mb-8">
+              <p className="text-orange-400 font-bold mb-3">Design auswählen</p>
 
-      return (
-        <button
-          key={template.id}
-          onClick={() => setSelectedTemplate(template.id)}
-          className={`relative text-left rounded-[28px] border p-5 transition-all overflow-hidden ${
-            active
-              ? "bg-orange-500 text-black border-orange-400 shadow-2xl shadow-orange-500/25 scale-[1.02]"
-              : "bg-black/30 text-white border-white/10 hover:border-orange-500/60 hover:bg-white/5"
-          }`}
-        >
-          {active && (
-            <div className="absolute top-4 right-4 bg-black text-white text-xs font-bold px-3 py-1 rounded-full">
-              Ausgewählt
-            </div>
-          )}
+              <h2 className="text-3xl md:text-4xl font-black mb-3">
+                Wähle deine Bewerbungs-Vorlage
+              </h2>
 
-          <div className="flex items-center gap-4 mb-5">
-            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-3xl ${
-              active ? "bg-black/15" : "bg-white/5"
-            }`}>
-              {template.icon}
-            </div>
-
-            <div>
-              <h3 className="text-2xl font-black">{template.name}</h3>
-              <p className={active ? "text-black/70 text-sm" : "text-gray-400 text-sm"}>
-                {template.description}
+              <p className="text-gray-400 text-base md:text-lg">
+                Diese Vorlage wird später für deinen Lebenslauf und dein Anschreiben verwendet.
               </p>
             </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+              {templates.map((template) => {
+                const active = selectedTemplate === template.id;
+
+                return (
+                  <button
+                    key={template.id}
+                    onClick={() => setSelectedTemplate(template.id)}
+                    className={`relative text-left rounded-[24px] md:rounded-[28px] border p-4 md:p-5 transition-all overflow-hidden ${
+                      active
+                        ? "bg-orange-500 text-black border-orange-400 shadow-2xl shadow-orange-500/25"
+                        : "bg-black/30 text-white border-white/10 hover:border-orange-500/60 hover:bg-white/5"
+                    }`}
+                  >
+                    {active && (
+                      <div className="absolute top-4 right-4 bg-black text-white text-xs font-bold px-3 py-1 rounded-full">
+                        Ausgewählt
+                      </div>
+                    )}
+
+                    <div className="flex items-center gap-4 mb-4 md:mb-5">
+                      <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center text-2xl md:text-3xl ${
+                        active ? "bg-black/15" : "bg-white/5"
+                      }`}>
+                        {template.icon}
+                      </div>
+
+                      <div>
+                        <h3 className="text-2xl md:text-3xl font-black">{template.name}</h3>
+                        <p className={active ? "text-black/70 text-sm" : "text-gray-400 text-sm"}>
+                          {template.description}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="bg-white rounded-2xl p-3 md:p-4 mb-4 md:mb-5 text-black h-[150px] md:h-[220px] overflow-hidden">
+                      {template.id === "classic" && (
+                        <div>
+                          <div className="h-4 md:h-5 bg-gray-900 rounded w-2/3 mb-3"></div>
+                          <div className="h-2 bg-gray-300 rounded w-full mb-2"></div>
+                          <div className="h-2 bg-gray-300 rounded w-5/6 mb-4"></div>
+                          <div className="border-t border-gray-300 pt-3">
+                            <div className="h-3 bg-gray-800 rounded w-1/3 mb-3"></div>
+                            <div className="h-2 bg-gray-300 rounded w-full mb-2"></div>
+                            <div className="h-2 bg-gray-300 rounded w-4/5"></div>
+                          </div>
+                        </div>
+                      )}
+
+                      {template.id === "modern" && (
+                        <div className="flex gap-3 h-full">
+                          <div className="w-1/3 bg-orange-500 rounded-xl p-2">
+                            <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full mb-3"></div>
+                            <div className="h-2 bg-white/80 rounded mb-2"></div>
+                            <div className="h-2 bg-white/60 rounded"></div>
+                          </div>
+                          <div className="flex-1">
+                            <div className="h-4 md:h-5 bg-gray-900 rounded w-3/4 mb-3"></div>
+                            <div className="h-2 bg-gray-300 rounded w-full mb-2"></div>
+                            <div className="h-2 bg-gray-300 rounded w-4/5 mb-4"></div>
+                            <div className="h-3 bg-gray-800 rounded w-1/2 mb-3"></div>
+                            <div className="h-2 bg-gray-300 rounded w-full mb-2"></div>
+                          </div>
+                        </div>
+                      )}
+
+                      {template.id === "premium" && (
+                        <div>
+                          <div className="bg-gray-900 rounded-xl p-3 mb-4 flex items-center gap-3">
+                            <div className="w-10 h-10 md:w-12 md:h-12 bg-orange-500 rounded-full"></div>
+                            <div className="flex-1">
+                              <div className="h-3 bg-white rounded w-2/3 mb-2"></div>
+                              <div className="h-2 bg-white/60 rounded w-1/2"></div>
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-2 gap-3">
+                            <div>
+                              <div className="h-3 bg-gray-800 rounded mb-3"></div>
+                              <div className="h-2 bg-gray-300 rounded mb-2"></div>
+                              <div className="h-2 bg-gray-300 rounded"></div>
+                            </div>
+                            <div>
+                              <div className="h-3 bg-orange-500 rounded mb-3"></div>
+                              <div className="h-2 bg-gray-300 rounded mb-2"></div>
+                              <div className="h-2 bg-gray-300 rounded"></div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className={`w-full text-center rounded-2xl py-3 font-black ${
+                      active ? "bg-black text-white" : "bg-orange-500 text-black"
+                    }`}>
+                      {active ? "✓ Vorlage ausgewählt" : "Diese Vorlage wählen"}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-4 mb-5 text-black h-[220px] overflow-hidden">
-            {template.id === "classic" && (
-              <div>
-                <div className="h-5 bg-gray-900 rounded w-2/3 mb-3"></div>
-                <div className="h-2 bg-gray-300 rounded w-full mb-2"></div>
-                <div className="h-2 bg-gray-300 rounded w-5/6 mb-5"></div>
-                <div className="border-t border-gray-300 pt-3">
-                  <div className="h-3 bg-gray-800 rounded w-1/3 mb-3"></div>
-                  <div className="h-2 bg-gray-300 rounded w-full mb-2"></div>
-                  <div className="h-2 bg-gray-300 rounded w-4/5"></div>
-                </div>
-              </div>
-            )}
-
-            {template.id === "modern" && (
-              <div className="flex gap-3 h-full">
-                <div className="w-1/3 bg-orange-500 rounded-xl p-2">
-                  <div className="w-12 h-12 bg-white rounded-full mb-4"></div>
-                  <div className="h-2 bg-white/80 rounded mb-2"></div>
-                  <div className="h-2 bg-white/60 rounded"></div>
-                </div>
-                <div className="flex-1">
-                  <div className="h-5 bg-gray-900 rounded w-3/4 mb-3"></div>
-                  <div className="h-2 bg-gray-300 rounded w-full mb-2"></div>
-                  <div className="h-2 bg-gray-300 rounded w-4/5 mb-5"></div>
-                  <div className="h-3 bg-gray-800 rounded w-1/2 mb-3"></div>
-                  <div className="h-2 bg-gray-300 rounded w-full mb-2"></div>
-                </div>
-              </div>
-            )}
-
-            {template.id === "premium" && (
-              <div>
-                <div className="bg-gray-900 rounded-xl p-3 mb-4 flex items-center gap-3">
-                  <div className="w-12 h-12 bg-orange-500 rounded-full"></div>
-                  <div className="flex-1">
-                    <div className="h-3 bg-white rounded w-2/3 mb-2"></div>
-                    <div className="h-2 bg-white/60 rounded w-1/2"></div>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <div className="h-3 bg-gray-800 rounded mb-3"></div>
-                    <div className="h-2 bg-gray-300 rounded mb-2"></div>
-                    <div className="h-2 bg-gray-300 rounded"></div>
-                  </div>
-                  <div>
-                    <div className="h-3 bg-orange-500 rounded mb-3"></div>
-                    <div className="h-2 bg-gray-300 rounded mb-2"></div>
-                    <div className="h-2 bg-gray-300 rounded"></div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className={`w-full text-center rounded-2xl py-3 font-black ${
-            active ? "bg-black text-white" : "bg-orange-500 text-black"
-          }`}>
-            {active ? "✓ Vorlage ausgewählt" : "Diese Vorlage wählen"}
-          </div>
-        </button>
-      );
-    })}
-  </div>
-</div>
-
-          <div className="grid lg:grid-cols-3 gap-10 mt-10 items-start">
+          <div className="grid lg:grid-cols-3 gap-8 md:gap-10 mt-8 md:mt-10 items-start">
             <div className={`lg:col-span-2 ${cardClass}`}>
-              <h2 className="text-3xl font-bold mb-6">Lebenslauf analysieren</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">Lebenslauf analysieren</h2>
 
-              <div className="bg-black/20 border border-dashed border-white/10 rounded-[28px] p-8 text-center mb-6">
+              <div className="bg-black/20 border border-dashed border-white/10 rounded-[24px] md:rounded-[28px] p-5 md:p-8 text-center mb-6">
                 {!uploadedFile ? (
                   <>
-                    <div className="text-5xl mb-4">📄</div>
-                    <h3 className="text-2xl font-bold mb-3">PDF oder DOCX hochladen</h3>
+                    <div className="text-4xl md:text-5xl mb-4">📄</div>
+                    <h3 className="text-2xl md:text-3xl font-bold mb-3">PDF oder DOCX hochladen</h3>
                     <p className="text-gray-400 mb-6">Du kannst deine Datei direkt hochladen und ohne Textfeld analysieren.</p>
 
-                    <label className="inline-block bg-orange-500 hover:bg-orange-400 text-black font-bold px-8 py-4 rounded-2xl cursor-pointer">
+                    <label className="inline-block bg-orange-500 hover:bg-orange-400 text-black font-bold px-7 py-4 rounded-2xl cursor-pointer">
                       Datei auswählen
                       <input type="file" accept=".pdf,.docx" className="hidden" onChange={handleUpload} />
                     </label>
@@ -404,9 +409,9 @@ export default function Dashboard({
                   </>
                 ) : (
                   <>
-                    <div className="text-5xl mb-4">✅</div>
-                    <h3 className="text-2xl font-bold mb-2">Datei erfolgreich hochgeladen</h3>
-                    <p className="text-gray-400 mb-2">{uploadedFile.name}</p>
+                    <div className="text-4xl md:text-5xl mb-4">✅</div>
+                    <h3 className="text-2xl md:text-3xl font-bold mb-2">Datei erfolgreich hochgeladen</h3>
+                    <p className="text-gray-400 mb-2 break-words">{uploadedFile.name}</p>
                     <p className="text-gray-500 text-sm mb-6">{(uploadedFile.size / 1024 / 1024).toFixed(2)} MB</p>
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -422,42 +427,14 @@ export default function Dashboard({
                 )}
               </div>
 
-             <textarea
-  value={resumeText}
-  onChange={(e) => setResumeText(e.target.value)}
-  placeholder="Füge hier deinen Lebenslauftext ein..."
-  className="
-    w-full
-    min-h-[180px]
-    md:min-h-[260px]
+              <textarea
+                value={resumeText}
+                onChange={(e) => saveResumeText(e.target.value)}
+                placeholder="Füge hier deinen Lebenslauftext ein..."
+                className={textareaClass}
+              />
 
-    rounded-[28px]
-    border
-    border-orange-500/60
-
-    bg-[#060b14]
-    text-white
-    placeholder:text-gray-500
-
-    text-[18px]
-    leading-relaxed
-
-    p-5
-    md:p-7
-
-    outline-none
-    resize-none
-
-    focus:border-orange-400
-    focus:ring-4
-    focus:ring-orange-500/20
-
-    transition-all
-    duration-300
-  "
-/>
-
-              <button onClick={analyzeText} disabled={loading} className="mt-5 bg-orange-500 hover:bg-orange-400 disabled:opacity-60 text-black font-bold px-8 py-4 rounded-2xl">
+              <button onClick={analyzeText} disabled={loading} className="mt-5 w-full md:w-auto bg-orange-500 hover:bg-orange-400 disabled:opacity-60 text-black font-bold px-8 py-4 rounded-2xl">
                 {loading ? "Analyse läuft..." : "Text analysieren"}
               </button>
             </div>
@@ -465,7 +442,7 @@ export default function Dashboard({
             <div className={cardClass}>
               <p className="text-gray-400 mb-2">ATS Score</p>
 
-              <h2 className="text-4xl md:text-6xl xl:text-7xl font-black text-orange-400 mb-8 tracking-tight">
+              <h2 className="text-5xl md:text-6xl xl:text-7xl font-black text-orange-400 mb-8 tracking-tight">
                 {loading ? "Scan..." : result?.score ? `${result.score}%` : "--"}
               </h2>
 
@@ -501,11 +478,9 @@ export default function Dashboard({
             </div>
           </div>
 
-          
-
           <div className={`${cardClass} mt-8`}>
             <p className="text-orange-400 font-semibold mb-3">Bewerbungsfoto</p>
-            <h2 className="text-3xl font-black mb-4">Optional Bewerbungsbild hinzufügen</h2>
+            <h2 className="text-3xl md:text-4xl font-black mb-4">Optional Bewerbungsbild hinzufügen</h2>
             <p className="text-gray-400 mb-6">
               Dein Foto kann später in modernen und Premium-Vorlagen eingebaut werden.
             </p>
@@ -532,10 +507,10 @@ export default function Dashboard({
             <div className="mt-8 space-y-8">
               <div className={cardClass}>
                 <p className="text-gray-400 mb-3">ATS Score</p>
-                <div className="text-7xl font-black text-orange-400">{result.score}%</div>
+                <div className="text-5xl md:text-7xl font-black text-orange-400">{result.score}%</div>
               </div>
 
-              <div className="grid lg:grid-cols-3 gap-8">
+              <div className="grid lg:grid-cols-3 gap-6 md:gap-8">
                 <div className={cardClass}>
                   <h2 className="text-2xl font-bold mb-6">Schwächen</h2>
                   <div className="space-y-4">
@@ -567,27 +542,27 @@ export default function Dashboard({
           )}
 
           {analyzed && (
-            <div className="mt-8 bg-orange-500 text-black rounded-[32px] p-8 shadow-2xl shadow-orange-500/20">
+            <div className="mt-8 bg-orange-500 text-black rounded-[26px] md:rounded-[32px] p-5 md:p-8 shadow-2xl shadow-orange-500/20">
               <div className="mb-8">
                 <p className="font-bold mb-2">Premium Optimierung freischalten</p>
-                <h2 className="text-3xl font-black">Was möchtest du erstellen lassen?</h2>
+                <h2 className="text-3xl md:text-4xl font-black">Was möchtest du erstellen lassen?</h2>
                 <p className="mt-3 text-black/70">Dein ausgewähltes Design wird für dein Ergebnis übernommen.</p>
               </div>
 
               <div className="grid md:grid-cols-3 gap-4">
-                <button onClick={() => startCheckout("resume")} className="bg-black text-white p-5 rounded-2xl font-bold hover:bg-neutral-900 transition text-left">
+                <button onClick={() => startCheckout("resume")} className="bg-black text-white p-4 md:p-5 rounded-2xl font-bold hover:bg-neutral-900 transition text-left">
                   <div className="text-2xl mb-2">📄</div>
                   <div>Lebenslauf optimieren</div>
                   <div className="text-white/60 text-sm mt-1">3€ einmalig</div>
                 </button>
 
-                <button onClick={() => startCheckout("coverLetter")} className="bg-black text-white p-5 rounded-2xl font-bold hover:bg-neutral-900 transition text-left">
+                <button onClick={() => startCheckout("coverLetter")} className="bg-black text-white p-4 md:p-5 rounded-2xl font-bold hover:bg-neutral-900 transition text-left">
                   <div className="text-2xl mb-2">✉️</div>
                   <div>Anschreiben erstellen</div>
                   <div className="text-white/60 text-sm mt-1">3€ einmalig</div>
                 </button>
 
-                <button onClick={() => startCheckout("bundle")} className="bg-white text-black p-5 rounded-2xl font-black hover:bg-gray-100 transition text-left">
+                <button onClick={() => startCheckout("bundle")} className="bg-white text-black p-4 md:p-5 rounded-2xl font-black hover:bg-gray-100 transition text-left">
                   <div className="text-2xl mb-2">🔥</div>
                   <div>Bundle kaufen</div>
                   <div className="text-black/60 text-sm mt-1">5€ Lebenslauf + Anschreiben</div>
