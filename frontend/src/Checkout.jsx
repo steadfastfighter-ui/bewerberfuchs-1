@@ -190,7 +190,7 @@ const products = {
   "
 >
   {loading
-    ? "Stripe wird geöffnet..."
+    ? "Stripe wird vorbereitet..."
     : current.button}
 </button>
 
