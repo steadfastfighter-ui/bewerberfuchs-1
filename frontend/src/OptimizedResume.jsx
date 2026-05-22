@@ -7,6 +7,8 @@ import ModernTemplate from "./components/templates/ModernTemplate";
 import PremiumTemplate from "./components/templates/PremiumTemplate";
 import CoverLetterTemplate from "./components/templates/CoverLetterTemplate";
 
+const API_URL = "https://bewerberfuchs-1.onrender.com";
+
 export default function OptimizedResume({
   goDashboard,
   resumeText,
@@ -18,6 +20,7 @@ export default function OptimizedResume({
 }) {
   const [optimizedText, setOptimizedText] = useState("");
   const [loading, setLoading] = useState(true);
+  const [exporting, setExporting] = useState(false);
 
   const resumeRef = useRef(null);
   const coverLetterRef = useRef(null);
@@ -30,9 +33,7 @@ export default function OptimizedResume({
 
   const title = titles[selectedProduct] || "Bewerbungspaket";
 
-  function cleanCoverLetterText(text) {
-    if (!text) return "";
-
+  function cleanCoverLetterText(text = "") {
     let cleaned = text;
 
     if (cleaned.includes("=== ANSCHREIBEN ===")) {
@@ -43,7 +44,7 @@ export default function OptimizedResume({
       cleaned = cleaned.split("ANSCHREIBEN").pop() || "";
     }
 
-    cleaned = cleaned
+    return cleaned
       .replace(/PROFIL[\s\S]*?(?=Sehr geehrte|Sehr geehrter|Guten Tag|Hallo)/i, "")
       .replace(/BERUFLICHE ERFAHRUNG[\s\S]*?(?=Sehr geehrte|Sehr geehrter|Guten Tag|Hallo)/i, "")
       .replace(/KENNTNISSE[\s\S]*?(?=Sehr geehrte|Sehr geehrter|Guten Tag|Hallo)/i, "")
@@ -58,8 +59,6 @@ export default function OptimizedResume({
       .replace(/Bewerbung als .*$/gim, "")
       .replace(/Mit freundlichen Grüßen[\s\S]*$/i, "")
       .trim();
-
-    return cleaned;
   }
 
   const resumePart =
@@ -83,7 +82,7 @@ export default function OptimizedResume({
         setLoading(true);
         setOptimizedText("");
 
-        const response = await fetch("https://bewerberfuchs-1.onrender.com/optimize", {
+        const response = await fetch(`${API_URL}/optimize`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -127,35 +126,50 @@ export default function OptimizedResume({
       return;
     }
 
-    const canvas = await html2canvas(element, {
-  scale: 1.5,
-  useCORS: true,
-  backgroundColor: "#ffffff",
-  windowWidth: element.scrollWidth,
-  windowHeight: element.scrollHeight,
-});
+    try {
+      setExporting(true);
 
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF("p", "mm", "a4");
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: "#ffffff",
+        scrollX: 0,
+        scrollY: 0,
+        width: element.scrollWidth,
+        height: element.scrollHeight,
+        windowWidth: element.scrollWidth,
+        windowHeight: element.scrollHeight,
+      });
 
-    const pdfWidth = 210;
-    const pdfHeight = 297;
-    const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+      const imgData = canvas.toDataURL("image/png", 1.0);
+      const pdf = new jsPDF("p", "mm", "a4");
 
-    let heightLeft = imgHeight;
-    let position = 0;
+      const pageWidth = 210;
+      const pageHeight = 297;
+      const imgWidth = pageWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-    pdf.addImage(imgData, "PNG", 0, position, pdfWidth, imgHeight);
-    heightLeft -= pdfHeight;
+      let heightLeft = imgHeight;
+      let position = 0;
 
-    while (heightLeft > 0) {
-      position = heightLeft - imgHeight;
-      pdf.addPage();
-      pdf.addImage(imgData, "PNG", 0, position, pdfWidth, imgHeight);
-      heightLeft -= pdfHeight;
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft > 0) {
+        position -= pageHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      pdf.save(filename);
+    } catch (error) {
+      console.log(error);
+      alert("PDF konnte nicht erstellt werden. Bitte erneut versuchen.");
+    } finally {
+      setExporting(false);
     }
-
-    pdf.save(filename);
   }
 
   function downloadResumePdf() {
@@ -167,192 +181,185 @@ export default function OptimizedResume({
   }
 
   function renderResumeTemplate(text) {
-    if (selectedTemplate === "modern") {
-      return (
-        <ModernTemplate
-          title="Lebenslauf"
-          optimizedText={text}
-          profilePhoto={profilePhoto}
-          candidateData={candidateData}
-        />
-      );
-    }
+    const props = {
+      title: "Lebenslauf",
+      optimizedText: text,
+      profilePhoto,
+      candidateData,
+    };
 
-    if (selectedTemplate === "premium") {
-      return (
-        <PremiumTemplate
-          title="Lebenslauf"
-          optimizedText={text}
-          profilePhoto={profilePhoto}
-          candidateData={candidateData}
-        />
-      );
-    }
+    if (selectedTemplate === "modern") return <ModernTemplate {...props} />;
+    if (selectedTemplate === "premium") return <PremiumTemplate {...props} />;
 
+    return <ClassicTemplate {...props} />;
+  }
+
+  function ActionButtons({ onCopy, onDownload, downloadLabel }) {
     return (
-      <ClassicTemplate
-        title="Lebenslauf"
-        optimizedText={text}
-        profilePhoto={profilePhoto}
-        candidateData={candidateData}
-      />
+      <div className="flex flex-col sm:flex-row gap-3">
+        <button
+          onClick={onCopy}
+          className="bg-orange-500 hover:bg-orange-400 text-black font-black px-6 py-3 rounded-2xl transition"
+        >
+          Text kopieren
+        </button>
+
+        <button
+          onClick={onDownload}
+          disabled={exporting}
+          className="border border-orange-500/30 bg-white/[0.04] hover:bg-orange-500 hover:text-black disabled:opacity-60 transition px-6 py-3 rounded-2xl font-black text-orange-400"
+        >
+          {exporting ? "PDF wird erstellt..." : downloadLabel}
+        </button>
+      </div>
+    );
+  }
+
+  function DocumentFrame({ children, innerRef }) {
+    return (
+      <div className="w-full overflow-x-auto rounded-[32px] border border-white/10 bg-[#111827] p-3 sm:p-6 shadow-[0_20px_80px_rgba(0,0,0,0.45)]">
+        <div className="mx-auto w-fit">
+          <div
+            ref={innerRef}
+            className="bg-white text-black shadow-2xl"
+            style={{
+              width: "794px",
+              minHeight: "1123px",
+              transformOrigin: "top center",
+            }}
+          >
+            {children}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  function SectionHeader({ children, actions }) {
+    return (
+      <div className="mb-5 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <h2 className="text-3xl font-black">{children}</h2>
+        {actions}
+      </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-[#030712] text-white overflow-x-hidden">
       <Topbar goHome={goDashboard} />
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(255,115,0,0.14),transparent_30%),radial-gradient(circle_at_left,rgba(0,90,255,0.08),transparent_25%)]" />
+
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(255,115,0,0.14),transparent_30%),radial-gradient(circle_at_left,rgba(0,90,255,0.08),transparent_25%)]" />
+
       <div className="relative px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <div className="max-w-[1450px] mx-auto">
+        <div className="max-w-[1180px] mx-auto">
           <button
             onClick={goDashboard}
-            className="mb-8 text-gray-400 hover:text-white"
+            className="mb-8 text-gray-400 hover:text-white transition"
           >
             ← Zurück zum Dashboard
           </button>
 
-          <div className="mb-12 sm:mb-16">
+          <div className="mb-10 sm:mb-14">
             <p className="text-orange-400 font-semibold">Premium Ergebnis</p>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mt-3 leading-[0.95] tracking-tight">{title}</h1>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mt-3 leading-[0.95] tracking-tight">
+              {title}
+            </h1>
 
             <p className="text-gray-400 mt-4 text-base sm:text-lg max-w-3xl leading-relaxed">
-              Dein Ergebnis wurde mit KI optimiert und im passenden Design
-              erstellt.
+              Dein Ergebnis wurde mit KI optimiert und im passenden Design erstellt.
+              Du kannst den Text kopieren oder direkt als PDF herunterladen.
             </p>
           </div>
 
           {loading ? (
-            <div className="bg-white/5 border border-white/10 bg-white/[0.03] hover:border-orange-500/40 hover:bg-white/5 transition rounded-[32px] p-8">
+            <div className="rounded-[32px] border border-white/10 bg-white/[0.04] p-8">
               <div className="space-y-4 text-gray-300">
-                <div className="animate-pulse">
-                  🧠 KI optimiert deinen Text...
-                </div>
-                <div className="animate-pulse">
-                  📄 Dokument wird erstellt...
-                </div>
-                <div className="animate-pulse">
-                  ✨ Design wird vorbereitet...
-                </div>
+                <div className="animate-pulse">🧠 KI optimiert deinen Text...</div>
+                <div className="animate-pulse">📄 Dokument wird erstellt...</div>
+                <div className="animate-pulse">✨ Design wird vorbereitet...</div>
               </div>
             </div>
           ) : selectedProduct === "bundle" ? (
-            <div className="space-y-10">
-              <div>
-                <div className="mb-5 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
-                  <h2 className="text-3xl font-black">Lebenslauf</h2>
-
-                  <div className="bg-gradient-to-r from-orange-500 to-orange-600 hover:scale-[1.02] transition">
-                    <button
-                      onClick={() => copyText(resumePart)}
-                      className="bg-orange-500 hover:bg-orange-400 text-black font-bold px-6 py-3 rounded-[22px]"
-                    >
-                      Text kopieren
-                    </button>
-
-                    <button
-                      onClick={downloadResumePdf}
-                      className="border border-white/10 bg-white/[0.03] hover:border-orange-500/40 hover:bg-white/5 transition hover:border-orange-500/40 px-6 py-3 rounded-[22px] font-bold"
-                    >
-                      Lebenslauf PDF
-                    </button>
-                  </div>
-                </div>
-
-                <div
-                  ref={resumeRef}
-                  className="bg-white text-black overflow-hidden rounded-[30px] shadow-[0_10px_50px_rgba(0,0,0,0.45)]"
+            <div className="space-y-12">
+              <section>
+                <SectionHeader
+                  actions={
+                    <ActionButtons
+                      onCopy={() => copyText(resumePart)}
+                      onDownload={downloadResumePdf}
+                      downloadLabel="Lebenslauf PDF"
+                    />
+                  }
                 >
+                  Lebenslauf
+                </SectionHeader>
+
+                <DocumentFrame innerRef={resumeRef}>
                   {renderResumeTemplate(resumePart)}
-                </div>
-              </div>
+                </DocumentFrame>
+              </section>
 
-              <div>
-                <div className="mb-5 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
-                  <h2 className="text-3xl font-black">Anschreiben</h2>
-
-                  <div className="bg-gradient-to-r from-orange-500 to-orange-600 hover:scale-[1.02] transition">
-                    <button
-                      onClick={() => copyText(coverLetterPart)}
-                      className="bg-orange-500 hover:bg-orange-400 text-black font-bold px-6 py-3 rounded-[22px]"
-                    >
-                      Text kopieren
-                    </button>
-
-                    <button
-                      onClick={downloadCoverLetterPdf}
-                      className="border border-white/10 bg-white/[0.03] hover:border-orange-500/40 hover:bg-white/5 transition hover:border-orange-500/40 px-6 py-3 rounded-[22px] font-bold"
-                    >
-                      Anschreiben PDF
-                    </button>
-                  </div>
-                </div>
-
-                <div
-                  ref={coverLetterRef}
-                  className="bg-white text-black overflow-hidden rounded-[30px] shadow-[0_10px_50px_rgba(0,0,0,0.45)]"
+              <section>
+                <SectionHeader
+                  actions={
+                    <ActionButtons
+                      onCopy={() => copyText(coverLetterPart)}
+                      onDownload={downloadCoverLetterPdf}
+                      downloadLabel="Anschreiben PDF"
+                    />
+                  }
                 >
+                  Anschreiben
+                </SectionHeader>
+
+                <DocumentFrame innerRef={coverLetterRef}>
                   <CoverLetterTemplate
                     optimizedText={coverLetterPart}
                     candidateData={candidateData}
                   />
-                </div>
-              </div>
+                </DocumentFrame>
+              </section>
             </div>
           ) : selectedProduct === "coverLetter" ? (
-            <>
-              <div
-                ref={coverLetterRef}
-                className="bg-white text-black overflow-hidden rounded-[30px] shadow-[0_10px_50px_rgba(0,0,0,0.45)]"
+            <section>
+              <SectionHeader
+                actions={
+                  <ActionButtons
+                    onCopy={() => copyText(coverLetterPart)}
+                    onDownload={downloadCoverLetterPdf}
+                    downloadLabel="Anschreiben PDF"
+                  />
+                }
               >
+                Anschreiben
+              </SectionHeader>
+
+              <DocumentFrame innerRef={coverLetterRef}>
                 <CoverLetterTemplate
                   optimizedText={coverLetterPart}
                   candidateData={candidateData}
                 />
-              </div>
-
-              <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                <button
-                  onClick={() => copyText(coverLetterPart)}
-                  className="bg-orange-500 hover:bg-orange-400 text-black font-bold px-8 py-4 rounded-[22px]"
-                >
-                  Text kopieren
-                </button>
-
-                <button
-                  onClick={downloadCoverLetterPdf}
-                  className="border border-white/10 bg-white/[0.03] hover:border-orange-500/40 hover:bg-white/5 transition hover:border-orange-500/40 px-8 py-4 rounded-[22px] font-bold"
-                >
-                  Anschreiben PDF herunterladen
-                </button>
-              </div>
-            </>
+              </DocumentFrame>
+            </section>
           ) : (
-            <>
-              <div
-                ref={resumeRef}
-                className="bg-white text-black overflow-hidden rounded-[30px] shadow-[0_10px_50px_rgba(0,0,0,0.45)]"
+            <section>
+              <SectionHeader
+                actions={
+                  <ActionButtons
+                    onCopy={() => copyText(optimizedText)}
+                    onDownload={downloadResumePdf}
+                    downloadLabel="Lebenslauf PDF"
+                  />
+                }
               >
+                Lebenslauf
+              </SectionHeader>
+
+              <DocumentFrame innerRef={resumeRef}>
                 {renderResumeTemplate(optimizedText)}
-              </div>
-
-              <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                <button
-                  onClick={() => copyText(optimizedText)}
-                  className="bg-orange-500 hover:bg-orange-400 text-black font-bold px-8 py-4 rounded-[22px]"
-                >
-                  Text kopieren
-                </button>
-
-                <button
-                  onClick={downloadResumePdf}
-                  className="border border-white/10 bg-white/[0.03] hover:border-orange-500/40 hover:bg-white/5 transition hover:border-orange-500/40 px-8 py-4 rounded-[22px] font-bold"
-                >
-                  Lebenslauf PDF herunterladen
-                </button>
-              </div>
-            </>
+              </DocumentFrame>
+            </section>
           )}
         </div>
       </div>
