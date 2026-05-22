@@ -21,7 +21,7 @@ export default function Dashboard({
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [resumeText, setResumeText] = useState("");
-
+  const [analysisStep, setAnalysisStep] = useState(0);
   const inputClass =
     "w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 text-[16px] md:text-lg text-white placeholder:text-gray-500 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all";
 
@@ -211,7 +211,13 @@ export default function Dashboard({
     setAnalyzed(false);
     setResult(null);
   }
+   const runFakeAnalysis = () => {
+  setAnalysisStep(1);
 
+  setTimeout(() => setAnalysisStep(2), 1200);
+  setTimeout(() => setAnalysisStep(3), 2400);
+  setTimeout(() => setAnalysisStep(4), 3600);
+};
   return (
     <div className="min-h-screen bg-[#0b0f19] text-white overflow-x-hidden">
       <Topbar goHome={goHome} />
@@ -243,7 +249,10 @@ export default function Dashboard({
     <div className="flex flex-col sm:flex-row gap-4 mb-8">
 
       <button
-        onClick={uploadedFile ? analyzeFile : analyzeText}
+        onClick={() => {
+  runFakeAnalysis();
+  uploadedFile ? analyzeFile() : analyzeText();
+}}
         className="bg-orange-500 hover:bg-orange-400 text-black font-black px-8 py-5 rounded-2xl text-lg shadow-[0_0_40px_rgba(255,120,0,0.25)] transition-all"
       >
         🚀 Kostenlos analysieren
@@ -379,7 +388,54 @@ export default function Dashboard({
                       Datei auswählen
                       <input type="file" accept=".pdf,.docx" className="hidden" onChange={handleUpload} />
                     </label>
+                    {analysisStep > 0 && (
+  <div className="mt-6 rounded-3xl border border-orange-500/20 bg-black/40 backdrop-blur-xl p-5">
 
+    <div className="flex items-center justify-between mb-4">
+      <span className="text-orange-400 font-bold">
+        BewerberFuchs AI Analyse
+      </span>
+
+      <span className="text-white font-black">
+        {analysisStep >= 4 ? "Fertig" : "Analysiere..."}
+      </span>
+    </div>
+
+    <div className="w-full h-3 bg-white/10 rounded-full overflow-hidden mb-6">
+      <div
+        className={`h-full bg-orange-500 transition-all duration-700 ${
+          analysisStep === 1
+            ? "w-[25%]"
+            : analysisStep === 2
+            ? "w-[50%]"
+            : analysisStep === 3
+            ? "w-[75%]"
+            : "w-full"
+        }`}
+      ></div>
+    </div>
+
+    <div className="space-y-3 text-sm">
+
+      <div className={`${analysisStep >= 1 ? "text-green-400" : "text-gray-500"}`}>
+        ✓ ATS Keywords werden erkannt
+      </div>
+
+      <div className={`${analysisStep >= 2 ? "text-green-400" : "text-gray-500"}`}>
+        ✓ Struktur wird analysiert
+      </div>
+
+      <div className={`${analysisStep >= 3 ? "text-green-400" : "text-gray-500"}`}>
+        ✓ Recruiter Score wird berechnet
+      </div>
+
+      <div className={`${analysisStep >= 4 ? "text-green-400" : "text-gray-500"}`}>
+        ✓ Bewerbung wird optimiert
+      </div>
+
+    </div>
+  </div>
+)}
                     <p className="text-gray-500 text-sm mt-4">
                       Erlaubt: PDF oder DOCX · Maximal 5 MB
                     </p>
