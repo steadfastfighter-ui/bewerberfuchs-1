@@ -169,28 +169,30 @@ const products = {
                   {current.price}
                 </div>
 
-                <button
-                 className="
-                   w-full
-                   py-5
-                   rounded-2xl
-                   bg-orange-500
-                   hover:bg-orange-400
-                   hover:scale-[1.01]
-                    active:scale-[0.99]
-                   transition-all
-                    duration-300
-                    text-white
-                   text-xl sm:text-2xl
-                   font-extrabold
-                   shadow-[0_0_40px_rgba(255,120,0,0.35)]
-                   disabled:opacity-60
-                 "
-                >
-                  {loading
-                    ? "Stripe wird geöffnet..."
-                    : current.button}
-                </button>
+               <button
+  onClick={startCheckout}
+  disabled={loading}
+  className="
+    w-full
+    py-5
+    rounded-2xl
+    bg-orange-500
+    hover:bg-orange-400
+    hover:scale-[1.01]
+    active:scale-[0.99]
+    transition-all
+    duration-300
+    text-white
+    text-xl sm:text-2xl
+    font-extrabold
+    shadow-[0_0_40px_rgba(255,120,0,0.35)]
+    disabled:opacity-60
+  "
+>
+  {loading
+    ? "Stripe wird geöffnet..."
+    : current.button}
+</button>
 
                 <div className="mt-6 space-y-2 text-sm text-gray-400">
                   <div>✓ Keine Abos</div>
