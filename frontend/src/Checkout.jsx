@@ -6,27 +6,44 @@ const API_URL = "https://bewerberfuchs-1.onrender.com";
 export default function Checkout({ goDashboard, selectedProduct }) {
   const [loading, setLoading] = useState(false);
   const [adminEmail, setAdminEmail] = useState("");
+  const [adminPassword, setAdminPassword] = useState("");
 
   const products = {
     resume: {
       title: "Starter Paket",
       price: "4,99€",
       description: "ATS optimierter Lebenslauf",
-      features: ["ATS-freundliche Struktur", "Bessere Formulierungen", "Recruiter Keywords", "PDF Download"],
+      features: [
+        "ATS-freundliche Struktur",
+        "Bessere Formulierungen",
+        "Recruiter Keywords",
+        "PDF Download",
+      ],
       button: "Starter freischalten",
     },
     coverLetter: {
       title: "Anschreiben Pro",
       price: "4,99€",
       description: "Professionelles KI-Anschreiben",
-      features: ["Professionelles Anschreiben", "ATS Keywords integriert", "Sofort generiert", "Copy & PDF Export"],
+      features: [
+        "Professionelles Anschreiben",
+        "ATS Keywords integriert",
+        "Sofort generiert",
+        "Copy & PDF Export",
+      ],
       button: "Anschreiben erstellen",
     },
     bundle: {
       title: "Pro Bundle",
       price: "7,99€",
       description: "Lebenslauf + Anschreiben",
-      features: ["ATS Lebenslauf", "KI Anschreiben", "Premium Keywords", "Recruiter Optimierung", "PDF Export"],
+      features: [
+        "ATS Lebenslauf",
+        "KI Anschreiben",
+        "Premium Keywords",
+        "Recruiter Optimierung",
+        "PDF Export",
+      ],
       button: "Bundle freischalten",
     },
   };
@@ -39,8 +56,12 @@ export default function Checkout({ goDashboard, selectedProduct }) {
 
       const response = await fetch(`${API_URL}/create-checkout-session`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ product: selectedProduct || "bundle" }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          product: selectedProduct || "bundle",
+        }),
       });
 
       const data = await response.json();
@@ -61,15 +82,20 @@ export default function Checkout({ goDashboard, selectedProduct }) {
 
   async function unlockAdmin() {
     try {
-      if (!adminEmail.trim()) {
-        alert("Bitte Admin E-Mail eingeben.");
+      if (!adminEmail.trim() || !adminPassword.trim()) {
+        alert("Bitte Admin E-Mail und Passwort eingeben.");
         return;
       }
 
       const response = await fetch(`${API_URL}/admin-unlock`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: adminEmail }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: adminEmail,
+          password: adminPassword,
+        }),
       });
 
       const data = await response.json();
@@ -93,19 +119,32 @@ export default function Checkout({ goDashboard, selectedProduct }) {
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(255,115,0,0.18),transparent_30%),radial-gradient(circle_at_left,rgba(0,90,255,0.08),transparent_25%)]" />
 
         <div className="relative z-10 max-w-6xl mx-auto">
-          <button onClick={goDashboard} className="mb-8 text-gray-400 hover:text-white transition text-sm sm:text-base">
+          <button
+            onClick={goDashboard}
+            className="mb-8 text-gray-400 hover:text-white transition text-sm sm:text-base"
+          >
             ← Zurück zum Dashboard
           </button>
 
           <div className="mb-10 sm:mb-16">
-            <p className="text-orange-400 font-bold uppercase tracking-wide text-sm mb-3">BewerberFuchs Checkout</p>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-[0.95] mb-5">{current.title}</h1>
-            <p className="text-gray-400 text-base sm:text-lg max-w-2xl leading-relaxed">{current.description}</p>
+            <p className="text-orange-400 font-bold uppercase tracking-wide text-sm mb-3">
+              BewerberFuchs Checkout
+            </p>
+
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-[0.95] mb-5">
+              {current.title}
+            </h1>
+
+            <p className="text-gray-400 text-base sm:text-lg max-w-2xl leading-relaxed">
+              {current.description}
+            </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-start">
             <div className="bg-white/[0.03] border border-white/10 backdrop-blur-xl rounded-3xl sm:rounded-[32px] p-6 sm:p-8">
-              <h2 className="text-2xl sm:text-3xl font-black mb-6">Enthalten</h2>
+              <h2 className="text-2xl sm:text-3xl font-black mb-6">
+                Enthalten
+              </h2>
 
               <div className="mb-7 rounded-2xl border border-white/10 bg-black/20 p-5">
                 <div className="flex justify-between mb-2">
@@ -127,7 +166,10 @@ export default function Checkout({ goDashboard, selectedProduct }) {
 
               <div className="space-y-4">
                 {current.features.map((feature) => (
-                  <div key={feature} className="flex items-center gap-3 text-gray-300 text-sm sm:text-base">
+                  <div
+                    key={feature}
+                    className="flex items-center gap-3 text-gray-300 text-sm sm:text-base"
+                  >
                     <div className="w-7 h-7 rounded-full bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-orange-400 text-sm">
                       ✓
                     </div>
@@ -142,9 +184,13 @@ export default function Checkout({ goDashboard, selectedProduct }) {
                 <div className="absolute top-0 right-0 w-56 h-56 bg-orange-500/20 blur-3xl pointer-events-none" />
 
                 <div className="relative z-10">
-                  <p className="text-orange-300 font-semibold mb-3 text-sm uppercase tracking-wide">Einmalzahlung</p>
+                  <p className="text-orange-300 font-semibold mb-3 text-sm uppercase tracking-wide">
+                    Einmalzahlung
+                  </p>
 
-                  <div className="text-[90px] sm:text-[110px] leading-none font-black mb-8">{current.price}</div>
+                  <div className="text-[90px] sm:text-[110px] leading-none font-black mb-8">
+                    {current.price}
+                  </div>
 
                   <button
                     onClick={startCheckout}
@@ -162,22 +208,34 @@ export default function Checkout({ goDashboard, selectedProduct }) {
                   </div>
 
                   <div className="mt-8 border-t border-white/10 pt-6">
-                    <p className="text-xs text-gray-500 mb-3">Admin Zugriff</p>
+                    <p className="text-xs text-gray-500 mb-4 uppercase tracking-wider">
+                      Admin Zugriff
+                    </p>
 
-                    <input
-                      type="email"
-                      placeholder="Admin E-Mail"
-                      value={adminEmail}
-                      onChange={(e) => setAdminEmail(e.target.value)}
-                      className="w-full bg-black/30 border border-white/10 rounded-2xl px-4 py-3 text-white mb-3 outline-none focus:border-orange-500"
-                    />
+                    <div className="space-y-3">
+                      <input
+                        type="email"
+                        placeholder="Admin E-Mail"
+                        value={adminEmail}
+                        onChange={(e) => setAdminEmail(e.target.value)}
+                        className="w-full bg-black/40 border border-white/10 rounded-2xl px-4 py-4 text-white placeholder:text-gray-500 outline-none focus:border-orange-500"
+                      />
 
-                    <button
-                      onClick={unlockAdmin}
-                      className="w-full border border-orange-500/30 hover:bg-orange-500 hover:text-black transition rounded-2xl py-3 font-bold text-orange-400"
-                    >
-                      Admin freischalten
-                    </button>
+                      <input
+                        type="password"
+                        placeholder="Admin Passwort"
+                        value={adminPassword}
+                        onChange={(e) => setAdminPassword(e.target.value)}
+                        className="w-full bg-black/40 border border-white/10 rounded-2xl px-4 py-4 text-white placeholder:text-gray-500 outline-none focus:border-orange-500"
+                      />
+
+                      <button
+                        onClick={unlockAdmin}
+                        className="w-full border border-orange-500/30 hover:bg-orange-500 hover:text-black transition-all rounded-2xl py-4 font-bold text-orange-400"
+                      >
+                        Admin freischalten
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -186,17 +244,23 @@ export default function Checkout({ goDashboard, selectedProduct }) {
 
           <div className="mt-10 sm:mt-14 grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-5 text-center">
-              <div className="text-orange-400 text-3xl font-black mb-2">4.9★</div>
+              <div className="text-orange-400 text-3xl font-black mb-2">
+                4.9★
+              </div>
               <p className="text-gray-400 text-sm">Zufriedene Nutzer</p>
             </div>
 
             <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-5 text-center">
-              <div className="text-orange-400 text-3xl font-black mb-2">92%</div>
+              <div className="text-orange-400 text-3xl font-black mb-2">
+                92%
+              </div>
               <p className="text-gray-400 text-sm">ATS Erfolgsquote</p>
             </div>
 
             <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-5 text-center">
-              <div className="text-orange-400 text-3xl font-black mb-2">PDF</div>
+              <div className="text-orange-400 text-3xl font-black mb-2">
+                PDF
+              </div>
               <p className="text-gray-400 text-sm">Sofort Downloadbar</p>
             </div>
           </div>
