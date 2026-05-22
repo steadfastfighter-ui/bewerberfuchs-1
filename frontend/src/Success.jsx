@@ -17,7 +17,7 @@ export default function Success({
 
   return (
     <div className="min-h-screen bg-[#050816] text-white overflow-hidden">
-      
+
       <Topbar goHome={goDashboard} />
 
       {/* BACKGROUND */}
@@ -29,7 +29,7 @@ export default function Success({
 
       <div className="relative z-10 px-6 py-14">
         <div className="max-w-6xl mx-auto">
-          
+
           <div
             className="
               relative
@@ -44,13 +44,13 @@ export default function Success({
               shadow-[0_25px_80px_rgba(0,0,0,0.45)]
             "
           >
-            
+
             {/* TOP GLOW */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[180px] bg-orange-500/20 blur-[90px]" />
 
             {/* SUCCESS ICON */}
             <div className="relative flex justify-center mb-10">
-              
+
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-36 h-36 rounded-full bg-green-500 blur-[70px] opacity-25" />
               </div>
@@ -79,7 +79,7 @@ export default function Success({
 
             {/* HEADINGS */}
             <div className="text-center max-w-3xl mx-auto">
-              
+
               <div
                 className="
                   inline-flex
@@ -104,8 +104,8 @@ export default function Success({
 
               <h1
                 className="
-                  text-[48px]
-                  md:text-[72px]
+                  text-[42px]
+                  md:text-[82px]
                   leading-[0.92]
                   font-black
                   tracking-tight
@@ -120,12 +120,26 @@ export default function Success({
                 </span>
               </h1>
 
-              <p className="text-gray-300 text-lg md:text-2xl leading-relaxed mb-14">
+              <p className="text-gray-300 text-lg md:text-2xl leading-relaxed mb-10">
                 Deine Zahlung war erfolgreich.
                 BewerberFuchs erstellt jetzt dein
                 Premium-Ergebnis mit KI, ATS-Optimierung
                 und deinem ausgewählten Design.
               </p>
+
+              <div className="max-w-xl mx-auto mb-14">
+
+                <div className="flex items-center justify-between text-sm text-gray-400 mb-3">
+                  <span>ATS Optimierung läuft</span>
+                  <span>91%</span>
+                </div>
+
+                <div className="w-full h-4 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-full w-[91%] bg-gradient-to-r from-orange-500 to-orange-400 rounded-full animate-pulse"></div>
+                </div>
+
+              </div>
+
             </div>
 
             {/* FEATURES */}
@@ -177,7 +191,7 @@ export default function Success({
 
             {/* CTA */}
             <div className="flex flex-col sm:flex-row gap-5 justify-center">
-              
+
               <button
                 onClick={goOptimized}
                 className="
@@ -195,7 +209,7 @@ export default function Success({
                   shadow-[0_10px_40px_rgba(255,115,0,0.35)]
                 "
               >
-                🚀 Jetzt Ergebnis erstellen
+                🚀 Premium Bewerbung generieren
               </button>
 
               <button
@@ -213,17 +227,59 @@ export default function Success({
                   transition
                 "
               >
-                Zur Startseite
+                ← Neues Dokument starten
               </button>
             </div>
 
-            {/* FOOTER TEXT */}
+            {/* STATS */}
+            <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
+
+              <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                <div className="text-orange-400 font-black text-2xl mb-1">
+                  ATS
+                </div>
+                <p className="text-gray-400 text-sm">
+                  Optimiert
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                <div className="text-orange-400 font-black text-2xl mb-1">
+                  PDF
+                </div>
+                <p className="text-gray-400 text-sm">
+                  Export
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                <div className="text-orange-400 font-black text-2xl mb-1">
+                  KI
+                </div>
+                <p className="text-gray-400 text-sm">
+                  Analyse
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                <div className="text-orange-400 font-black text-2xl mb-1">
+                  91%
+                </div>
+                <p className="text-gray-400 text-sm">
+                  ATS Score
+                </p>
+              </div>
+
+            </div>
+
+            {/* FOOTER */}
             <div className="mt-12 text-center">
               <p className="text-gray-500 text-sm">
                 Bitte schließe diese Seite nicht,
                 bis dein Ergebnis vollständig erstellt wurde.
               </p>
             </div>
+
           </div>
         </div>
       </div>
