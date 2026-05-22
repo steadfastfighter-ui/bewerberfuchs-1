@@ -47,7 +47,7 @@ export default function CoverLetterTemplate({
 
   return (
     <div className="bg-slate-100 p-8 font-sans">
-      <div className="mx-auto w-[794px] min-h-[1123px] bg-white shadow-2xl">
+      <div className="mx-auto w-full max-w-[794px] min-h-[1123px] bg-white shadow-2xl">
         
         {/* TOP BAR */}
         <div className="h-3 bg-orange-500" />

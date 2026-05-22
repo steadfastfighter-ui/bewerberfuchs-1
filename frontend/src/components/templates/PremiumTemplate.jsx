@@ -32,7 +32,7 @@ export default function PremiumTemplate({
 
   return (
     <div className="bg-slate-100 p-8 font-sans">
-      <div className="mx-auto w-[794px] min-h-[1123px] bg-white shadow-2xl overflow-hidden">
+      <div className="mx-auto w-full max-w-[794px] min-h-[1123px] bg-white shadow-2xl overflow-hidden">
         <div className="grid grid-cols-[280px_1fr] min-h-[1123px]">
           
           <aside className="bg-slate-950 text-white p-8">
