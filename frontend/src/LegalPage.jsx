@@ -95,11 +95,11 @@ meist innerhalb von 24 Stunden.
         <div className="max-w-4xl mx-auto">
 
           <button
-            onClick={() => window.history.back()}
-            className="mb-8 text-gray-400 hover:text-white transition"
-          >
-            ← Zurück 
-          </button>
+  onClick={goHome}
+  className="mb-8 text-gray-400 hover:text-white transition"
+>
+  ← Zur Startseite
+</button>
 
           <div className="bg-white/[0.04] border border-white/10 rounded-[32px] p-8 md:p-12 backdrop-blur-xl">
 
