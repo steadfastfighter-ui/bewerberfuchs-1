@@ -6,45 +6,47 @@ const API_URL = "https://bewerberfuchs-1.onrender.com";
 export default function Checkout({ goDashboard, selectedProduct }) {
   const [loading, setLoading] = useState(false);
 
-  const products = {
-    resume: {
-      title: "Lebenslauf Optimierung",
-      price: "3€",
-      description: "ATS optimierter Lebenslauf",
-      features: [
-        "ATS-freundliche Struktur",
-        "Bessere Formulierungen",
-        "Recruiter Keywords",
-        "PDF Download",
-      ],
-      button: "Für 3€ freischalten",
-    },
-    coverLetter: {
-      title: "Anschreiben Erstellung",
-      price: "3€",
-      description: "Professionelles KI-Anschreiben",
-      features: [
-        "Professionelles Anschreiben",
-        "ATS Keywords integriert",
-        "Sofort generiert",
-        "Copy & PDF Export",
-      ],
-      button: "Für 3€ erstellen",
-    },
-    bundle: {
-      title: "Bewerbung Bundle",
-      price: "5€",
-      description: "Lebenslauf + Anschreiben",
-      features: [
-        "ATS Lebenslauf",
-        "KI Anschreiben",
-        "Premium Keywords",
-        "Recruiter Optimierung",
-        "PDF Export",
-      ],
-      button: "Bundle freischalten",
-    },
-  };
+const products = {
+  resume: {
+    title: "Starter Paket",
+    price: "4,99€",
+    description: "ATS optimierter Lebenslauf",
+    features: [
+      "ATS-freundliche Struktur",
+      "Bessere Formulierungen",
+      "Recruiter Keywords",
+      "PDF Download",
+    ],
+    button: "Starter freischalten",
+  },
+
+  coverLetter: {
+    title: "Anschreiben Pro",
+    price: "4,99€",
+    description: "Professionelles KI-Anschreiben",
+    features: [
+      "Professionelles Anschreiben",
+      "ATS Keywords integriert",
+      "Sofort generiert",
+      "Copy & PDF Export",
+    ],
+    button: "Anschreiben erstellen",
+  },
+
+  bundle: {
+    title: "Pro Bundle",
+    price: "7,99€",
+    description: "Lebenslauf + Anschreiben",
+    features: [
+      "ATS Lebenslauf",
+      "KI Anschreiben",
+      "Premium Keywords",
+      "Recruiter Optimierung",
+      "PDF Export",
+    ],
+    button: "Bundle freischalten",
+  },
+};
 
   const current = products[selectedProduct] || products.bundle;
 
@@ -118,7 +120,23 @@ export default function Checkout({ goDashboard, selectedProduct }) {
             <h2 className="text-2xl sm:text-3xl font-black mb-6">
               Enthalten
             </h2>
+             <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-5">
+  <div className="flex justify-between mb-2">
+    <span className="text-gray-400">ATS Verbesserung</span>
+    <span className="text-orange-500 font-bold">48% → 91%</span>
+  </div>
 
+  <div className="h-4 rounded-full bg-white/10 overflow-hidden">
+    <div className="h-full w-[91%] bg-orange-500 rounded-full"></div>
+  </div>
+
+  <div className="grid grid-cols-2 gap-2 mt-4 text-sm text-gray-400">
+    <div>✓ ATS Keywords</div>
+    <div>✓ Recruiter optimiert</div>
+    <div>✓ Moderne Struktur</div>
+    <div>✓ PDF Export</div>
+  </div>
+</div>
             <div className="space-y-4">
               {current.features.map((feature) => (
                 <div
@@ -147,30 +165,27 @@ export default function Checkout({ goDashboard, selectedProduct }) {
                   Einmalzahlung
                 </p>
 
-                <div className="text-6xl sm:text-7xl font-black mb-8">
+                <div className="text-[90px] sm:text-[110px] leading-none font-black mb-8">
                   {current.price}
                 </div>
 
                 <button
-                  onClick={startCheckout}
-                  disabled={loading}
-                  className="
-                    w-full
-                    bg-gradient-to-r
-                    from-orange-500
-                    to-orange-600
-                    hover:scale-[1.01]
+                 className="
+                   w-full
+                   py-5
+                   rounded-2xl
+                   bg-orange-500
+                   hover:bg-orange-400
+                   hover:scale-[1.01]
                     active:scale-[0.99]
-                    transition
+                   transition-all
+                    duration-300
                     text-white
-                    font-black
-                    py-4 sm:py-5
-                    rounded-2xl
-                    text-base sm:text-lg
-                    shadow-lg
-                    shadow-orange-500/20
-                    disabled:opacity-60
-                  "
+                   text-xl sm:text-2xl
+                   font-extrabold
+                   shadow-[0_0_40px_rgba(255,120,0,0.35)]
+                   disabled:opacity-60
+                 "
                 >
                   {loading
                     ? "Stripe wird geöffnet..."

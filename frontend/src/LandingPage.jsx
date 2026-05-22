@@ -248,7 +248,7 @@ const plans = [
                 {plan.highlight && <div className="popular-badge">BELIEBT</div>}
                 <div className="relative z-10 flex flex-col h-full">
                   <h3 className="text-2xl font-extrabold mb-3">{plan.title}</h3>
-                  <div className="text-6xl font-black tracking-tight mb-4">{plan.price}</div>
+                  <div className="text-[110px] font-black tracking-tight mb-4">{plan.price}</div>
                   <p className={plan.highlight ? "text-white/90 mb-7" : "text-gray-300 mb-7"}>{plan.text}</p>
 
                   <div className="space-y-3 mb-8 text-base flex-1">
