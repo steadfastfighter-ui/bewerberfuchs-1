@@ -4,285 +4,126 @@ export default function CoverLetterTemplate({
 }) {
   const today = new Date().toLocaleDateString("de-DE");
 
-  function formatName(value = "") {
-    return value
-      .trim()
-      .split(" ")
-      .filter(Boolean)
-      .map(
-        (word) =>
-          word.charAt(0).toUpperCase() +
-          word.slice(1).toLowerCase()
-      )
-      .join(" ");
+  function clean(value = "") {
+    return value.trim();
   }
 
-  function formatText(value = "") {
-    const cleaned = value.trim();
-
-    if (!cleaned) return "";
-
-    return (
-      cleaned.charAt(0).toUpperCase() +
-      cleaned.slice(1)
-    );
-  }
-
-  function cleanText(text) {
-    if (!text) return "";
-
-    let cleaned = text;
-
-    if (cleaned.includes("=== ANSCHREIBEN ===")) {
-      cleaned =
-        cleaned.split("=== ANSCHREIBEN ===")[1] || "";
-    }
-
-    if (cleaned.includes("ANSCHREIBEN")) {
-      cleaned =
-        cleaned.split("ANSCHREIBEN").pop() || "";
-    }
-
-    return cleaned
-      .replace(
-        /PROFIL[\s\S]*?(?=Sehr geehrte|Sehr geehrter|Guten Tag|Hallo)/i,
-        ""
-      )
-      .replace(
-        /BERUFLICHE ERFAHRUNG[\s\S]*?(?=Sehr geehrte|Sehr geehrter|Guten Tag|Hallo)/i,
-        ""
-      )
-      .replace(
-        /KENNTNISSE[\s\S]*?(?=Sehr geehrte|Sehr geehrter|Guten Tag|Hallo)/i,
-        ""
-      )
-      .replace(
-        /STÄRKEN[\s\S]*?(?=Sehr geehrte|Sehr geehrter|Guten Tag|Hallo)/i,
-        ""
-      )
-      .replace(
-        /AUSBILDUNG[\s\S]*?(?=Sehr geehrte|Sehr geehrter|Guten Tag|Hallo)/i,
-        ""
-      )
-      .replace(/\[Ort\],?\s*\[Datum\]/gi, "")
-      .replace(
-        /\[Name des Ansprechpartners\]/gi,
-        ""
-      )
-      .replace(/\[Firma\]/gi, "")
-      .replace(/\[Adresse\]/gi, "")
-      .replace(
-        /\[Stellenbezeichnung\]/gi,
-        candidateData?.position ||
-          candidateData?.jobTitle ||
-          ""
-      )
-      .replace(
-        /Betreff:\s*Bewerbung als.*$/gim,
-        ""
-      )
-      .replace(
-        /Bewerbung als .*$/gim,
-        ""
-      )
-      .replace(
-        /Mit freundlichen Grüßen[\s\S]*$/i,
-        ""
-      )
+  function cleanText(text = "") {
+    return text
+      .replace("=== ANSCHREIBEN ===", "")
+      .replace(/Mit freundlichen Grüßen[\s\S]*$/i, "")
       .trim();
   }
 
-  const fullName = formatName(
-    candidateData?.fullName || ""
-  );
+  const fullName =
+    clean(candidateData?.fullName) ||
+    "Vorname Nachname";
 
-  const address = formatText(
-    candidateData?.address || ""
-  );
+  const email =
+    clean(candidateData?.email);
 
-  const city = formatText(
-    candidateData?.city || ""
-  );
+  const phone =
+    clean(candidateData?.phone);
 
-  const company = formatText(
-    candidateData?.company || ""
-  );
+  const address =
+    clean(candidateData?.address);
 
-  const recruiter = formatText(
-    candidateData?.recruiter || ""
-  );
+  const city =
+    clean(candidateData?.city);
 
-  const position = formatText(
-    candidateData?.position ||
-      candidateData?.jobTitle ||
-      "Mitarbeiter/in"
-  );
+  const company =
+    clean(candidateData?.company);
 
-  const letterText = cleanText(optimizedText);
+  const recruiter =
+    clean(candidateData?.recruiter);
+
+  const position =
+    clean(
+      candidateData?.position ||
+      candidateData?.jobTitle
+    ) || "Mitarbeiter/in";
+
+  const text = cleanText(optimizedText);
 
   return (
-    <div className="bg-[#eef2ff] min-h-[1120px] p-14">
-      <div
-        className="
-          bg-white
-          rounded-[38px]
-          overflow-hidden
-          shadow-[0_20px_70px_rgba(15,23,42,0.15)]
-          border
-          border-gray-200
-        "
-      >
+    <div className="bg-slate-100 p-8 font-sans">
+      <div className="mx-auto w-[794px] min-h-[1123px] bg-white shadow-2xl">
         
-        {/* HEADER */}
-        <div
-          className="
-            relative
-            bg-[#0f172a]
-            text-white
-            px-14
-            py-12
-            overflow-hidden
-          "
-        >
-          <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-orange-500/20 rounded-full blur-3xl" />
+        {/* TOP BAR */}
+        <div className="h-3 bg-orange-500" />
 
-          <div className="relative flex justify-between gap-10">
-            
+        <div className="px-16 py-14">
+
+          {/* HEADER */}
+          <div className="flex justify-between items-start mb-16">
+
             <div>
-              <div
-                className="
-                  inline-flex
-                  items-center
-                  gap-2
-                  bg-orange-500/15
-                  border
-                  border-orange-400/20
-                  text-orange-400
-                  px-4
-                  py-2
-                  rounded-full
-                  text-xs
-                  font-black
-                  tracking-[0.22em]
-                  uppercase
-                  mb-5
-                "
-              >
-                Premium Anschreiben
-              </div>
-
-              <h1 className="text-[52px] font-black leading-[0.92] tracking-tight">
-                {fullName || "Vorname Nachname"}
+              <h1 className="text-[42px] font-black tracking-tight text-slate-900 leading-none">
+                {fullName}
               </h1>
 
-              <p className="text-gray-300 text-xl mt-4">
+              <p className="text-orange-500 font-semibold mt-3 text-lg">
                 Bewerbung als {position}
               </p>
             </div>
 
-            <div className="text-right text-[15px] text-gray-300 leading-8">
+            <div className="text-right text-[14px] leading-7 text-slate-600">
               {address && <p>{address}</p>}
-              {candidateData?.email && (
-                <p>{candidateData.email}</p>
-              )}
-              {candidateData?.phone && (
-                <p>{candidateData.phone}</p>
-              )}
+              {email && <p>{email}</p>}
+              {phone && <p>{phone}</p>}
 
-              <div className="mt-6">
+              <div className="mt-4">
                 {city && <p>{city}</p>}
                 <p>{today}</p>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* CONTENT */}
-        <div className="px-14 py-12">
-          
-          {/* INFO GRID */}
-          <div className="grid grid-cols-[1fr_1.4fr] gap-10 mb-12">
-            
-            {/* EMPFÄNGER */}
-            <div
-              className="
-                bg-orange-50
-                border
-                border-orange-100
-                rounded-[28px]
-                p-7
-              "
-            >
-              <p
-                className="
-                  text-orange-500
-                  font-black
-                  text-xs
-                  uppercase
-                  tracking-[0.25em]
-                  mb-5
-                "
-              >
-                Empfänger
-              </p>
+          {/* EMPFÄNGER */}
+          <div className="mb-14">
+            <div className="max-w-[320px] text-[15px] leading-8 text-slate-700">
+              
+              {company && (
+                <p className="font-black text-slate-900 text-lg mb-1">
+                  {company}
+                </p>
+              )}
 
-              <div className="text-[15px] text-gray-700 leading-8">
-                {company && (
-                  <p className="font-black text-[#111827] text-lg">
-                    {company}
-                  </p>
-                )}
+              {recruiter && <p>{recruiter}</p>}
 
-                {recruiter && <p>{recruiter}</p>}
-                {city && <p>{city}</p>}
-              </div>
+              {city && <p>{city}</p>}
             </div>
+          </div>
 
-            {/* BETREFF */}
-            <div className="flex flex-col justify-center">
-              <p
-                className="
-                  text-orange-500
-                  font-black
-                  text-xs
-                  uppercase
-                  tracking-[0.25em]
-                  mb-5
-                "
-              >
-                Betreff
-              </p>
+          {/* BETREFF */}
+          <div className="mb-14">
+            <p className="text-xs uppercase tracking-[0.25em] text-orange-500 font-black mb-4">
+              Betreff
+            </p>
 
-              <h2 className="text-[40px] font-black leading-tight text-[#111827]">
-                Bewerbung als {position}
-              </h2>
+            <h2 className="text-[32px] leading-tight font-black text-slate-900">
+              Bewerbung als {position}
+            </h2>
 
-              <div className="w-28 h-1 bg-orange-500 rounded-full mt-6" />
-            </div>
+            <div className="w-24 h-1 bg-orange-500 rounded-full mt-5" />
           </div>
 
           {/* LETTER */}
-          <div
-            className="
-              text-[17px]
-              leading-[2.15]
-              text-gray-800
-              whitespace-pre-wrap
-            "
-          >
-            {letterText}
+          <div className="text-[16px] leading-[2] text-slate-700 whitespace-pre-wrap">
+            {text}
           </div>
 
-          {/* FOOTER */}
-          <div className="mt-16 pt-10 border-t border-gray-200">
-            <p className="text-gray-800 mb-10 text-lg">
+          {/* SIGNATURE */}
+          <div className="mt-20">
+            <p className="text-slate-700 mb-12 text-lg">
               Mit freundlichen Grüßen
             </p>
 
-            <p className="text-[26px] font-black text-[#111827]">
+            <p className="text-[28px] font-black tracking-tight text-slate-900">
               {fullName}
             </p>
           </div>
+
         </div>
       </div>
     </div>
