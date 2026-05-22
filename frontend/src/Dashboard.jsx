@@ -22,13 +22,13 @@ export default function Dashboard({
   const [result, setResult] = useState(null);
   const [resumeText, setResumeText] = useState("");
 
- const inputClass =
+  const inputClass =
   "w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 text-[16px] md:text-lg text-white placeholder:text-gray-500 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all";
 
-const textareaClass =
+  const textareaClass =
   "w-full min-h-[210px] md:min-h-[260px] rounded-[24px] border border-orange-500/60 bg-[#060b14] text-white placeholder:text-gray-500 text-[16px] md:text-lg leading-relaxed px-6 py-6 outline-none resize-none focus:border-orange-400 focus:ring-4 focus:ring-orange-500/20 transition-all";
 
-const cardClass =
+  const cardClass =
   "bg-gradient-to-b from-white/[0.07] to-white/[0.03] border border-white/10 rounded-[28px] md:rounded-[36px] px-6 py-7 md:p-10 shadow-[0_10px_60px_rgba(0,0,0,0.45)] backdrop-blur-xl";
   const templates = [
     {
@@ -223,7 +223,7 @@ const cardClass =
             </div>
 
             <h1 className="text-4xl md:text-6xl xl:text-7xl font-black leading-[1.02] tracking-tight mb-5 md:mb-7 max-w-6xl">
-              Erstelle professionelle Bewerbungen mit KI.
+              Mehr Einladungen mit ATS-optimierten Bewerbungen.
             </h1>
 
             <p className="text-gray-400 text-base md:text-xl max-w-4xl leading-relaxed">
@@ -392,7 +392,7 @@ const cardClass =
             <div className={`lg:col-span-2 ${cardClass}`}>
               <h2 className="text-3xl md:text-4xl font-bold mb-6">Lebenslauf analysieren</h2>
 
-              <div className="bg-black/20 border border-dashed border-white/10 rounded-[24px] md:rounded-[28px] p-5 md:p-8 text-center mb-6">
+              <div className="bg-white/[0.03] border border-dashed border-orange-500/20 rounded-[24px] md:rounded-[28px] p-5 md:p-8 text-center mb-6">
                 {!uploadedFile ? (
                   <>
                     <div className="text-4xl md:text-5xl mb-4">📄</div>
@@ -433,12 +433,16 @@ const cardClass =
                 className={textareaClass}
               />
 
-              <button onClick={analyzeText} disabled={loading} className="mt-5 w-full md:w-auto bg-orange-500 hover:bg-orange-400 disabled:opacity-60 text-black font-bold px-8 py-4 rounded-2xl">
+              <button
+                onClick={analyzeText}
+                disabled={loading}
+                className="mt-6 w-full bg-orange-500 hover:bg-orange-400 disabled:opacity-60 text-black font-black text-lg py-5 rounded-2xl shadow-[0_0_35px_rgba(255,120,0,0.25)] transition-all"
+              >
                 {loading ? "Analyse läuft..." : "Text analysieren"}
               </button>
             </div>
 
-            <div className={cardClass}>
+            <div className="bg-gradient-to-b from-orange-500/10 to-black border border-orange-500/20 rounded-[36px] p-8 shadow-[0_0_50px_rgba(255,120,0,0.12)] backdrop-blur-xl">
               <p className="text-gray-400 mb-2">ATS Score</p>
 
               <h2 className="text-5xl md:text-6xl xl:text-7xl font-black text-orange-400 mb-8 tracking-tight">
