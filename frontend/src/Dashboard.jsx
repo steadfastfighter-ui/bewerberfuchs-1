@@ -541,33 +541,108 @@ const cardClass =
           )}
 
           {analyzed && (
-            <div className="mt-8 bg-orange-500 text-black rounded-[26px] md:rounded-[32px] p-5 md:p-8 shadow-2xl shadow-orange-500/20">
-              <div className="mb-8">
-                <p className="font-bold mb-2">Premium Optimierung freischalten</p>
-                <h2 className="text-3xl md:text-4xl font-black">Was möchtest du erstellen lassen?</h2>
-                <p className="mt-3 text-black/70">Dein ausgewähltes Design wird für dein Ergebnis übernommen.</p>
-              </div>
+          <div className="mt-10 rounded-[32px] border border-orange-500/20 bg-gradient-to-br from-orange-500 to-orange-600 p-[1px] shadow-[0_0_60px_rgba(255,120,0,0.18)]">
+  <div className="rounded-[32px] bg-[#111827] p-6 md:p-10">
 
-              <div className="grid md:grid-cols-3 gap-4">
-                <button onClick={() => startCheckout("resume")} className="bg-black text-white p-4 md:p-5 rounded-2xl font-bold hover:bg-neutral-900 transition text-left">
-                  <div className="text-2xl mb-2">📄</div>
-                  <div>Lebenslauf optimieren</div>
-                  <div className="text-white/60 text-sm mt-1">3€ einmalig</div>
-                </button>
+    <div className="mb-8 text-center">
+      <p className="text-orange-400 font-bold uppercase tracking-wide mb-3">
+        Premium Optimierung
+      </p>
 
-                <button onClick={() => startCheckout("coverLetter")} className="bg-black text-white p-4 md:p-5 rounded-2xl font-bold hover:bg-neutral-900 transition text-left">
-                  <div className="text-2xl mb-2">✉️</div>
-                  <div>Anschreiben erstellen</div>
-                  <div className="text-white/60 text-sm mt-1">3€ einmalig</div>
-                </button>
+      <h2 className="text-3xl md:text-5xl font-black mb-4 leading-tight">
+        Deine Bewerbung professionell optimieren
+      </h2>
 
-                <button onClick={() => startCheckout("bundle")} className="bg-white text-black p-4 md:p-5 rounded-2xl font-black hover:bg-gray-100 transition text-left">
-                  <div className="text-2xl mb-2">🔥</div>
-                  <div>Bundle kaufen</div>
-                  <div className="text-black/60 text-sm mt-1">5€ Lebenslauf + Anschreiben</div>
-                </button>
-              </div>
-            </div>
+      <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg">
+        ATS optimierte Unterlagen mit modernen Vorlagen,
+        Recruiter Keywords und sofortigem PDF Export.
+      </p>
+    </div>
+
+    <div className="grid md:grid-cols-3 gap-5">
+
+      <button
+        onClick={() => startCheckout("resume")}
+        className="group rounded-[28px] border border-white/10 bg-black/30 hover:border-orange-500/40 hover:bg-black/40 transition-all p-6 text-left"
+      >
+        <div className="text-4xl mb-4">📄</div>
+
+        <h3 className="text-2xl font-black mb-2 text-white">
+          Starter
+        </h3>
+
+        <div className="text-5xl font-black text-orange-400 mb-4">
+          4,99€
+        </div>
+
+        <div className="space-y-2 text-gray-300 mb-6 text-sm">
+          <div>✓ ATS optimierter Lebenslauf</div>
+          <div>✓ Moderne Vorlage</div>
+          <div>✓ PDF Download</div>
+        </div>
+
+        <div className="w-full rounded-2xl bg-orange-500 text-black font-black py-4 text-center group-hover:bg-orange-400 transition">
+          Starter freischalten
+        </div>
+      </button>
+
+      <button
+        onClick={() => startCheckout("coverLetter")}
+        className="group rounded-[28px] border border-white/10 bg-black/30 hover:border-orange-500/40 hover:bg-black/40 transition-all p-6 text-left"
+      >
+        <div className="text-4xl mb-4">✉️</div>
+
+        <h3 className="text-2xl font-black mb-2 text-white">
+          Anschreiben Pro
+        </h3>
+
+        <div className="text-5xl font-black text-orange-400 mb-4">
+          4,99€
+        </div>
+
+        <div className="space-y-2 text-gray-300 mb-6 text-sm">
+          <div>✓ Individuelles Anschreiben</div>
+          <div>✓ ATS Keywords integriert</div>
+          <div>✓ Sofortiger Export</div>
+        </div>
+
+        <div className="w-full rounded-2xl bg-orange-500 text-black font-black py-4 text-center group-hover:bg-orange-400 transition">
+          Anschreiben erstellen
+        </div>
+      </button>
+
+      <button
+        onClick={() => startCheckout("bundle")}
+        className="group relative overflow-hidden rounded-[28px] border border-orange-400 bg-orange-500 text-black p-6 text-left shadow-[0_0_40px_rgba(255,120,0,0.25)]"
+      >
+        <div className="absolute top-4 right-4 bg-black text-white text-xs font-bold px-3 py-1 rounded-full">
+          BELIEBT
+        </div>
+
+        <div className="text-4xl mb-4">🔥</div>
+
+        <h3 className="text-2xl font-black mb-2">
+          Pro Bundle
+        </h3>
+
+        <div className="text-6xl font-black mb-4">
+          7,99€
+        </div>
+
+        <div className="space-y-2 mb-6 text-sm">
+          <div>✓ Lebenslauf + Anschreiben</div>
+          <div>✓ Premium ATS Optimierung</div>
+          <div>✓ Recruiter Keywords</div>
+          <div>✓ PDF Download</div>
+        </div>
+
+        <div className="w-full rounded-2xl bg-black text-white font-black py-4 text-center hover:bg-neutral-900 transition">
+          Bundle starten
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
           )}
         </div>
       </div>
