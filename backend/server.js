@@ -281,20 +281,27 @@ app.post("/create-checkout-session", async (req, res) => {
   try {
     const { product } = req.body;
 
-    const products = {
-      resume: {
-        name: "Lebenslauf Optimierung",
-        price: 300,
-      },
-      coverLetter: {
-        name: "Anschreiben Erstellung",
-        price: 300,
-      },
-      bundle: {
-        name: "Bewerbung Bundle",
-        price: 500,
-      },
-    };
+   const products = {
+  resume: {
+    name: "Starter Paket",
+    price: 499,
+  },
+
+  coverLetter: {
+    name: "Anschreiben Pro",
+    price: 499,
+  },
+
+  bundle: {
+    name: "Pro Bundle",
+    price: 799,
+  },
+
+  premium: {
+    name: "Premium Bewerbungspaket",
+    price: 1299,
+  },
+};
 
     const selectedProduct = products[product] || products.bundle;
     const selectedProductKey = products[product] ? product : "bundle";
