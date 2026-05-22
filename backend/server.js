@@ -11,6 +11,7 @@ import helmet from "helmet";
 
 dotenv.config();
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const requireModule = createRequire(import.meta.url);
 const pdfParse = requireModule("pdf-parse");
 
@@ -334,12 +335,15 @@ app.post("/create-checkout-session", async (req, res) => {
   }
 });
 app.post("/admin-unlock", (req, res) => {
-  const { email } = req.body;
+  const { email, password } = req.body;
 
   if (
     email &&
+    password &&
     ADMIN_EMAIL &&
-    email.toLowerCase() === ADMIN_EMAIL.toLowerCase()
+    ADMIN_PASSWORD &&
+    email.toLowerCase() === ADMIN_EMAIL.toLowerCase() &&
+    password === ADMIN_PASSWORD
   ) {
     return res.json({
       success: true,
