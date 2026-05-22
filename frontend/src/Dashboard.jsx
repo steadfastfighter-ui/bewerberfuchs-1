@@ -218,51 +218,141 @@ export default function Dashboard({
 
       <div className="px-5 md:px-8 xl:px-14 py-8 md:py-10 bg-[radial-gradient(circle_at_top,rgba(255,122,0,0.08),transparent_35%)]">
         <div className="max-w-[1450px] mx-auto">
-          <div className="mb-8 md:mb-12 max-w-5xl">
-            <div className="inline-flex px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 mb-5 md:mb-6 text-sm md:text-base">
-              🚀 Kostenloser ATS-Check
-            </div>
+        <div className="grid lg:grid-cols-2 gap-12 items-center mb-12 md:mb-20">
 
-            <h1 className="text-4xl md:text-6xl xl:text-7xl font-black leading-[1.02] tracking-tight mb-5 md:mb-7 max-w-6xl">
-              Mehr Einladungen mit ATS-optimierten Bewerbungen.
-            </h1>
+  {/* LEFT SIDE */}
+  <div>
 
-            <p className="text-gray-400 text-base md:text-xl max-w-4xl leading-relaxed">
-              Analysiere deinen Lebenslauf kostenlos in unter 30 Sekunden. BewerberFuchs erkennt ATS-Keywords,
-              Schwächen und Optimierungspotenzial.
-            </p>
-             <div className="mt-8 grid md:grid-cols-2 gap-4">
-  <div className="rounded-3xl border border-red-500/20 bg-red-500/5 p-5">
-    <div className="text-red-400 font-bold mb-3">Vorher</div>
-    <div className="bg-white text-black rounded-2xl p-4 space-y-3">
-      <div className="h-4 bg-gray-300 rounded w-2/3"></div>
-      <div className="h-3 bg-gray-200 rounded w-full"></div>
-      <div className="h-3 bg-gray-200 rounded w-5/6"></div>
-      <div className="h-3 bg-red-200 rounded w-4/5"></div>
-      <div className="h-3 bg-gray-200 rounded w-3/4"></div>
+    <div className="inline-flex px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 mb-6 text-sm md:text-base font-semibold">
+      🚀 Kostenloser ATS-Check
     </div>
-    <p className="text-sm text-gray-400 mt-3">
-      ❌ wenig Keywords · unklare Struktur
+
+    <h1 className="text-5xl md:text-7xl font-black leading-[0.95] tracking-tight mb-6">
+      Mehr Einladungen
+      <span className="block text-orange-500">
+        mit ATS-optimierten Bewerbungen.
+      </span>
+    </h1>
+
+    <p className="text-gray-400 text-lg md:text-2xl leading-relaxed max-w-2xl mb-8">
+      BewerberFuchs analysiert deinen Lebenslauf,
+      erkennt ATS-Keywords und optimiert deine Bewerbung
+      für Recruiter und Unternehmen.
     </p>
+
+    <div className="flex flex-col sm:flex-row gap-4 mb-8">
+
+      <button
+        onClick={uploadedFile ? analyzeFile : analyzeText}
+        className="bg-orange-500 hover:bg-orange-400 text-black font-black px-8 py-5 rounded-2xl text-lg shadow-[0_0_40px_rgba(255,120,0,0.25)] transition-all"
+      >
+        🚀 Kostenlos analysieren
+      </button>
+
+      <button
+        onClick={() =>
+          document
+            .getElementById("templates")
+            ?.scrollIntoView({ behavior: "smooth" })
+        }
+        className="border border-white/10 hover:border-orange-500/40 bg-white/[0.03] px-8 py-5 rounded-2xl font-bold text-white transition-all"
+      >
+        Vorlagen ansehen
+      </button>
+
+    </div>
+
+    <div className="flex flex-wrap gap-6 text-sm text-gray-400">
+      <div>✅ Keine Abos</div>
+      <div>✅ ATS optimiert</div>
+      <div>✅ PDF Export</div>
+      <div>✅ Sofortiger Download</div>
+    </div>
+
   </div>
 
-  <div className="rounded-3xl border border-green-500/20 bg-green-500/5 p-5">
-    <div className="text-green-400 font-bold mb-3">Nachher</div>
-    <div className="bg-white text-black rounded-2xl p-4 space-y-3">
-      <div className="h-4 bg-gray-900 rounded w-2/3"></div>
-      <div className="h-3 bg-orange-300 rounded w-full"></div>
-      <div className="h-3 bg-gray-300 rounded w-5/6"></div>
-      <div className="h-3 bg-orange-300 rounded w-4/5"></div>
-      <div className="h-3 bg-gray-300 rounded w-3/4"></div>
-    </div>
-    <p className="text-sm text-gray-400 mt-3">
-      ✅ ATS-optimiert · recruiterfreundlich
-    </p>
-  </div>
-         </div>
+  {/* RIGHT SIDE */}
+  <div className="relative">
+
+    <div className="absolute inset-0 bg-orange-500/20 blur-[120px] rounded-full"></div>
+
+    <div className="relative bg-gradient-to-b from-white/[0.08] to-white/[0.03] border border-white/10 rounded-[36px] p-6 md:p-8 backdrop-blur-2xl shadow-[0_20px_100px_rgba(0,0,0,0.45)]">
+
+      <div className="flex items-center justify-between mb-6">
+
+        <div>
+          <p className="text-gray-400 text-sm">
+            ATS Analyse
+          </p>
+
+          <h3 className="text-2xl font-black">
+            BewerberFuchs AI
+          </h3>
+        </div>
+
+        <div className="bg-orange-500 text-black px-4 py-2 rounded-2xl font-black">
+          91%
+        </div>
+
+      </div>
+
+      <div className="w-full h-4 bg-white/10 rounded-full overflow-hidden mb-8">
+        <div className="h-full w-[91%] bg-orange-500 rounded-full"></div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 mb-8">
+
+        <div className="rounded-2xl bg-black/30 border border-white/10 p-4">
+          <p className="text-gray-400 text-sm mb-2">
+            Keywords
+          </p>
+
+          <div className="text-3xl font-black text-orange-400">
+            12
           </div>
-            
-          <div className="grid lg:grid-cols-3 gap-8 md:gap-10 items-start">
+        </div>
+
+        <div className="rounded-2xl bg-black/30 border border-white/10 p-4">
+          <p className="text-gray-400 text-sm mb-2">
+            ATS Score
+          </p>
+
+          <div className="text-3xl font-black text-green-400">
+            +43%
+          </div>
+        </div>
+
+      </div>
+
+      <div className="rounded-3xl bg-white p-5 text-black">
+
+        <div className="flex items-center gap-4 mb-5">
+
+          <div className="w-14 h-14 rounded-full bg-orange-500"></div>
+
+          <div className="flex-1">
+            <div className="h-4 bg-gray-900 rounded w-2/3 mb-2"></div>
+            <div className="h-3 bg-gray-300 rounded w-1/2"></div>
+          </div>
+
+        </div>
+
+        <div className="space-y-3">
+          <div className="h-3 bg-orange-300 rounded w-full"></div>
+          <div className="h-3 bg-gray-300 rounded w-5/6"></div>
+          <div className="h-3 bg-orange-300 rounded w-4/5"></div>
+          <div className="h-3 bg-gray-300 rounded w-3/4"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div className="grid lg:grid-cols-3 gap-8 md:gap-10 items-start">
             <div className={`lg:col-span-2 ${cardClass}`}>
               <div className="mb-6">
                 <p className="text-orange-400 font-bold mb-3">Schritt 1</p>
@@ -401,7 +491,7 @@ export default function Dashboard({
             />
           </div>
 
-          <div className={`${cardClass} mt-8 md:mt-10`}>
+          <div id="templates" className={`${cardClass} mt-8 md:mt-10`}>
             <div className="mb-6">
               <p className="text-orange-400 font-bold mb-3">Schritt 3</p>
 
