@@ -22,6 +22,7 @@ export default function Dashboard({
   const [result, setResult] = useState(null);
   const [resumeText, setResumeText] = useState("");
   const [analysisStep, setAnalysisStep] = useState(0);
+  
   const inputClass =
     "w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 text-[16px] md:text-lg text-white placeholder:text-gray-500 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all";
 
@@ -834,7 +835,10 @@ export default function Dashboard({
 
     {!analyzed ? (
       <button
-        onClick={uploadedFile ? analyzeFile : analyzeText}
+        onClick={() => {
+  runFakeAnalysis();
+  uploadedFile ? analyzeFile() : analyzeText();
+}}
         disabled={loading}
         className="w-full bg-orange-500 hover:bg-orange-400 transition-all text-black font-black text-lg py-4 rounded-2xl"
       >
