@@ -231,8 +231,37 @@ export default function Dashboard({
               Analysiere deinen Lebenslauf kostenlos in unter 30 Sekunden. BewerberFuchs erkennt ATS-Keywords,
               Schwächen und Optimierungspotenzial.
             </p>
-          </div>
+             <div className="mt-8 grid md:grid-cols-2 gap-4">
+  <div className="rounded-3xl border border-red-500/20 bg-red-500/5 p-5">
+    <div className="text-red-400 font-bold mb-3">Vorher</div>
+    <div className="bg-white text-black rounded-2xl p-4 space-y-3">
+      <div className="h-4 bg-gray-300 rounded w-2/3"></div>
+      <div className="h-3 bg-gray-200 rounded w-full"></div>
+      <div className="h-3 bg-gray-200 rounded w-5/6"></div>
+      <div className="h-3 bg-red-200 rounded w-4/5"></div>
+      <div className="h-3 bg-gray-200 rounded w-3/4"></div>
+    </div>
+    <p className="text-sm text-gray-400 mt-3">
+      ❌ wenig Keywords · unklare Struktur
+    </p>
+  </div>
 
+  <div className="rounded-3xl border border-green-500/20 bg-green-500/5 p-5">
+    <div className="text-green-400 font-bold mb-3">Nachher</div>
+    <div className="bg-white text-black rounded-2xl p-4 space-y-3">
+      <div className="h-4 bg-gray-900 rounded w-2/3"></div>
+      <div className="h-3 bg-orange-300 rounded w-full"></div>
+      <div className="h-3 bg-gray-300 rounded w-5/6"></div>
+      <div className="h-3 bg-orange-300 rounded w-4/5"></div>
+      <div className="h-3 bg-gray-300 rounded w-3/4"></div>
+    </div>
+    <p className="text-sm text-gray-400 mt-3">
+      ✅ ATS-optimiert · recruiterfreundlich
+    </p>
+  </div>
+         </div>
+          </div>
+            
           <div className="grid lg:grid-cols-3 gap-8 md:gap-10 items-start">
             <div className={`lg:col-span-2 ${cardClass}`}>
               <div className="mb-6">
@@ -675,10 +704,10 @@ export default function Dashboard({
         🔥 Bundle freischalten – 7,99€
       </button>
     )}
-  </div>
- </div>
- </div>
- </div>
- </div>
+   </div>
+</div>
+        </div>
+      </div>
+    </div>
   );
 }
