@@ -15,7 +15,7 @@ Ettlingen, Deutschland
 E-Mail: kontakt@bewerberfuchs.eu
 
 Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV:
-Paul Nurzermann
+Tarik Ouaissa
 
 EU-Streitschlichtung:
 https://ec.europa.eu/consumers/odr/
