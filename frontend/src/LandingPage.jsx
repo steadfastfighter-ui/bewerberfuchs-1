@@ -71,7 +71,7 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
     <div className="landing-page min-h-screen bg-[#03070d] text-white overflow-x-hidden">
       <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(circle_at_80%_8%,rgba(255,107,0,0.22),transparent_30%),radial-gradient(circle_at_10%_25%,rgba(0,120,255,0.08),transparent_24%)]" />
 
-      <nav className="sticky top-0 z-50 border-b border-white/10 bg-[#03070d]/82 backdrop-blur-xl safe-area">
+      <nav className="sticky top-0 z-50 border-b border-orange-500/20 bg-[#03070d]/82 backdrop-blur-xl safe-area">
         <div className="container-page py-3 sm:py-4 flex items-center justify-between gap-3">
           <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-3 min-w-0 text-left">
             <img src="/favicon.png" alt="BewerberFuchs" className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl object-cover shrink-0" />
@@ -98,7 +98,7 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
       </nav>
 
       <main className="relative z-10">
-        <section className="container-page pt-8 sm:pt-12 lg:pt-16 pb-8 lg:pb-16 grid lg:grid-cols-[0.95fr_1.05fr] gap-8 lg:gap-12 items-center">
+        <section className="container-page pt-8 sm:pt-12 lg:pt-16 pb-8 lg:pb-16 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div className="relative z-20">
             <div className="inline-flex max-w-full items-center gap-2 px-3 sm:px-5 py-2 sm:py-3 rounded-2xl border border-white/15 bg-white/5 text-orange-500 text-xs sm:text-sm font-bold mb-5 sm:mb-7">
               ⚡ KI-POWERED BEWERBUNGSOPTIMIERUNG
@@ -116,16 +116,21 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
               Erstelle bessere Lebensläufe und Anschreiben mit KI. Schnell, mobilfreundlich und ohne Abo.
             </p>
               <div className="glass-card p-4 sm:p-5 mb-7 max-w-[680px]">
-  <div className="flex items-center gap-2 mb-3">
-    <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
-    <span className="text-sm text-green-400 font-semibold">
-      Kostenloser ATS-Check
-    </span>
-  </div>
+  <div className="flex items-center gap-2 mb-2">
+  <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+
+  <span className="text-sm text-green-400 font-semibold">
+    Kostenloser ATS-Check
+  </span>
+</div>
+
+<div className="text-xs text-gray-500 mb-3">
+  ATS Analyse • Keyword Check • Optimierungstipps
+</div>
 
   <textarea
     placeholder="Füge hier deinen Lebenslauf oder eine Stellenanzeige ein..."
-    className="w-full min-h-[140px] rounded-2xl bg-[#0b1220] border border-white/10 px-4 py-4 text-white placeholder:text-gray-500 outline-none focus:border-orange-500 transition"
+    className="w-full min-h-[140px] rounded-2xl bg-white/5 border border-orange-500/20 px-4 py-4 text-white placeholder:text-gray-500 outline-none focus:border-orange-500 transition"
   />
 
   <div className="flex flex-col sm:flex-row gap-3 mt-4">
@@ -141,14 +146,7 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
     </div>
   </div>
 </div>
-            <div className="flex flex-col sm:flex-row gap-3 mb-6">
-              <button onClick={goDashboard} className="btn-primary py-4 px-6 sm:px-8 text-base sm:text-lg w-full sm:w-auto">
-                🚀 Kostenlos ATS-Check starten
-              </button>
-              <button onClick={() => scrollTo("preise")} className="btn-secondary py-4 px-6 sm:px-8 text-base sm:text-lg w-full sm:w-auto">
-                Preise ansehen
-              </button>
-            </div>
+
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-[720px]">
               {trustItems.map((item) => (
@@ -255,7 +253,7 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
         </section>
       </main>
 
-      <footer className="relative z-10 border-t border-white/10">
+      <footer className="relative z-10 border-t border-orange-500/20">
         <div className="container-page py-10 sm:py-12 grid grid-cols-1 md:grid-cols-5 gap-8 text-sm">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
