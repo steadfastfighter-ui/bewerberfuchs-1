@@ -1,7 +1,10 @@
-const content = {
-  impressum: {
-    title: "Impressum",
-    text: `
+import Topbar from "./components/Topbar";
+
+export default function LegalPage({ type, goHome }) {
+  const content = {
+    impressum: {
+      title: "Impressum",
+      text: `
 Angaben gemäß § 5 DDG
 
 BewerberFuchs
@@ -15,55 +18,106 @@ Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV:
 Paul Nurzermann
 
 EU-Streitschlichtung:
-Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung bereit:
 https://ec.europa.eu/consumers/odr/
 
-Wir sind nicht verpflichtet und nicht bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
+Wir sind nicht verpflichtet und nicht bereit,
+an Streitbeilegungsverfahren vor einer
+Verbraucherschlichtungsstelle teilzunehmen.
 `,
-  },
+    },
 
-  datenschutz: {
-    title: "Datenschutzerklärung",
-    text: `
-Wir verarbeiten personenbezogene Daten ausschließlich im Rahmen der gesetzlichen Datenschutzbestimmungen.
+    datenschutz: {
+      title: "Datenschutzerklärung",
+      text: `
+Wir verarbeiten personenbezogene Daten ausschließlich
+im Rahmen der gesetzlichen Datenschutzbestimmungen.
 
-Beim Besuch dieser Website können technische Daten wie IP-Adresse, Browsertyp und Geräteinformationen verarbeitet werden.
+Beim Besuch dieser Website können technische Daten wie:
+- IP-Adresse
+- Browsertyp
+- Geräteinformationen
+verarbeitet werden.
 
-Hochgeladene Lebensläufe und Stellenanzeigen werden ausschließlich zur Analyse und Optimierung der Bewerbung verwendet.
+Hochgeladene Lebensläufe und Stellenanzeigen
+werden ausschließlich zur Analyse und Optimierung
+der Bewerbung verwendet.
 
-Zahlungen werden über Stripe verarbeitet. Dabei gelten zusätzlich die Datenschutzrichtlinien von Stripe:
+Zahlungen werden über Stripe verarbeitet:
 https://stripe.com/de/privacy
 
 Wir speichern keine vollständigen Zahlungsdaten.
 
-Bei Fragen zum Datenschutz:
+Kontakt:
 kontakt@bewerberfuchs.eu
 `,
-  },
+    },
 
-  agb: {
-    title: "AGB",
-    text: `
-Mit dem Kauf digitaler Produkte akzeptiert der Kunde die sofortige Bereitstellung digitaler Inhalte.
+    agb: {
+      title: "AGB",
+      text: `
+Mit dem Kauf digitaler Produkte akzeptiert
+der Kunde die sofortige Bereitstellung digitaler Inhalte.
 
 Alle Produkte werden ausschließlich digital bereitgestellt.
 
 Es besteht kein Anspruch auf physische Lieferung.
 
-Da digitale Inhalte sofort bereitgestellt werden, kann das Widerrufsrecht gemäß § 356 Abs. 5 BGB vorzeitig erlöschen.
+Das Widerrufsrecht kann gemäß § 356 Abs. 5 BGB
+bei digitalen Produkten vorzeitig erlöschen.
 
-BewerberFuchs übernimmt keine Garantie für Bewerbungserfolge, Einladungen oder Einstellungen.
+BewerberFuchs übernimmt keine Garantie
+für Bewerbungserfolge oder Einstellungen.
 `,
-  },
+    },
 
-  kontakt: {
-    title: "Kontakt",
-    text: `
+    kontakt: {
+      title: "Kontakt",
+      text: `
 Du erreichst uns unter:
 
 kontakt@bewerberfuchs.eu
 
-Antwortzeit in der Regel innerhalb von 24 Stunden.
+Antwortzeit:
+meist innerhalb von 24 Stunden.
 `,
-  },
-};
+    },
+  };
+
+  const current = content[type];
+
+  if (!current) return null;
+
+  return (
+    <div className="min-h-screen bg-[#0b0f19] text-white">
+      <Topbar goHome={goHome} />
+
+      <div className="p-6 md:p-10">
+        <div className="max-w-4xl mx-auto">
+
+          <button
+            onClick={goHome}
+            className="mb-8 text-gray-400 hover:text-white transition"
+          >
+            ← Zurück zur Startseite
+          </button>
+
+          <div className="bg-white/[0.04] border border-white/10 rounded-[32px] p-8 md:p-12 backdrop-blur-xl">
+
+            <p className="text-orange-400 font-semibold mb-3">
+              BewerberFuchs
+            </p>
+
+            <h1 className="text-4xl md:text-6xl font-black mb-8">
+              {current.title}
+            </h1>
+
+            <div className="text-gray-300 whitespace-pre-wrap leading-8 text-base md:text-lg">
+              {current.text}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
