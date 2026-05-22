@@ -115,7 +115,32 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
             <p className="text-[17px] sm:text-xl text-gray-300 leading-relaxed mb-6 sm:mb-8 max-w-[620px]">
               Erstelle bessere Lebensläufe und Anschreiben mit KI. Schnell, mobilfreundlich und ohne Abo.
             </p>
+              <div className="glass-card p-4 sm:p-5 mb-7 max-w-[680px]">
+  <div className="flex items-center gap-2 mb-3">
+    <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+    <span className="text-sm text-green-400 font-semibold">
+      Kostenloser ATS-Check
+    </span>
+  </div>
 
+  <textarea
+    placeholder="Füge hier deinen Lebenslauf oder eine Stellenanzeige ein..."
+    className="w-full min-h-[140px] rounded-2xl bg-[#0b1220] border border-white/10 px-4 py-4 text-white placeholder:text-gray-500 outline-none focus:border-orange-500 transition"
+  />
+
+  <div className="flex flex-col sm:flex-row gap-3 mt-4">
+    <button
+      onClick={goDashboard}
+      className="btn-primary flex-1 py-4 text-base sm:text-lg"
+    >
+      🚀 Kostenlos analysieren
+    </button>
+
+    <div className="flex items-center justify-center px-4 text-sm text-gray-400">
+      ⏱ Analyse dauert ca. 30 Sekunden
+    </div>
+  </div>
+</div>
             <div className="flex flex-col sm:flex-row gap-3 mb-6">
               <button onClick={goDashboard} className="btn-primary py-4 px-6 sm:px-8 text-base sm:text-lg w-full sm:w-auto">
                 🚀 Kostenlos ATS-Check starten
