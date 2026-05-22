@@ -21,44 +21,63 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
     ["3", "PDF erhalten", "Erstelle deinen Lebenslauf, dein Anschreiben oder das komplette Bundle."],
   ];
 
-  const plans = [
-    {
-      title: "Kostenlos",
-      price: "0€",
-      text: "ATS-Check & Analyse",
-      features: ["ATS Score", "Keyword-Analyse", "Optimierungstipps"],
-      cta: "Gratis starten",
-      action: goDashboard,
-      highlight: false,
-    },
-    {
-      title: "Lebenslauf",
-      price: "3€",
-      text: "Optimierter Lebenslauf als PDF",
-      features: ["ATS optimiert", "Moderne Vorlage", "PDF Download"],
-      cta: "Lebenslauf optimieren",
-      action: () => goCheckout("resume"),
-      highlight: false,
-    },
-    {
-      title: "Anschreiben",
-      price: "3€",
-      text: "Passendes Anschreiben zur Stelle",
-      features: ["Individuell angepasst", "ATS-Keywords integriert", "PDF Download"],
-      cta: "Anschreiben erstellen",
-      action: () => goCheckout("coverLetter"),
-      highlight: false,
-    },
-    {
-      title: "Bundle",
-      price: "5€",
-      text: "Lebenslauf + Anschreiben",
-      features: ["Komplettes Paket", "ATS optimiert", "PDF Download"],
-      cta: "Bundle starten",
-      action: () => goCheckout("bundle"),
-      highlight: true,
-    },
-  ];
+const plans = [
+  {
+    title: "Kostenlos",
+    price: "0€",
+    text: "ATS-Check & Analyse",
+    features: [
+      "ATS Score",
+      "Keyword-Analyse",
+      "Optimierungstipps"
+    ],
+    cta: "Kostenlos prüfen",
+    action: goDashboard,
+    highlight: false,
+  },
+
+  {
+    title: "Starter",
+    price: "4,99€",
+    text: "ATS optimierter Lebenslauf",
+    features: [
+      "Moderne Vorlage",
+      "ATS optimiert",
+      "PDF Download"
+    ],
+    cta: "Lebenslauf erstellen",
+    action: () => goCheckout("resume"),
+    highlight: false,
+  },
+
+  {
+    title: "Pro Bundle",
+    price: "7,99€",
+    text: "Lebenslauf + Anschreiben",
+    features: [
+      "Komplettes Bewerbungspaket",
+      "ATS Keywords integriert",
+      "PDF Download"
+    ],
+    cta: "Bundle starten",
+    action: () => goCheckout("bundle"),
+    highlight: true,
+  },
+
+  {
+    title: "Premium",
+    price: "12,99€",
+    text: "Premium Bewerbungspaket",
+    features: [
+      "Lebenslauf + Anschreiben",
+      "Extra KI-Optimierung",
+      "2 moderne Vorlagen"
+    ],
+    cta: "Premium erstellen",
+    action: () => goCheckout("bundle"),
+    highlight: false,
+  },
+];
 
   const faqs = [
     ["Ist die Analyse kostenlos?", "Ja. Der ATS-Check ist kostenlos und zeigt dir sofort, wo deine Bewerbung besser werden kann."],
