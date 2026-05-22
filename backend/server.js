@@ -10,7 +10,7 @@ import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 
 dotenv.config();
-
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 const requireModule = createRequire(import.meta.url);
 const pdfParse = requireModule("pdf-parse");
 
@@ -333,7 +333,23 @@ app.post("/create-checkout-session", async (req, res) => {
     });
   }
 });
+app.post("/admin-unlock", (req, res) => {
+  const { email } = req.body;
 
+  if (
+    email &&
+    ADMIN_EMAIL &&
+    email.toLowerCase() === ADMIN_EMAIL.toLowerCase()
+  ) {
+    return res.json({
+      success: true,
+    });
+  }
+
+  return res.status(403).json({
+    success: false,
+  });
+});
 app.post("/optimize", async (req, res) => {
   try {
     const { resumeText, jobText, product, candidateData } = req.body;
