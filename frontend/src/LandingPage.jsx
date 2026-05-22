@@ -21,63 +21,44 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
     ["3", "PDF erhalten", "Erstelle deinen Lebenslauf, dein Anschreiben oder das komplette Bundle."],
   ];
 
-const plans = [
-  {
-    title: "Kostenlos",
-    price: "0€",
-    text: "ATS-Check & Analyse",
-    features: [
-      "ATS Score",
-      "Keyword-Analyse",
-      "Optimierungstipps"
-    ],
-    cta: "Kostenlos prüfen",
-    action: goDashboard,
-    highlight: false,
-  },
-
-  {
-    title: "Starter",
-    price: "4,99€",
-    text: "ATS optimierter Lebenslauf",
-    features: [
-      "Moderne Vorlage",
-      "ATS optimiert",
-      "PDF Download"
-    ],
-    cta: "Lebenslauf erstellen",
-    action: () => goCheckout("resume"),
-    highlight: false,
-  },
-
-  {
-    title: "Pro Bundle",
-    price: "7,99€",
-    text: "Lebenslauf + Anschreiben",
-    features: [
-      "Komplettes Bewerbungspaket",
-      "ATS Keywords integriert",
-      "PDF Download"
-    ],
-    cta: "Bundle starten",
-    action: () => goCheckout("bundle"),
-    highlight: true,
-  },
-
-  {
-    title: "Premium",
-    price: "12,99€",
-    text: "Premium Bewerbungspaket",
-    features: [
-      "Lebenslauf + Anschreiben",
-      "Extra KI-Optimierung",
-      "2 moderne Vorlagen"
-    ],
-    cta: "Premium erstellen",
-    action: () => goCheckout("bundle"),
-    highlight: false,
-  },
-];
+  const plans = [
+    {
+      title: "Kostenlos",
+      price: "0€",
+      text: "ATS-Check & Analyse",
+      features: ["ATS Score", "Keyword-Analyse", "Optimierungstipps"],
+      cta: "Kostenlos prüfen",
+      action: goDashboard,
+      highlight: false,
+    },
+    {
+      title: "Starter",
+      price: "4,99€",
+      text: "ATS optimierter Lebenslauf",
+      features: ["Moderne Vorlage", "ATS optimiert", "PDF Download"],
+      cta: "Lebenslauf erstellen",
+      action: () => goCheckout("resume"),
+      highlight: false,
+    },
+    {
+      title: "Pro Bundle",
+      price: "7,99€",
+      text: "Lebenslauf + Anschreiben",
+      features: ["Komplettes Bewerbungspaket", "ATS Keywords integriert", "PDF Download"],
+      cta: "Bundle starten",
+      action: () => goCheckout("bundle"),
+      highlight: true,
+    },
+    {
+      title: "Premium",
+      price: "12,99€",
+      text: "Premium Bewerbungspaket",
+      features: ["Lebenslauf + Anschreiben", "Extra KI-Optimierung", "2 moderne Vorlagen"],
+      cta: "Premium erstellen",
+      action: () => goCheckout("bundle"),
+      highlight: false,
+    },
+  ];
 
   const faqs = [
     ["Ist die Analyse kostenlos?", "Ja. Der ATS-Check ist kostenlos und zeigt dir sofort, wo deine Bewerbung besser werden kann."],
@@ -105,7 +86,7 @@ const plans = [
           </button>
 
           <div className="hidden lg:flex items-center gap-8 text-sm text-gray-300">
-            <button onClick={() => scrollTo("funktion")} className="hover:text-white">So funktioniert's</button>
+            <button onClick={() => scrollTo("funktion")} className="hover:text-white">So funktioniert&apos;s</button>
             <button onClick={() => scrollTo("preise")} className="hover:text-white">Preise</button>
             <button onClick={() => scrollTo("faq")} className="hover:text-white">FAQ</button>
           </div>
@@ -131,58 +112,53 @@ const plans = [
               in Minuten.
             </h1>
 
-            <p className="text-[17px] sm:text-xl text-gray-300 leading-relaxed mb-6 sm:mb-8 max-w-[620px]">
+            <p className="text-[17px] sm:text-xl text-gray-300 leading-relaxed mb-6 max-w-[620px]">
               Erstelle bessere Lebensläufe und Anschreiben mit KI. Schnell, mobilfreundlich und ohne Abo.
             </p>
-              <div className="glass-card p-4 sm:p-5 mb-7 max-w-[680px]">
-  <div className="flex items-center gap-2 mb-2">
-  <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
 
-  <span className="text-sm text-green-400 font-semibold">
-    Kostenloser ATS-Check
-  </span>
-</div>
+            <div className="glass-card p-4 sm:p-5 mb-7 max-w-[680px]">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+                <span className="text-sm text-green-400 font-semibold">Kostenloser ATS-Check</span>
+              </div>
 
-<div className="text-xs text-gray-500 mb-3">
-  ATS Analyse • Keyword Check • Optimierungstipps
-</div>
+              <div className="text-xs text-gray-500 mb-3">
+                ATS Analyse • Keyword Check • Optimierungstipps
+              </div>
 
-  <textarea
-    placeholder="Füge hier deinen Lebenslauf oder eine Stellenanzeige ein..."
-    className="w-full min-h-[140px] rounded-2xl bg-white/5 border border-orange-500/20 px-4 py-4 text-white placeholder:text-gray-500 outline-none focus:border-orange-500 transition"
-  />
+              <textarea
+                placeholder="Füge hier deinen Lebenslauf oder eine Stellenanzeige ein..."
+                className="w-full min-h-[140px] rounded-2xl bg-white/5 border border-orange-500/20 px-4 py-4 text-white placeholder:text-gray-500 outline-none focus:border-orange-500 transition"
+              />
 
-  <div className="flex flex-col sm:flex-row gap-3 mt-4">
-    <button
-      onClick={goDashboard}
-      className="btn-primary flex-1 py-4 text-base sm:text-lg"
-    >
-      🚀 Kostenlos analysieren
-      <div className="mt-4 rounded-2xl border border-white/10 bg-black/25 p-4">
-  <div className="flex items-center justify-between mb-2">
-    <span className="text-sm text-gray-400">ATS Score Demo</span>
-    <span className="text-orange-500 font-bold">41% → 89%</span>
-  </div>
+              <div className="mt-4 rounded-2xl border border-white/10 bg-black/25 p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm text-gray-400">ATS Score Demo</span>
+                  <span className="text-orange-500 font-bold">41% → 89%</span>
+                </div>
 
-  <div className="w-full h-3 rounded-full bg-white/10 overflow-hidden mb-3">
-    <div className="h-full w-[89%] bg-orange-500 rounded-full"></div>
-  </div>
+                <div className="w-full h-3 rounded-full bg-white/10 overflow-hidden mb-3">
+                  <div className="h-full w-[89%] bg-orange-500 rounded-full"></div>
+                </div>
 
-  <div className="grid grid-cols-2 gap-2 text-xs text-gray-400">
-    <div>✓ 12 Keywords erkannt</div>
-    <div>✓ Struktur verbessert</div>
-    <div>✓ PDF optimiert</div>
-    <div>✓ Anschreiben möglich</div>
-  </div>
-</div>
-</button>
+                <div className="grid grid-cols-2 gap-2 text-xs text-gray-400">
+                  <div>✓ 12 Keywords erkannt</div>
+                  <div>✓ Struktur verbessert</div>
+                  <div>✓ PDF optimiert</div>
+                  <div>✓ Anschreiben möglich</div>
+                </div>
+              </div>
 
-    <div className="flex items-center justify-center px-4 text-sm text-gray-400">
-      ⏱ Analyse dauert ca. 30 Sekunden
-    </div>
-  </div>
-</div>
+              <div className="flex flex-col sm:flex-row gap-3 mt-4">
+                <button onClick={goDashboard} className="btn-primary flex-1 py-4 text-base sm:text-lg">
+                  🚀 Kostenlos analysieren
+                </button>
 
+                <div className="flex items-center justify-center px-4 text-sm text-gray-400">
+                  ⏱ Analyse dauert ca. 30 Sekunden
+                </div>
+              </div>
+            </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-[720px]">
               {trustItems.map((item) => (
@@ -219,7 +195,7 @@ const plans = [
 
         <section id="funktion" className="container-page py-12 sm:py-16 scroll-mt-24">
           <div className="text-center mb-8 sm:mb-10">
-            <p className="text-orange-500 font-bold text-sm mb-3">SO FUNKTIONIERT'S</p>
+            <p className="text-orange-500 font-bold text-sm mb-3">SO FUNKTIONIERT&apos;S</p>
             <h2 className="section-title">In 3 einfachen Schritten</h2>
           </div>
 
@@ -248,7 +224,7 @@ const plans = [
                 {plan.highlight && <div className="popular-badge">BELIEBT</div>}
                 <div className="relative z-10 flex flex-col h-full">
                   <h3 className="text-2xl font-extrabold mb-3">{plan.title}</h3>
-                  <div className="text-[110px] font-black tracking-tight mb-4">{plan.price}</div>
+                  <div className="text-5xl sm:text-6xl xl:text-5xl 2xl:text-6xl font-black tracking-tight mb-4">{plan.price}</div>
                   <p className={plan.highlight ? "text-white/90 mb-7" : "text-gray-300 mb-7"}>{plan.text}</p>
 
                   <div className="space-y-3 mb-8 text-base flex-1">
