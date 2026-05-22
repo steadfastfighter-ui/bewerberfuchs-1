@@ -158,7 +158,24 @@ const plans = [
       className="btn-primary flex-1 py-4 text-base sm:text-lg"
     >
       🚀 Kostenlos analysieren
-    </button>
+      <div className="mt-4 rounded-2xl border border-white/10 bg-black/25 p-4">
+  <div className="flex items-center justify-between mb-2">
+    <span className="text-sm text-gray-400">ATS Score Demo</span>
+    <span className="text-orange-500 font-bold">41% → 89%</span>
+  </div>
+
+  <div className="w-full h-3 rounded-full bg-white/10 overflow-hidden mb-3">
+    <div className="h-full w-[89%] bg-orange-500 rounded-full"></div>
+  </div>
+
+  <div className="grid grid-cols-2 gap-2 text-xs text-gray-400">
+    <div>✓ 12 Keywords erkannt</div>
+    <div>✓ Struktur verbessert</div>
+    <div>✓ PDF optimiert</div>
+    <div>✓ Anschreiben möglich</div>
+  </div>
+</div>
+</button>
 
     <div className="flex items-center justify-center px-4 text-sm text-gray-400">
       ⏱ Analyse dauert ca. 30 Sekunden
