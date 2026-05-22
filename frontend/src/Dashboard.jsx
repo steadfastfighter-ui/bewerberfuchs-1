@@ -361,7 +361,45 @@ export default function Dashboard({
   </div>
 
 </div>
+  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
 
+  <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-xl">
+    <div className="text-3xl font-black text-orange-400 mb-2">
+      500+
+    </div>
+    <p className="text-gray-400 text-sm">
+      Bewerbungen optimiert
+    </p>
+  </div>
+
+  <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-xl">
+    <div className="text-3xl font-black text-orange-400 mb-2">
+      91%
+    </div>
+    <p className="text-gray-400 text-sm">
+      ATS Erfolgsquote
+    </p>
+  </div>
+
+  <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-xl">
+    <div className="text-3xl font-black text-orange-400 mb-2">
+      &lt;30s
+    </div>
+    <p className="text-gray-400 text-sm">
+      Analysezeit
+    </p>
+  </div>
+
+  <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-xl">
+    <div className="text-3xl font-black text-orange-400 mb-2">
+      PDF
+    </div>
+    <p className="text-gray-400 text-sm">
+      Sofortiger Export
+    </p>
+  </div>
+
+</div>
 <div className="grid lg:grid-cols-3 gap-8 md:gap-10 items-start">
             <div className={`lg:col-span-2 ${cardClass}`}>
               <div className="mb-6">
