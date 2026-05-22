@@ -654,8 +654,31 @@ export default function Dashboard({
               </div>
             </div>
           )}
-        </div>
-      </div>
-    </div>
+         <div className="fixed bottom-0 left-0 right-0 z-[999] p-4 md:hidden">
+  <div className="backdrop-blur-2xl bg-black/70 border border-orange-500/20 rounded-3xl p-3 shadow-[0_0_40px_rgba(255,120,0,0.2)]">
+
+    {!analyzed ? (
+      <button
+        onClick={uploadedFile ? analyzeFile : analyzeText}
+        disabled={loading}
+        className="w-full bg-orange-500 hover:bg-orange-400 transition-all text-black font-black text-lg py-4 rounded-2xl"
+      >
+        {loading
+          ? "Analyse läuft..."
+          : "🚀 Kostenlos analysieren"}
+      </button>
+    ) : (
+      <button
+        onClick={() => startCheckout("bundle")}
+        className="w-full bg-orange-500 hover:bg-orange-400 transition-all text-black font-black text-lg py-4 rounded-2xl shadow-[0_0_30px_rgba(255,120,0,0.3)]"
+      >
+        🔥 Bundle freischalten – 7,99€
+      </button>
+    )}
+  </div>
+ </div>
+ </div>
+ </div>
+ </div>
   );
 }
