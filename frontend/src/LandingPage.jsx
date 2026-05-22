@@ -130,7 +130,15 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
                 placeholder="Füge hier deinen Lebenslauf oder eine Stellenanzeige ein..."
                 className="w-full min-h-[140px] rounded-2xl bg-white/5 border border-orange-500/20 px-4 py-4 text-white placeholder:text-gray-500 outline-none focus:border-orange-500 transition"
               />
-
+            <label className="mt-3 flex items-center justify-center gap-2 w-full rounded-2xl border border-orange-500/30 bg-white/[0.04] hover:bg-orange-500/10 px-5 py-4 text-orange-400 font-bold cursor-pointer transition">
+                📄 PDF oder DOCX hochladen
+              <input
+                type="file"
+                accept=".pdf,.docx"
+                className="hidden"
+                 onChange={goDashboard}
+              />
+            </label>
               <div className="mt-4 rounded-2xl border border-white/10 bg-black/25 p-4">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm text-gray-400">ATS Score Demo</span>
