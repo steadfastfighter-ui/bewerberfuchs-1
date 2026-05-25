@@ -180,47 +180,29 @@ export default function OptimizedResume({
     exportElementToPdf(coverLetterRef.current, "anschreiben.pdf");
   }
 
-  function renderResumeTemplate(text) {
+   function renderResumeTemplate(text) {
     const props = {
-      title: "Lebenslauf",
-      optimizedText: text,
-      profilePhoto,
-      candidateData,
-    };
+    title: "Lebenslauf",
+    optimizedText: text,
+    profilePhoto,
+    candidateData,
+  };
 
-    if (selectedTemplate === "modern") return <ModernTemplate {...props} />;
-    if (selectedTemplate === "premium") return <PremiumTemplate {...props} />;
+  if (selectedTemplate === "modern") return <ModernTemplate {...props} />;
+  if (selectedTemplate === "premium") return <PremiumTemplate {...props} />;
 
-    return <ClassicTemplate {...props} />;
-  }
+  return <ClassicTemplate {...props} />;
+}
 
-  function ActionButtons({ onCopy, onDownload, downloadLabel }) {
-    return (
-      <div className="flex flex-col sm:flex-row gap-3">
-        <button
-          onClick={onCopy}
-          className="bg-orange-500 hover:bg-orange-400 text-black font-black px-6 py-3 rounded-2xl transition"
-        >
-          Text kopieren
-        </button>
+/* HIER EINFÜGEN */
 
-        <button
-          onClick={onDownload}
-          disabled={exporting}
-          className="border border-orange-500/30 bg-white/[0.04] hover:bg-orange-500 hover:text-black disabled:opacity-60 transition px-6 py-3 rounded-2xl font-black text-orange-400"
-        >
-          {exporting ? "PDF wird erstellt..." : downloadLabel}
-        </button>
-      </div>
-    );
-  }
-  function DocumentFrame({ children, innerRef }) {
+function DocumentFrame({ children, innerRef }) {
   return (
-    <div className="w-full overflow-x-auto rounded-[32px] border border-white/10 bg-white/[0.03] p-4 md:p-8">
-      <div className="mx-auto w-fit origin-top scale-[0.78] md:scale-[0.9] lg:scale-100">
+    <div className="w-full rounded-[32px] border border-white/10 bg-white/[0.03] p-4 md:p-8 overflow-x-auto">
+      <div className="mx-auto w-[794px]">
         <div
           ref={innerRef}
-          className="bg-white text-black overflow-hidden rounded-[28px] shadow-[0_20px_80px_rgba(0,0,0,0.45)]"
+          className="w-[794px] bg-white text-black overflow-hidden rounded-[24px] shadow-[0_20px_80px_rgba(0,0,0,0.45)]"
         >
           {children}
         </div>
@@ -229,6 +211,26 @@ export default function OptimizedResume({
   );
 }
 
+function ActionButtons({ onCopy, onDownload, downloadLabel }) {
+  return (
+    <div className="flex flex-col sm:flex-row gap-3">
+      <button
+        onClick={onCopy}
+        className="bg-orange-500 hover:bg-orange-400 text-black font-black px-6 py-3 rounded-2xl transition"
+      >
+        Text kopieren
+      </button>
+
+      <button
+        onClick={onDownload}
+        disabled={exporting}
+        className="border border-orange-500/30 bg-white/[0.04] hover:bg-orange-500 hover:text-black disabled:opacity-60 transition px-6 py-3 rounded-2xl font-black text-orange-400"
+      >
+        {exporting ? "PDF wird erstellt..." : downloadLabel}
+      </button>
+    </div>
+  );
+}
   function SectionHeader({ children, actions }) {
     return (
       <div className="mb-5 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
