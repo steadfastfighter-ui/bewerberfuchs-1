@@ -4,6 +4,8 @@ import ClassicTemplate from "./components/templates/ClassicTemplate";
 import ModernTemplate from "./components/templates/ModernTemplate";
 import PremiumTemplate from "./components/templates/PremiumTemplate";
 import CoverLetterTemplate from "./components/templates/CoverLetterTemplate";
+import ResumePDF from "./components/pdf/ResumePDF";
+import CoverLetterPDF from "./components/pdf/CoverLetterPDF";
 
 const API_URL = "https://bewerberfuchs-1.onrender.com";
 
@@ -80,16 +82,11 @@ export default function OptimizedResume({
     alert("Text wurde kopiert.");
   }
 
-  function exportElementToPdf(element, filename) {
-  if (!element) {
-    alert("PDF konnte nicht erstellt werden.");
-    return;
-  }
-
+  function exportElementToPdf(content, filename) {
   const printWindow = window.open("", "_blank");
 
   if (!printWindow) {
-    alert("Popup wurde blockiert. Bitte Popups erlauben.");
+    alert("Popup wurde blockiert.");
     return;
   }
 
@@ -97,12 +94,16 @@ export default function OptimizedResume({
     <html>
       <head>
         <title>${filename}</title>
+
+        <script src="https://cdn.tailwindcss.com"></script>
+
         <style>
           body {
             margin: 0;
-            background: white;
+            background: #e5e7eb;
             display: flex;
             justify-content: center;
+            padding: 40px;
           }
 
           @page {
@@ -113,17 +114,23 @@ export default function OptimizedResume({
           * {
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
+            box-sizing: border-box;
           }
         </style>
       </head>
+
       <body>
-        ${element.innerHTML}
+        <div id="pdf-root"></div>
       </body>
     </html>
   `);
 
   printWindow.document.close();
-  printWindow.focus();
+
+  setTimeout(() => {
+    const root = printWindow.document.getElementById("pdf-root");
+    root.innerHTML = content;
+  }, 300);
 }
   function renderResumeTemplate(text) {
     const props = {
@@ -241,7 +248,12 @@ export default function OptimizedResume({
                   actions={
                     <ActionButtons
                       onCopy={() => copyText(coverLetterPart)}
-                      onDownload={() => exportElementToPdf(coverLetterRef.current, "anschreiben.pdf")}
+                      onDownload={() =>
+  exportElementToPdf(
+    coverLetterRef.current.innerHTML,
+    "anschreiben.pdf"
+  )
+}
                       downloadLabel="Anschreiben PDF öffnen"
                     />
                   }
@@ -263,7 +275,12 @@ export default function OptimizedResume({
                 actions={
                   <ActionButtons
                     onCopy={() => copyText(coverLetterPart)}
-                    onDownload={() => exportElementToPdf(coverLetterRef.current, "anschreiben.pdf")}
+                    onDownload={() =>
+  exportElementToPdf(
+    coverLetterRef.current.innerHTML,
+    "anschreiben.pdf"
+  )
+}
                     downloadLabel="Anschreiben PDF öffnen"
                   />
                 }
