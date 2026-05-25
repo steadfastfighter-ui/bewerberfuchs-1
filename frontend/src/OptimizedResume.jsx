@@ -19,6 +19,9 @@ export default function OptimizedResume({
   candidateData,
 }) {
   const [optimizedText, setOptimizedText] = useState("");
+  const [editMode, setEditMode] = useState(false);
+  const [editableResume, setEditableResume] = useState("");
+  const [editableCoverLetter, setEditableCoverLetter] = useState("");
   const [loading, setLoading] = useState(true);
   const [exporting, setExporting] = useState(false);
 
@@ -67,6 +70,16 @@ export default function OptimizedResume({
 
         const data = await response.json();
         setOptimizedText(data.optimizedText || "Keine Optimierung erhalten.");
+        const savedResume = localStorage.getItem("editedResume");
+        const savedCover = localStorage.getItem("editedCoverLetter");
+
+         if (savedResume) {
+         setEditableResume(savedResume);
+         }
+
+         if (savedCover) {
+          setEditableCoverLetter(savedCover);
+         }
       } catch {
         setOptimizedText("Fehler bei der Optimierung.");
       } finally {
@@ -81,7 +94,18 @@ export default function OptimizedResume({
     navigator.clipboard.writeText(text || "");
     alert("Text wurde kopiert.");
   }
+  function saveChanges() {
+  localStorage.setItem("editedResume", editableResume);
+  localStorage.setItem("editedCoverLetter", editableCoverLetter);
 
+  setOptimizedText(
+    `${editableResume}\n\n=== ANSCHREIBEN ===\n\n${editableCoverLetter}`
+  );
+
+  setEditMode(false);
+
+  alert("Änderungen gespeichert.");
+}
   function exportElementToPdf(content, filename) {
   const printWindow = window.open("", "_blank");
 
@@ -213,8 +237,55 @@ export default function OptimizedResume({
             <p className="text-gray-400 mt-4 text-base sm:text-lg max-w-3xl leading-relaxed">
               Lebenslauf und Anschreiben sind getrennt. Jede Datei kann einzeln als PDF geöffnet, gespeichert oder gedruckt werden.
             </p>
-          </div>
+            <div className="flex gap-3 mt-6 flex-wrap">
+  <button
+    onClick={() => {
+      setEditableResume(resumePart);
+      setEditableCoverLetter(coverLetterPart);
+      setEditMode(true);
+    }}
+    className="bg-orange-500 hover:bg-orange-400 text-black font-black px-6 py-3 rounded-2xl transition"
+  >
+    Text bearbeiten
+  </button>
 
+  {editMode && (
+    <button
+      onClick={saveChanges}
+      className="border border-green-500 text-green-400 hover:bg-green-500 hover:text-black font-black px-6 py-3 rounded-2xl transition"
+    >
+      Änderungen speichern
+    </button>
+  )}
+</div>
+          </div>
+          {editMode && (
+  <div className="mb-10 space-y-6">
+    <div>
+      <h3 className="text-2xl font-black mb-3">
+        Lebenslauf bearbeiten
+      </h3>
+
+      <textarea
+        value={editableResume}
+        onChange={(e) => setEditableResume(e.target.value)}
+        className="w-full min-h-[300px] rounded-3xl bg-black/30 border border-white/10 p-6 text-white"
+      />
+    </div>
+
+    <div>
+      <h3 className="text-2xl font-black mb-3">
+        Anschreiben bearbeiten
+      </h3>
+
+      <textarea
+        value={editableCoverLetter}
+        onChange={(e) => setEditableCoverLetter(e.target.value)}
+        className="w-full min-h-[300px] rounded-3xl bg-black/30 border border-white/10 p-6 text-white"
+      />
+    </div>
+  </div>
+)}
           {loading ? (
             <div className="rounded-[32px] border border-white/10 bg-white/[0.04] p-8">
               <div className="space-y-4 text-gray-300">
