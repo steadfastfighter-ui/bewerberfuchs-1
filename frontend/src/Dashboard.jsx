@@ -6,6 +6,7 @@ const API_URL = "https://bewerberfuchs-1.onrender.com";
 export default function Dashboard({
   goHome,
   logout,
+  isLoggedIn,
   goCheckout,
   setAppResumeText,
   selectedTemplate,
@@ -225,6 +226,7 @@ export default function Dashboard({
       <Topbar
   goHome={goHome}
   logout={logout}
+  isLoggedIn={isLoggedIn}
 />
 
       <div className="px-5 md:px-8 xl:px-14 py-8 md:py-10 bg-[radial-gradient(circle_at_top,rgba(255,122,0,0.08),transparent_35%)]">

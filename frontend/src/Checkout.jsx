@@ -3,7 +3,12 @@ import Topbar from "./components/Topbar";
 
 const API_URL = "https://bewerberfuchs-1.onrender.com";
 
-export default function Checkout({ goDashboard,logout, selectedProduct }) {
+ export default function Checkout({
+  goDashboard,
+  logout,
+  isLoggedIn,
+  selectedProduct,
+}) {
   const [loading, setLoading] = useState(false);
   const [adminEmail, setAdminEmail] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
@@ -116,6 +121,7 @@ export default function Checkout({ goDashboard,logout, selectedProduct }) {
       <Topbar
   goHome={goDashboard}
   logout={logout}
+  isLoggedIn={isLoggedIn}
 />
 
       <section className="relative px-4 sm:px-6 lg:px-8 py-8 sm:py-14">

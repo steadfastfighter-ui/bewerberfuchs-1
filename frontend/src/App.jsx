@@ -145,20 +145,21 @@ function logout() {
         setJobText={saveJobText}
       />
     );
-  } else if (page === "checkout") {
-    content = (
-      <Checkout
-        goDashboard={() => {
-        logout={logout}
-  if (isLoggedIn) {
-    setPage("dashboard");
-  } else {
-    setPage("auth");
-  }
-}}
-        selectedProduct={selectedProduct || "bundle"}
-      />
-    );
+ } else if (page === "checkout") {
+  content = (
+    <Checkout
+      goDashboard={() => {
+        if (isLoggedIn) {
+          setPage("dashboard");
+        } else {
+          setPage("auth");
+        }
+      }}
+      logout={logout}
+      isLoggedIn={isLoggedIn}
+      selectedProduct={selectedProduct || "bundle"}
+    />
+  );
   } else if (page === "success") {
     content = (
       <Success
