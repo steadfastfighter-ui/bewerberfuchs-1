@@ -149,6 +149,7 @@ function logout() {
     content = (
       <Checkout
         goDashboard={() => {
+        logout={logout}
   if (isLoggedIn) {
     setPage("dashboard");
   } else {

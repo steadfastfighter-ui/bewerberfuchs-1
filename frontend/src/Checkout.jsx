@@ -3,7 +3,7 @@ import Topbar from "./components/Topbar";
 
 const API_URL = "https://bewerberfuchs-1.onrender.com";
 
-export default function Checkout({ goDashboard, selectedProduct }) {
+export default function Checkout({ goDashboard,logout, selectedProduct }) {
   const [loading, setLoading] = useState(false);
   const [adminEmail, setAdminEmail] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
@@ -113,7 +113,10 @@ export default function Checkout({ goDashboard, selectedProduct }) {
 
   return (
     <div className="min-h-screen bg-[#030712] text-white overflow-x-hidden">
-      <Topbar goHome={goDashboard} />
+      <Topbar
+  goHome={goDashboard}
+  logout={logout}
+/>
 
       <section className="relative px-4 sm:px-6 lg:px-8 py-8 sm:py-14">
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(255,115,0,0.18),transparent_30%),radial-gradient(circle_at_left,rgba(0,90,255,0.08),transparent_25%)]" />
