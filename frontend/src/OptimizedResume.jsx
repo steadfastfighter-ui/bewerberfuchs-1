@@ -25,70 +25,40 @@ export default function OptimizedResume({
   const resumeRef = useRef(null);
   const coverLetterRef = useRef(null);
 
-  const titles = {
-    resume: "Optimierter Lebenslauf",
-    coverLetter: "Anschreiben",
-    bundle: "Bewerbungspaket",
-  };
-
-  const title = titles[selectedProduct] || "Bewerbungspaket";
+  const title =
+    selectedProduct === "resume"
+      ? "Optimierter Lebenslauf"
+      : selectedProduct === "coverLetter"
+      ? "Anschreiben"
+      : "Bewerbungspaket";
 
   function cleanCoverLetterText(text = "") {
-    let cleaned = text;
-
-    if (cleaned.includes("=== ANSCHREIBEN ===")) {
-      cleaned = cleaned.split("=== ANSCHREIBEN ===")[1] || "";
-    }
-
-    if (cleaned.includes("ANSCHREIBEN")) {
-      cleaned = cleaned.split("ANSCHREIBEN").pop() || "";
-    }
-
-    return cleaned
-      .replace(/PROFIL[\s\S]*?(?=Sehr geehrte|Sehr geehrter|Guten Tag|Hallo)/i, "")
-      .replace(/BERUFLICHE ERFAHRUNG[\s\S]*?(?=Sehr geehrte|Sehr geehrter|Guten Tag|Hallo)/i, "")
-      .replace(/KENNTNISSE[\s\S]*?(?=Sehr geehrte|Sehr geehrter|Guten Tag|Hallo)/i, "")
-      .replace(/STÄRKEN[\s\S]*?(?=Sehr geehrte|Sehr geehrter|Guten Tag|Hallo)/i, "")
-      .replace(/AUSBILDUNG[\s\S]*?(?=Sehr geehrte|Sehr geehrter|Guten Tag|Hallo)/i, "")
-      .replace(/\[Ort\],?\s*\[Datum\]/gi, "")
-      .replace(/\[Name des Ansprechpartners\]/gi, "")
-      .replace(/\[Firma\]/gi, "")
-      .replace(/\[Adresse\]/gi, "")
-      .replace(/\[Stellenbezeichnung\]/gi, "")
-      .replace(/Betreff:\s*Bewerbung als.*$/gim, "")
-      .replace(/Bewerbung als .*$/gim, "")
+    return text
+      .replace("=== ANSCHREIBEN ===", "")
       .replace(/Mit freundlichen Grüßen[\s\S]*$/i, "")
       .trim();
   }
 
   const resumePart =
     selectedProduct === "bundle"
-      ? optimizedText
-          .split("=== ANSCHREIBEN ===")[0]
-          .replace("=== LEBENSLAUF ===", "")
-          .trim()
+      ? optimizedText.split("=== ANSCHREIBEN ===")[0].replace("=== LEBENSLAUF ===", "").trim()
       : optimizedText;
 
   const coverLetterPart =
     selectedProduct === "bundle"
-      ? cleanCoverLetterText(
-          optimizedText.split("=== ANSCHREIBEN ===")[1]?.trim() || ""
-        )
+      ? cleanCoverLetterText(optimizedText.split("=== ANSCHREIBEN ===")[1] || "")
       : cleanCoverLetterText(optimizedText);
 
   useEffect(() => {
     async function optimize() {
       try {
         setLoading(true);
-        setOptimizedText("");
 
         const response = await fetch(`${API_URL}/optimize`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            resumeText:
-              resumeText ||
-              "Motivierter Bewerber mit Teamfähigkeit und Berufserfahrung.",
+            resumeText: resumeText || "Motivierter Bewerber mit Teamfähigkeit und Berufserfahrung.",
             jobText: jobText || "",
             product: selectedProduct || "bundle",
             candidateData,
@@ -97,11 +67,8 @@ export default function OptimizedResume({
 
         const data = await response.json();
         setOptimizedText(data.optimizedText || "Keine Optimierung erhalten.");
-      } catch (error) {
-        console.log(error);
-        setOptimizedText(
-          "Fehler bei der Optimierung. Bitte prüfe, ob das Backend läuft."
-        );
+      } catch {
+        setOptimizedText("Fehler bei der Optimierung.");
       } finally {
         setLoading(false);
       }
@@ -111,82 +78,104 @@ export default function OptimizedResume({
   }, [resumeText, jobText, selectedProduct, candidateData]);
 
   function copyText(text) {
-    if (!text.trim()) {
-      alert("Bitte warte, bis das Ergebnis fertig erstellt wurde.");
-      return;
-    }
-
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text || "");
     alert("Text wurde kopiert.");
   }
 
-  function exportElementToPdf(element, filename) {
-  if (!element) {
-    alert("PDF konnte nicht erstellt werden.");
-    return;
+  async function exportElementToPdf(element, filename) {
+    if (!element) {
+      alert("PDF konnte nicht erstellt werden.");
+      return;
+    }
+
+    try {
+      setExporting(true);
+
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+
+      const pdfWidth = 210;
+      const pdfHeight = 297;
+      const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, "PNG", 0, position, pdfWidth, imgHeight);
+      heightLeft -= pdfHeight;
+
+      while (heightLeft > 0) {
+        position -= pdfHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, position, pdfWidth, imgHeight);
+        heightLeft -= pdfHeight;
+      }
+
+      const blobUrl = pdf.output("bloburl");
+      window.open(blobUrl, "_blank");
+    } catch (error) {
+      console.log(error);
+      alert("PDF konnte nicht erstellt werden.");
+    } finally {
+      setExporting(false);
+    }
   }
 
-  window.print();
-}
-  function downloadResumePdf() {
-    exportElementToPdf(resumeRef.current, "lebenslauf.pdf");
-  }
-
-  function downloadCoverLetterPdf() {
-    exportElementToPdf(coverLetterRef.current, "anschreiben.pdf");
-  }
-
-   function renderResumeTemplate(text) {
+  function renderResumeTemplate(text) {
     const props = {
-    title: "Lebenslauf",
-    optimizedText: text,
-    profilePhoto,
-    candidateData,
-  };
+      title: "Lebenslauf",
+      optimizedText: text,
+      profilePhoto,
+      candidateData,
+    };
 
-  if (selectedTemplate === "modern") return <ModernTemplate {...props} />;
-  if (selectedTemplate === "premium") return <PremiumTemplate {...props} />;
+    if (selectedTemplate === "modern") return <ModernTemplate {...props} />;
+    if (selectedTemplate === "premium") return <PremiumTemplate {...props} />;
+    return <ClassicTemplate {...props} />;
+  }
 
-  return <ClassicTemplate {...props} />;
-}
-
-/* HIER EINFÜGEN */
-
-function DocumentFrame({ children, innerRef }) {
-  return (
-    <div className="w-full rounded-[32px] border border-white/10 bg-white/[0.03] p-4 md:p-8 overflow-x-auto">
-      <div className="mx-auto w-[794px]">
-        <div
-          ref={innerRef}
-          className="w-[794px] bg-white text-black overflow-hidden rounded-[24px] shadow-[0_20px_80px_rgba(0,0,0,0.45)]"
-        >
-          {children}
+  function DocumentFrame({ children, innerRef }) {
+    return (
+      <div className="w-full rounded-[32px] border border-white/10 bg-white/[0.03] p-4 md:p-8 overflow-x-auto">
+        <div className="mx-auto w-[794px]">
+          <div
+            ref={innerRef}
+            className="w-[794px] bg-white text-black overflow-hidden rounded-[24px] shadow-[0_20px_80px_rgba(0,0,0,0.45)]"
+          >
+            {children}
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 
-function ActionButtons({ onCopy, onDownload, downloadLabel }) {
-  return (
-    <div className="flex flex-col sm:flex-row gap-3">
-      <button
-        onClick={onCopy}
-        className="bg-orange-500 hover:bg-orange-400 text-black font-black px-6 py-3 rounded-2xl transition"
-      >
-        Text kopieren
-      </button>
+  function ActionButtons({ onCopy, onDownload, downloadLabel }) {
+    return (
+      <div className="flex flex-col sm:flex-row gap-3">
+        <button
+          onClick={onCopy}
+          className="bg-orange-500 hover:bg-orange-400 text-black font-black px-6 py-3 rounded-2xl transition"
+        >
+          Text kopieren
+        </button>
 
-      <button
-        onClick={onDownload}
-        disabled={exporting}
-        className="border border-orange-500/30 bg-white/[0.04] hover:bg-orange-500 hover:text-black disabled:opacity-60 transition px-6 py-3 rounded-2xl font-black text-orange-400"
-      >
-        {exporting ? "PDF wird erstellt..." : downloadLabel}
-      </button>
-    </div>
-  );
-}
+        <button
+          onClick={onDownload}
+          disabled={exporting}
+          className="border border-orange-500/30 bg-white/[0.04] hover:bg-orange-500 hover:text-black disabled:opacity-60 transition px-6 py-3 rounded-2xl font-black text-orange-400"
+        >
+          {exporting ? "PDF wird erstellt..." : downloadLabel}
+        </button>
+      </div>
+    );
+  }
+
   function SectionHeader({ children, actions }) {
     return (
       <div className="mb-5 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -199,8 +188,6 @@ function ActionButtons({ onCopy, onDownload, downloadLabel }) {
   return (
     <div className="min-h-screen bg-[#030712] text-white overflow-x-hidden">
       <Topbar goHome={goDashboard} />
-
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(255,115,0,0.14),transparent_30%),radial-gradient(circle_at_left,rgba(0,90,255,0.08),transparent_25%)]" />
 
       <div className="relative px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="max-w-[1180px] mx-auto">
@@ -219,8 +206,7 @@ function ActionButtons({ onCopy, onDownload, downloadLabel }) {
             </h1>
 
             <p className="text-gray-400 mt-4 text-base sm:text-lg max-w-3xl leading-relaxed">
-              Dein Ergebnis wurde mit KI optimiert und im passenden Design erstellt.
-              Du kannst den Text kopieren oder direkt als PDF herunterladen.
+              Lebenslauf und Anschreiben sind getrennt. Jede Datei kann einzeln als PDF geöffnet, gespeichert oder gedruckt werden.
             </p>
           </div>
 
@@ -233,14 +219,14 @@ function ActionButtons({ onCopy, onDownload, downloadLabel }) {
               </div>
             </div>
           ) : selectedProduct === "bundle" ? (
-            <div className="space-y-12">
+            <div className="space-y-16">
               <section>
                 <SectionHeader
                   actions={
                     <ActionButtons
                       onCopy={() => copyText(resumePart)}
-                      onDownload={downloadResumePdf}
-                      downloadLabel="Lebenslauf PDF"
+                      onDownload={() => exportElementToPdf(resumeRef.current, "lebenslauf.pdf")}
+                      downloadLabel="Lebenslauf PDF öffnen"
                     />
                   }
                 >
@@ -257,8 +243,8 @@ function ActionButtons({ onCopy, onDownload, downloadLabel }) {
                   actions={
                     <ActionButtons
                       onCopy={() => copyText(coverLetterPart)}
-                      onDownload={downloadCoverLetterPdf}
-                      downloadLabel="Anschreiben PDF"
+                      onDownload={() => exportElementToPdf(coverLetterRef.current, "anschreiben.pdf")}
+                      downloadLabel="Anschreiben PDF öffnen"
                     />
                   }
                 >
@@ -279,8 +265,8 @@ function ActionButtons({ onCopy, onDownload, downloadLabel }) {
                 actions={
                   <ActionButtons
                     onCopy={() => copyText(coverLetterPart)}
-                    onDownload={downloadCoverLetterPdf}
-                    downloadLabel="Anschreiben PDF"
+                    onDownload={() => exportElementToPdf(coverLetterRef.current, "anschreiben.pdf")}
+                    downloadLabel="Anschreiben PDF öffnen"
                   />
                 }
               >
@@ -300,8 +286,8 @@ function ActionButtons({ onCopy, onDownload, downloadLabel }) {
                 actions={
                   <ActionButtons
                     onCopy={() => copyText(optimizedText)}
-                    onDownload={downloadResumePdf}
-                    downloadLabel="Lebenslauf PDF"
+                    onDownload={() => exportElementToPdf(resumeRef.current, "lebenslauf.pdf")}
+                    downloadLabel="Lebenslauf PDF öffnen"
                   />
                 }
               >
