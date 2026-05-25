@@ -6,9 +6,13 @@ import Checkout from "./Checkout";
 import Success from "./Success";
 import OptimizedResume from "./OptimizedResume";
 import LegalPage from "./LegalPage";
+import AuthPage from "./AuthPage";
 
 export default function App() {
   const [page, setPage] = useState("landing");
+  const [isLoggedIn, setIsLoggedIn] = useState(
+  localStorage.getItem("loggedIn") === "true"
+);
 
   const [resumeText, setResumeText] = useState(() => localStorage.getItem("resumeText") || "");
   const [jobText, setJobText] = useState(() => localStorage.getItem("jobText") || "");
@@ -47,7 +51,17 @@ export default function App() {
   });
 
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+  function loginSuccess() {
+  localStorage.setItem("loggedIn", "true");
+  setIsLoggedIn(true);
+  setPage("dashboard");
+}
 
+function logout() {
+  localStorage.removeItem("loggedIn");
+  setIsLoggedIn(false);
+  setPage("landing");
+}
   function goStartseite() {
     setPage("landing");
     setPaymentSuccess(false);
@@ -133,7 +147,13 @@ export default function App() {
   } else if (page === "checkout") {
     content = (
       <Checkout
-        goDashboard={() => setPage("dashboard")}
+        goDashboard={() => {
+  if (isLoggedIn) {
+    setPage("dashboard");
+  } else {
+    setPage("auth");
+  }
+}}
         selectedProduct={selectedProduct || "bundle"}
       />
     );
@@ -169,10 +189,23 @@ export default function App() {
     content = <LegalPage type="agb" goHome={goStartseite} />;
   } else if (page === "kontakt") {
     content = <LegalPage type="kontakt" goHome={goStartseite} />;
+  } else if (page === "auth") {
+  content = (
+    <AuthPage
+      goHome={goStartseite}
+      onLoginSuccess={loginSuccess}
+    />
+  );
   } else {
     content = (
       <LandingPage
-        goDashboard={() => setPage("dashboard")}
+        goDashboard={() => {
+  if (isLoggedIn) {
+    setPage("dashboard");
+  } else {
+    setPage("auth");
+  }
+}}
         goCheckout={goCheckout}
         goLegal={(legalPage) => setPage(legalPage)}
       />
