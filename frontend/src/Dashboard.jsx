@@ -7,6 +7,7 @@ export default function Dashboard({
   goHome,
   logout,
   isLoggedIn,
+  goLogin,
   goCheckout,
   setAppResumeText,
   selectedTemplate,
@@ -227,6 +228,7 @@ export default function Dashboard({
   goHome={goHome}
   logout={logout}
   isLoggedIn={isLoggedIn}
+  goLogin={goLogin}
 />
 
       <div className="px-5 md:px-8 xl:px-14 py-8 md:py-10 bg-[radial-gradient(circle_at_top,rgba(255,122,0,0.08),transparent_35%)]">

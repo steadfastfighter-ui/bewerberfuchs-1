@@ -149,6 +149,7 @@ export default function App() {
         goHome={goStartseite}
         logout={logout}
         isLoggedIn={isLoggedIn}
+        goLogin={() => setPage("auth")}
         goCheckout={goCheckout}
         setAppResumeText={saveResumeText}
         selectedTemplate={selectedTemplate}
