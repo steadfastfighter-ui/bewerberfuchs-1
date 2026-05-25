@@ -120,58 +120,14 @@ export default function OptimizedResume({
     alert("Text wurde kopiert.");
   }
 
-  async function exportElementToPdf(element, filename) {
-    if (!element) {
-      alert("PDF konnte nicht erstellt werden.");
-      return;
-    }
-
-    try {
-      setExporting(true);
-
-      const canvas = await html2canvas(element, {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: "#ffffff",
-        scrollX: 0,
-        scrollY: 0,
-        width: element.scrollWidth,
-        height: element.scrollHeight,
-        windowWidth: element.scrollWidth,
-        windowHeight: element.scrollHeight,
-      });
-
-      const imgData = canvas.toDataURL("image/png", 1.0);
-      const pdf = new jsPDF("p", "mm", "a4");
-
-      const pageWidth = 210;
-      const pageHeight = 297;
-      const imgWidth = pageWidth;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-      let heightLeft = imgHeight;
-      let position = 0;
-
-      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-
-      while (heightLeft > 0) {
-        position -= pageHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      }
-
-      pdf.save(filename);
-    } catch (error) {
-      console.log(error);
-      alert("PDF konnte nicht erstellt werden. Bitte erneut versuchen.");
-    } finally {
-      setExporting(false);
-    }
+  function exportElementToPdf(element, filename) {
+  if (!element) {
+    alert("PDF konnte nicht erstellt werden.");
+    return;
   }
 
+  window.print();
+}
   function downloadResumePdf() {
     exportElementToPdf(resumeRef.current, "lebenslauf.pdf");
   }
