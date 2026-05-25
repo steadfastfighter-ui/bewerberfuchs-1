@@ -214,26 +214,20 @@ export default function OptimizedResume({
       </div>
     );
   }
-
   function DocumentFrame({ children, innerRef }) {
-    return (
-      <div className="w-full overflow-x-auto rounded-[32px] border border-white/10 bg-[#111827] p-3 sm:p-6 shadow-[0_20px_80px_rgba(0,0,0,0.45)]">
-        <div className="mx-auto w-fit">
-          <div
-            ref={innerRef}
-            className="bg-white text-black shadow-2xl"
-            style={{
-              width: "794px",
-              minHeight: "1123px",
-              transformOrigin: "top center",
-            }}
-          >
-            {children}
-          </div>
+  return (
+    <div className="w-full overflow-x-auto rounded-[32px] border border-white/10 bg-white/[0.03] p-4 md:p-8">
+      <div className="mx-auto w-fit origin-top scale-[0.78] md:scale-[0.9] lg:scale-100">
+        <div
+          ref={innerRef}
+          className="bg-white text-black overflow-hidden rounded-[28px] shadow-[0_20px_80px_rgba(0,0,0,0.45)]"
+        >
+          {children}
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
   function SectionHeader({ children, actions }) {
     return (
