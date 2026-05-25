@@ -11,29 +11,41 @@ import AuthPage from "./AuthPage";
 export default function App() {
   const [page, setPage] = useState("landing");
   const [isLoggedIn, setIsLoggedIn] = useState(
-  localStorage.getItem("loggedIn") === "true"
-);
+    localStorage.getItem("loggedIn") === "true"
+  );
 
-  const [resumeText, setResumeText] = useState(() => localStorage.getItem("resumeText") || "");
-  const [jobText, setJobText] = useState(() => localStorage.getItem("jobText") || "");
-  const [selectedProduct, setSelectedProduct] = useState(() => localStorage.getItem("selectedProduct") || "");
-  const [selectedTemplate, setSelectedTemplate] = useState(() => localStorage.getItem("selectedTemplate") || "classic");
-  const [profilePhoto, setProfilePhoto] = useState(() => localStorage.getItem("profilePhoto") || "");
+  const [resumeText, setResumeText] = useState(
+    () => localStorage.getItem("resumeText") || ""
+  );
+  const [jobText, setJobText] = useState(
+    () => localStorage.getItem("jobText") || ""
+  );
+  const [selectedProduct, setSelectedProduct] = useState(
+    () => localStorage.getItem("selectedProduct") || ""
+  );
+  const [selectedTemplate, setSelectedTemplate] = useState(
+    () => localStorage.getItem("selectedTemplate") || "classic"
+  );
+  const [profilePhoto, setProfilePhoto] = useState(
+    () => localStorage.getItem("profilePhoto") || ""
+  );
 
   const [candidateData, setCandidateData] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem("candidateData")) || {
-        fullName: "",
-        jobTitle: "",
-        email: "",
-        phone: "",
-        address: "",
-        linkedin: "",
-        company: "",
-        recruiter: "",
-        position: "",
-        city: "",
-      };
+      return (
+        JSON.parse(localStorage.getItem("candidateData")) || {
+          fullName: "",
+          jobTitle: "",
+          email: "",
+          phone: "",
+          address: "",
+          linkedin: "",
+          company: "",
+          recruiter: "",
+          position: "",
+          city: "",
+        }
+      );
     } catch {
       return {
         fullName: "",
@@ -51,17 +63,20 @@ export default function App() {
   });
 
   const [paymentSuccess, setPaymentSuccess] = useState(false);
-  function loginSuccess() {
-  localStorage.setItem("loggedIn", "true");
-  setIsLoggedIn(true);
-  setPage("dashboard");
-}
 
-function logout() {
-  localStorage.removeItem("loggedIn");
-  setIsLoggedIn(false);
-  setPage("landing");
-}
+  function loginSuccess() {
+    localStorage.setItem("loggedIn", "true");
+    setIsLoggedIn(true);
+    setPage("dashboard");
+  }
+
+  function logout() {
+    localStorage.removeItem("loggedIn");
+    setIsLoggedIn(false);
+    setPage("landing");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   function goStartseite() {
     setPage("landing");
     setPaymentSuccess(false);
@@ -133,6 +148,7 @@ function logout() {
       <Dashboard
         goHome={goStartseite}
         logout={logout}
+        isLoggedIn={isLoggedIn}
         goCheckout={goCheckout}
         setAppResumeText={saveResumeText}
         selectedTemplate={selectedTemplate}
@@ -145,26 +161,21 @@ function logout() {
         setJobText={saveJobText}
       />
     );
- } else if (page === "checkout") {
-  content = (
-    <Checkout
-      goDashboard={() => {
-        if (isLoggedIn) {
-          setPage("dashboard");
-        } else {
-          setPage("auth");
-        }
-      }}
-      logout={logout}
-      isLoggedIn={isLoggedIn}
-      selectedProduct={selectedProduct || "bundle"}
-    />
-  );
+  } else if (page === "checkout") {
+    content = (
+      <Checkout
+        goDashboard={() => setPage("dashboard")}
+        logout={logout}
+        isLoggedIn={isLoggedIn}
+        selectedProduct={selectedProduct || "bundle"}
+      />
+    );
   } else if (page === "success") {
     content = (
       <Success
         goDashboard={goStartseite}
         logout={logout}
+        isLoggedIn={isLoggedIn}
         goOptimized={() => {
           setPaymentSuccess(true);
           setPage("optimized");
@@ -178,6 +189,7 @@ function logout() {
       <OptimizedResume
         goDashboard={goStartseite}
         logout={logout}
+        isLoggedIn={isLoggedIn}
         resumeText={resumeText}
         jobText={jobText}
         selectedProduct={selectedProduct || "bundle"}
@@ -195,22 +207,16 @@ function logout() {
   } else if (page === "kontakt") {
     content = <LegalPage type="kontakt" goHome={goStartseite} />;
   } else if (page === "auth") {
-  content = (
-    <AuthPage
-      goHome={goStartseite}
-      onLoginSuccess={loginSuccess}
-    />
-  );
+    content = (
+      <AuthPage
+        goHome={goStartseite}
+        onLoginSuccess={loginSuccess}
+      />
+    );
   } else {
     content = (
       <LandingPage
-        goDashboard={() => {
-  if (isLoggedIn) {
-    setPage("dashboard");
-  } else {
-    setPage("auth");
-  }
-}}
+        goDashboard={() => setPage("dashboard")}
         goCheckout={goCheckout}
         goLegal={(legalPage) => setPage(legalPage)}
       />

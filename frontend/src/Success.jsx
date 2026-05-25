@@ -3,6 +3,8 @@ import Topbar from "./components/Topbar";
 export default function Success({
   goDashboard,
   goOptimized,
+  logout,
+  isLoggedIn,
   selectedProduct,
 }) {
   const productNames = {
@@ -21,6 +23,7 @@ export default function Success({
       <Topbar
   goHome={goDashboard}
   logout={logout}
+  isLoggedIn={isLoggedIn}
 />
 
       {/* BACKGROUND */}
