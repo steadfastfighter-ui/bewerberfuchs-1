@@ -1,6 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
 import Topbar from "./components/Topbar";
 import ClassicTemplate from "./components/templates/ClassicTemplate";
 import ModernTemplate from "./components/templates/ModernTemplate";
@@ -82,51 +80,51 @@ export default function OptimizedResume({
     alert("Text wurde kopiert.");
   }
 
-  async function exportElementToPdf(element, filename) {
-    if (!element) {
-      alert("PDF konnte nicht erstellt werden.");
-      return;
-    }
-
-    try {
-      setExporting(true);
-
-      const canvas = await html2canvas(element, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: "#ffffff",
-      });
-
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "mm", "a4");
-
-      const pdfWidth = 210;
-      const pdfHeight = 297;
-      const imgHeight = (canvas.height * pdfWidth) / canvas.width;
-
-      let heightLeft = imgHeight;
-      let position = 0;
-
-      pdf.addImage(imgData, "PNG", 0, position, pdfWidth, imgHeight);
-      heightLeft -= pdfHeight;
-
-      while (heightLeft > 0) {
-        position -= pdfHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, "PNG", 0, position, pdfWidth, imgHeight);
-        heightLeft -= pdfHeight;
-      }
-
-      const blobUrl = pdf.output("bloburl");
-      window.open(blobUrl, "_blank");
-    } catch (error) {
-      console.log(error);
-      alert("PDF konnte nicht erstellt werden.");
-    } finally {
-      setExporting(false);
-    }
+  function exportElementToPdf(element, filename) {
+  if (!element) {
+    alert("PDF konnte nicht erstellt werden.");
+    return;
   }
 
+  const printWindow = window.open("", "_blank");
+
+  if (!printWindow) {
+    alert("Popup wurde blockiert. Bitte Popups erlauben.");
+    return;
+  }
+
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>${filename}</title>
+        <style>
+          body {
+            margin: 0;
+            background: white;
+            display: flex;
+            justify-content: center;
+          }
+
+          @page {
+            size: A4;
+            margin: 0;
+          }
+
+          * {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+          }
+        </style>
+      </head>
+      <body>
+        ${element.innerHTML}
+      </body>
+    </html>
+  `);
+
+  printWindow.document.close();
+  printWindow.focus();
+}
   function renderResumeTemplate(text) {
     const props = {
       title: "Lebenslauf",
