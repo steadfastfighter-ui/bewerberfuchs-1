@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import Topbar from "./components/Topbar";
+
 import ClassicTemplate from "./components/templates/ClassicTemplate";
 import ModernTemplate from "./components/templates/ModernTemplate";
 import PremiumTemplate from "./components/templates/PremiumTemplate";
 import CoverLetterTemplate from "./components/templates/CoverLetterTemplate";
-import ResumePDF from "./components/pdf/ResumePDF";
-import CoverLetterPDF from "./components/pdf/CoverLetterPDF";
 
 const API_URL = "https://bewerberfuchs-1.onrender.com";
 
 export default function OptimizedResume({
   goDashboard,
+  logout,
   resumeText,
   jobText,
   selectedProduct,
@@ -19,10 +19,15 @@ export default function OptimizedResume({
   candidateData,
 }) {
   const [optimizedText, setOptimizedText] = useState("");
+
   const [editMode, setEditMode] = useState(false);
+
   const [editableResume, setEditableResume] = useState("");
-  const [editableCoverLetter, setEditableCoverLetter] = useState("");
+  const [editableCoverLetter, setEditableCoverLetter] =
+    useState("");
+
   const [loading, setLoading] = useState(true);
+
   const [exporting, setExporting] = useState(false);
 
   const resumeRef = useRef(null);
@@ -44,12 +49,19 @@ export default function OptimizedResume({
 
   const resumePart =
     selectedProduct === "bundle"
-      ? optimizedText.split("=== ANSCHREIBEN ===")[0].replace("=== LEBENSLAUF ===", "").trim()
+      ? optimizedText
+          .split("=== ANSCHREIBEN ===")[0]
+          .replace("=== LEBENSLAUF ===", "")
+          .trim()
       : optimizedText;
 
   const coverLetterPart =
     selectedProduct === "bundle"
-      ? cleanCoverLetterText(optimizedText.split("=== ANSCHREIBEN ===")[1] || "")
+      ? cleanCoverLetterText(
+          optimizedText.split(
+            "=== ANSCHREIBEN ==="
+          )[1] || ""
+        )
       : cleanCoverLetterText(optimizedText);
 
   useEffect(() => {
@@ -57,105 +69,149 @@ export default function OptimizedResume({
       try {
         setLoading(true);
 
-        const response = await fetch(`${API_URL}/optimize`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            resumeText: resumeText || "Motivierter Bewerber mit Teamfähigkeit und Berufserfahrung.",
-            jobText: jobText || "",
-            product: selectedProduct || "bundle",
-            candidateData,
-          }),
-        });
+        const response = await fetch(
+          `${API_URL}/optimize`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              resumeText:
+                resumeText ||
+                "Motivierter Bewerber mit Teamfähigkeit.",
+              jobText: jobText || "",
+              product:
+                selectedProduct || "bundle",
+              candidateData,
+            }),
+          }
+        );
 
         const data = await response.json();
-        setOptimizedText(data.optimizedText || "Keine Optimierung erhalten.");
-        const savedResume = localStorage.getItem("editedResume");
-        const savedCover = localStorage.getItem("editedCoverLetter");
 
-         if (savedResume) {
-         setEditableResume(savedResume);
-         }
+        setOptimizedText(
+          data.optimizedText ||
+            "Keine Optimierung erhalten."
+        );
 
-         if (savedCover) {
+        const savedResume =
+          localStorage.getItem("editedResume");
+
+        const savedCover =
+          localStorage.getItem(
+            "editedCoverLetter"
+          );
+
+        if (savedResume) {
+          setEditableResume(savedResume);
+        }
+
+        if (savedCover) {
           setEditableCoverLetter(savedCover);
-         }
+        }
       } catch {
-        setOptimizedText("Fehler bei der Optimierung.");
+        setOptimizedText(
+          "Fehler bei der Optimierung."
+        );
       } finally {
         setLoading(false);
       }
     }
 
     optimize();
-  }, [resumeText, jobText, selectedProduct, candidateData]);
+  }, [
+    resumeText,
+    jobText,
+    selectedProduct,
+    candidateData,
+  ]);
 
   function copyText(text) {
     navigator.clipboard.writeText(text || "");
-    alert("Text wurde kopiert.");
+    console.log("Text kopiert");
   }
+
   function saveChanges() {
-  localStorage.setItem("editedResume", editableResume);
-  localStorage.setItem("editedCoverLetter", editableCoverLetter);
+    localStorage.setItem(
+      "editedResume",
+      editableResume
+    );
 
-  setOptimizedText(
-    `${editableResume}\n\n=== ANSCHREIBEN ===\n\n${editableCoverLetter}`
-  );
+    localStorage.setItem(
+      "editedCoverLetter",
+      editableCoverLetter
+    );
 
-  setEditMode(false);
+    setOptimizedText(
+      `${editableResume}
 
-  alert("Änderungen gespeichert.");
-}
-  function exportElementToPdf(content, filename) {
-  const printWindow = window.open("", "_blank");
+=== ANSCHREIBEN ===
 
-  if (!printWindow) {
-    alert("Popup wurde blockiert.");
-    return;
+${editableCoverLetter}`
+    );
+
+    setEditMode(false);
   }
 
-  printWindow.document.write(`
-    <html>
-      <head>
-        <title>${filename}</title>
+  function exportElementToPdf(
+    content,
+    filename
+  ) {
+    const printWindow = window.open(
+      "",
+      "_blank"
+    );
 
-        <script src="https://cdn.tailwindcss.com"></script>
+    if (!printWindow) return;
 
-        <style>
-          body {
-            margin: 0;
-            background: #e5e7eb;
-            display: flex;
-            justify-content: center;
-            padding: 40px;
-          }
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>${filename}</title>
 
-          @page {
-            size: A4;
-            margin: 0;
-          }
+          <script src="https://cdn.tailwindcss.com"></script>
 
-          * {
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-            box-sizing: border-box;
-          }
-        </style>
-      </head>
+          <style>
+            body{
+              margin:0;
+              background:#e5e7eb;
+              display:flex;
+              justify-content:center;
+              padding:40px;
+            }
 
-      <body>
-        <div id="pdf-root"></div>
-      </body>
-    </html>
-  `);
+            @page{
+              size:A4;
+              margin:0;
+            }
 
-  printWindow.document.close();
+            *{
+              -webkit-print-color-adjust:exact;
+              print-color-adjust:exact;
+              box-sizing:border-box;
+            }
+          </style>
+        </head>
 
-  setTimeout(() => {
-    const root = printWindow.document.getElementById("pdf-root");
-    root.innerHTML = content;
-  }, 300);
-}
+        <body>
+          <div id="pdf-root"></div>
+        </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+
+    setTimeout(() => {
+      const root =
+        printWindow.document.getElementById(
+          "pdf-root"
+        );
+
+      root.innerHTML = content;
+    }, 300);
+  }
+
   function renderResumeTemplate(text) {
     const props = {
       title: "Lebenslauf",
@@ -164,18 +220,34 @@ export default function OptimizedResume({
       candidateData,
     };
 
-    if (selectedTemplate === "modern") return <ModernTemplate {...props} />;
-    if (selectedTemplate === "premium") return <PremiumTemplate {...props} />;
+    if (selectedTemplate === "modern") {
+      return <ModernTemplate {...props} />;
+    }
+
+    if (selectedTemplate === "premium") {
+      return <PremiumTemplate {...props} />;
+    }
+
     return <ClassicTemplate {...props} />;
   }
 
-  function DocumentFrame({ children, innerRef }) {
+  function DocumentFrame({
+    children,
+    innerRef,
+  }) {
     return (
-      <div className="w-full rounded-[32px] border border-white/10 bg-white/[0.03] p-4 md:p-8 overflow-x-auto">
+      <div className="w-full rounded-[36px] border border-white/10 bg-white/[0.03] p-4 md:p-8 overflow-x-auto">
         <div className="mx-auto w-[794px]">
           <div
             ref={innerRef}
-            className="w-[794px] bg-white text-black overflow-hidden rounded-[24px] shadow-[0_20px_80px_rgba(0,0,0,0.45)]"
+            className="
+              w-[794px]
+              bg-white
+              text-black
+              overflow-hidden
+              rounded-[28px]
+              shadow-[0_25px_80px_rgba(0,0,0,0.45)]
+            "
           >
             {children}
           </div>
@@ -184,12 +256,26 @@ export default function OptimizedResume({
     );
   }
 
-  function ActionButtons({ onCopy, onDownload, downloadLabel }) {
+  function ActionButtons({
+    onCopy,
+    onDownload,
+    downloadLabel,
+  }) {
     return (
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="flex flex-col sm:flex-row gap-4">
         <button
           onClick={onCopy}
-          className="bg-orange-500 hover:bg-orange-400 text-black font-black px-6 py-3 rounded-2xl transition"
+          className="
+            bg-orange-500
+            hover:bg-orange-400
+            text-black
+            font-black
+            px-6
+            py-3
+            rounded-2xl
+            transition-all
+            duration-300
+          "
         >
           Text kopieren
         </button>
@@ -197,18 +283,40 @@ export default function OptimizedResume({
         <button
           onClick={onDownload}
           disabled={exporting}
-          className="border border-orange-500/30 bg-white/[0.04] hover:bg-orange-500 hover:text-black disabled:opacity-60 transition px-6 py-3 rounded-2xl font-black text-orange-400"
+          className="
+            border
+            border-orange-500/30
+            bg-black/30
+            hover:bg-orange-500
+            hover:text-black
+            disabled:opacity-60
+            transition-all
+            duration-300
+            px-6
+            py-3
+            rounded-2xl
+            font-black
+            text-orange-400
+          "
         >
-          {exporting ? "PDF wird erstellt..." : downloadLabel}
+          {exporting
+            ? "PDF wird erstellt..."
+            : downloadLabel}
         </button>
       </div>
     );
   }
 
-  function SectionHeader({ children, actions }) {
+  function SectionHeader({
+    children,
+    actions,
+  }) {
     return (
-      <div className="mb-5 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-        <h2 className="text-3xl font-black">{children}</h2>
+      <div className="mb-6 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+        <h2 className="text-3xl font-black">
+          {children}
+        </h2>
+
         {actions}
       </div>
     );
@@ -216,97 +324,196 @@ export default function OptimizedResume({
 
   return (
     <div className="min-h-screen bg-[#030712] text-white overflow-x-hidden">
-      <Topbar goHome={goDashboard} />
+      <Topbar
+  goHome={goDashboard}
+  logout={logout}
+/>
 
-      <div className="relative px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <div className="max-w-[1180px] mx-auto">
+      <div className="relative px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <div className="max-w-[1280px] mx-auto">
+
           <button
             onClick={goDashboard}
-            className="mb-8 text-gray-400 hover:text-white transition"
+            className="mb-10 text-gray-400 hover:text-white transition"
           >
             ← Zurück zum Dashboard
           </button>
 
-          <div className="mb-10 sm:mb-14">
-            <p className="text-orange-400 font-semibold">Premium Ergebnis</p>
+          <div className="mb-14">
+
+            <p className="text-orange-400 font-semibold">
+              Premium Ergebnis
+            </p>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mt-3 leading-[0.95] tracking-tight">
               {title}
             </h1>
 
-            <p className="text-gray-400 mt-4 text-base sm:text-lg max-w-3xl leading-relaxed">
-              Lebenslauf und Anschreiben sind getrennt. Jede Datei kann einzeln als PDF geöffnet, gespeichert oder gedruckt werden.
+            <p className="text-gray-400 mt-5 text-base sm:text-lg max-w-3xl leading-relaxed">
+              Lebenslauf und Anschreiben
+              sind getrennt. Jede Datei kann
+              einzeln geöffnet, gespeichert
+              oder gedruckt werden.
             </p>
-            <div className="flex gap-3 mt-6 flex-wrap">
-  <button
-    onClick={() => {
-      setEditableResume(resumePart);
-      setEditableCoverLetter(coverLetterPart);
-      setEditMode(true);
-    }}
-    className="bg-orange-500 hover:bg-orange-400 text-black font-black px-6 py-3 rounded-2xl transition"
-  >
-    Text bearbeiten
-  </button>
 
-  {editMode && (
-    <button
-      onClick={saveChanges}
-      className="border border-green-500 text-green-400 hover:bg-green-500 hover:text-black font-black px-6 py-3 rounded-2xl transition"
-    >
-      Änderungen speichern
-    </button>
-  )}
-</div>
+            <div className="flex gap-4 mt-8 flex-wrap">
+
+              <button
+                onClick={() => {
+                  setEditableResume(
+                    resumePart
+                  );
+
+                  setEditableCoverLetter(
+                    coverLetterPart
+                  );
+
+                  setEditMode(true);
+                }}
+                className="
+                  bg-orange-500
+                  hover:bg-orange-400
+                  text-black
+                  font-black
+                  px-6
+                  py-3
+                  rounded-2xl
+                  transition-all
+                  duration-300
+                "
+              >
+                Text bearbeiten
+              </button>
+
+              {editMode && (
+                <button
+                  onClick={saveChanges}
+                  className="
+                    border
+                    border-green-500
+                    text-green-400
+                    hover:bg-green-500
+                    hover:text-black
+                    font-black
+                    px-6
+                    py-3
+                    rounded-2xl
+                    transition-all
+                    duration-300
+                  "
+                >
+                  Änderungen speichern
+                </button>
+              )}
+
+            </div>
           </div>
+
           {editMode && (
-  <div className="mb-10 space-y-6">
-    <div>
-      <h3 className="text-2xl font-black mb-3">
-        Lebenslauf bearbeiten
-      </h3>
+            <div className="mb-14 space-y-8">
 
-      <textarea
-        value={editableResume}
-        onChange={(e) => setEditableResume(e.target.value)}
-        className="w-full min-h-[300px] rounded-3xl bg-black/30 border border-white/10 p-6 text-white"
-      />
-    </div>
+              <div>
+                <h3 className="text-2xl font-black mb-4">
+                  Lebenslauf bearbeiten
+                </h3>
 
-    <div>
-      <h3 className="text-2xl font-black mb-3">
-        Anschreiben bearbeiten
-      </h3>
+                <textarea
+                  value={editableResume}
+                  onChange={(e) =>
+                    setEditableResume(
+                      e.target.value
+                    )
+                  }
+                  className="
+                    w-full
+                    min-h-[320px]
+                    rounded-[32px]
+                    bg-white/[0.04]
+                    border
+                    border-white/10
+                    p-6
+                    text-white
+                    outline-none
+                    focus:border-orange-500/40
+                    focus:ring-4
+                    focus:ring-orange-500/10
+                    transition
+                    resize-none
+                    leading-8
+                  "
+                />
+              </div>
 
-      <textarea
-        value={editableCoverLetter}
-        onChange={(e) => setEditableCoverLetter(e.target.value)}
-        className="w-full min-h-[300px] rounded-3xl bg-black/30 border border-white/10 p-6 text-white"
-      />
-    </div>
-  </div>
-)}
+              <div>
+                <h3 className="text-2xl font-black mb-4">
+                  Anschreiben bearbeiten
+                </h3>
+
+                <textarea
+                  value={editableCoverLetter}
+                  onChange={(e) =>
+                    setEditableCoverLetter(
+                      e.target.value
+                    )
+                  }
+                  className="
+                    w-full
+                    min-h-[320px]
+                    rounded-[32px]
+                    bg-white/[0.04]
+                    border
+                    border-white/10
+                    p-6
+                    text-white
+                    outline-none
+                    focus:border-orange-500/40
+                    focus:ring-4
+                    focus:ring-orange-500/10
+                    transition
+                    resize-none
+                    leading-8
+                  "
+                />
+              </div>
+
+            </div>
+          )}
+
           {loading ? (
-            <div className="rounded-[32px] border border-white/10 bg-white/[0.04] p-8">
-              <div className="space-y-4 text-gray-300">
-                <div className="animate-pulse">🧠 KI optimiert deinen Text...</div>
-                <div className="animate-pulse">📄 Dokument wird erstellt...</div>
-                <div className="animate-pulse">✨ Design wird vorbereitet...</div>
+            <div className="rounded-[36px] border border-white/10 bg-white/[0.04] p-10">
+              <div className="space-y-5 text-gray-300">
+
+                <div className="animate-pulse">
+                  🧠 KI optimiert deinen Text...
+                </div>
+
+                <div className="animate-pulse">
+                  📄 Dokument wird erstellt...
+                </div>
+
+                <div className="animate-pulse">
+                  ✨ Design wird vorbereitet...
+                </div>
+
               </div>
             </div>
           ) : selectedProduct === "bundle" ? (
-            <div className="space-y-16">
+            <div className="space-y-24">
+
               <section>
                 <SectionHeader
                   actions={
                     <ActionButtons
-                      onCopy={() => copyText(resumePart)}
+                      onCopy={() =>
+                        copyText(resumePart)
+                      }
                       onDownload={() =>
-  exportElementToPdf(
-    resumeRef.current.innerHTML,
-    "lebenslauf.pdf"
-  )
-}
+                        exportElementToPdf(
+                          resumeRef.current
+                            .innerHTML,
+                          "lebenslauf.pdf"
+                        )
+                      }
                       downloadLabel="Lebenslauf PDF öffnen"
                     />
                   }
@@ -314,8 +521,12 @@ export default function OptimizedResume({
                   Lebenslauf
                 </SectionHeader>
 
-                <DocumentFrame innerRef={resumeRef}>
-                  {renderResumeTemplate(resumePart)}
+                <DocumentFrame
+                  innerRef={resumeRef}
+                >
+                  {renderResumeTemplate(
+                    resumePart
+                  )}
                 </DocumentFrame>
               </section>
 
@@ -323,13 +534,18 @@ export default function OptimizedResume({
                 <SectionHeader
                   actions={
                     <ActionButtons
-                      onCopy={() => copyText(coverLetterPart)}
+                      onCopy={() =>
+                        copyText(
+                          coverLetterPart
+                        )
+                      }
                       onDownload={() =>
-  exportElementToPdf(
-    coverLetterRef.current.innerHTML,
-    "anschreiben.pdf"
-  )
-}
+                        exportElementToPdf(
+                          coverLetterRef.current
+                            .innerHTML,
+                          "anschreiben.pdf"
+                        )
+                      }
                       downloadLabel="Anschreiben PDF öffnen"
                     />
                   }
@@ -337,26 +553,39 @@ export default function OptimizedResume({
                   Anschreiben
                 </SectionHeader>
 
-                <DocumentFrame innerRef={coverLetterRef}>
+                <DocumentFrame
+                  innerRef={coverLetterRef}
+                >
                   <CoverLetterTemplate
-                    optimizedText={coverLetterPart}
-                    candidateData={candidateData}
+                    optimizedText={
+                      coverLetterPart
+                    }
+                    candidateData={
+                      candidateData
+                    }
                   />
                 </DocumentFrame>
               </section>
+
             </div>
-          ) : selectedProduct === "coverLetter" ? (
+          ) : selectedProduct ===
+            "coverLetter" ? (
             <section>
               <SectionHeader
                 actions={
                   <ActionButtons
-                    onCopy={() => copyText(coverLetterPart)}
+                    onCopy={() =>
+                      copyText(
+                        coverLetterPart
+                      )
+                    }
                     onDownload={() =>
-  exportElementToPdf(
-    coverLetterRef.current.innerHTML,
-    "anschreiben.pdf"
-  )
-}
+                      exportElementToPdf(
+                        coverLetterRef.current
+                          .innerHTML,
+                        "anschreiben.pdf"
+                      )
+                    }
                     downloadLabel="Anschreiben PDF öffnen"
                   />
                 }
@@ -364,10 +593,16 @@ export default function OptimizedResume({
                 Anschreiben
               </SectionHeader>
 
-              <DocumentFrame innerRef={coverLetterRef}>
+              <DocumentFrame
+                innerRef={coverLetterRef}
+              >
                 <CoverLetterTemplate
-                  optimizedText={coverLetterPart}
-                  candidateData={candidateData}
+                  optimizedText={
+                    coverLetterPart
+                  }
+                  candidateData={
+                    candidateData
+                  }
                 />
               </DocumentFrame>
             </section>
@@ -376,13 +611,18 @@ export default function OptimizedResume({
               <SectionHeader
                 actions={
                   <ActionButtons
-                    onCopy={() => copyText(optimizedText)}
+                    onCopy={() =>
+                      copyText(
+                        optimizedText
+                      )
+                    }
                     onDownload={() =>
-  exportElementToPdf(
-    resumeRef.current.innerHTML,
-    "lebenslauf.pdf"
-  )
-}
+                      exportElementToPdf(
+                        resumeRef.current
+                          .innerHTML,
+                        "lebenslauf.pdf"
+                      )
+                    }
                     downloadLabel="Lebenslauf PDF öffnen"
                   />
                 }
@@ -390,8 +630,12 @@ export default function OptimizedResume({
                 Lebenslauf
               </SectionHeader>
 
-              <DocumentFrame innerRef={resumeRef}>
-                {renderResumeTemplate(optimizedText)}
+              <DocumentFrame
+                innerRef={resumeRef}
+              >
+                {renderResumeTemplate(
+                  optimizedText
+                )}
               </DocumentFrame>
             </section>
           )}

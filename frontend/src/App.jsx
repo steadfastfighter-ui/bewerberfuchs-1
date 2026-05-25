@@ -132,6 +132,7 @@ function logout() {
     content = (
       <Dashboard
         goHome={goStartseite}
+        logout={logout}
         goCheckout={goCheckout}
         setAppResumeText={saveResumeText}
         selectedTemplate={selectedTemplate}
@@ -161,6 +162,7 @@ function logout() {
     content = (
       <Success
         goDashboard={goStartseite}
+        logout={logout}
         goOptimized={() => {
           setPaymentSuccess(true);
           setPage("optimized");
@@ -173,6 +175,7 @@ function logout() {
     content = (
       <OptimizedResume
         goDashboard={goStartseite}
+        logout={logout}
         resumeText={resumeText}
         jobText={jobText}
         selectedProduct={selectedProduct || "bundle"}

@@ -5,6 +5,7 @@ const API_URL = "https://bewerberfuchs-1.onrender.com";
 
 export default function Dashboard({
   goHome,
+  logout,
   goCheckout,
   setAppResumeText,
   selectedTemplate,
@@ -221,7 +222,10 @@ export default function Dashboard({
 };
   return (
     <div className="min-h-screen bg-[#0b0f19] text-white overflow-x-hidden">
-      <Topbar goHome={goHome} />
+      <Topbar
+  goHome={goHome}
+  logout={logout}
+/>
 
       <div className="px-5 md:px-8 xl:px-14 py-8 md:py-10 bg-[radial-gradient(circle_at_top,rgba(255,122,0,0.08),transparent_35%)]">
         <div className="max-w-[1450px] mx-auto">

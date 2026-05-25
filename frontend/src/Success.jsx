@@ -18,7 +18,10 @@ export default function Success({
   return (
     <div className="min-h-screen bg-[#050816] text-white overflow-hidden">
 
-      <Topbar goHome={goDashboard} />
+      <Topbar
+  goHome={goDashboard}
+  logout={logout}
+/>
 
       {/* BACKGROUND */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -27,7 +30,7 @@ export default function Success({
         <div className="absolute bottom-[-180px] right-[-100px] w-[450px] h-[450px] rounded-full bg-blue-500/10 blur-[120px]" />
       </div>
 
-      <div className="relative z-10 px-6 py-14">
+      <div className="relative z-10 px-6 py-20">
         <div className="max-w-6xl mx-auto">
 
           <div
@@ -69,7 +72,7 @@ export default function Success({
                   flex
                   items-center
                   justify-center
-                  text-6xl
+                  text-4xl
                   shadow-[0_10px_50px_rgba(34,197,94,0.45)]
                 "
               >
@@ -84,7 +87,7 @@ export default function Success({
                 className="
                   inline-flex
                   items-center
-                  gap-2
+                  gap-5
                   bg-green-500/10
                   border
                   border-green-500/20
@@ -105,7 +108,7 @@ export default function Success({
               <h1
                 className="
                   text-[42px]
-                  md:text-[82px]
+                  md:text-[68px]
                   leading-[0.92]
                   font-black
                   tracking-tight
@@ -143,7 +146,7 @@ export default function Success({
             </div>
 
             {/* FEATURES */}
-            <div className="grid md:grid-cols-3 gap-5 mb-14">
+            <div className="grid md:grid-cols-3 gap-6 mb-14">
               {[
                 {
                   title: "KI Analyse",
@@ -170,7 +173,7 @@ export default function Success({
                     rounded-[30px]
                     p-7
                     backdrop-blur-xl
-                    hover:border-orange-500/30
+                    gap-5
                     transition
                   "
                 >
