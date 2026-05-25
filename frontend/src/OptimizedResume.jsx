@@ -230,7 +230,12 @@ export default function OptimizedResume({
                   actions={
                     <ActionButtons
                       onCopy={() => copyText(resumePart)}
-                      onDownload={() => exportElementToPdf(resumeRef.current, "lebenslauf.pdf")}
+                      onDownload={() =>
+  exportElementToPdf(
+    resumeRef.current.innerHTML,
+    "lebenslauf.pdf"
+  )
+}
                       downloadLabel="Lebenslauf PDF öffnen"
                     />
                   }
@@ -301,7 +306,12 @@ export default function OptimizedResume({
                 actions={
                   <ActionButtons
                     onCopy={() => copyText(optimizedText)}
-                    onDownload={() => exportElementToPdf(resumeRef.current, "lebenslauf.pdf")}
+                    onDownload={() =>
+  exportElementToPdf(
+    resumeRef.current.innerHTML,
+    "lebenslauf.pdf"
+  )
+}
                     downloadLabel="Lebenslauf PDF öffnen"
                   />
                 }
