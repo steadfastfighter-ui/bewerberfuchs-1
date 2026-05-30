@@ -276,30 +276,29 @@ ${editableCoverLetter}`
     return <ClassicTemplate {...props} />;
   }
 
-  function DocumentFrame({
-    children,
-    innerRef,
-  }) {
-    return (
-      <div className="w-full rounded-[36px] border border-white/10 bg-white/[0.03] p-4 md:p-8 overflow-x-auto">
-        <div className="mx-auto w-[794px]">
-          <div
-            ref={innerRef}
-            className="
-              w-[794px]
-              bg-white
-              text-black
-              overflow-hidden
-              rounded-[28px]
-              shadow-[0_25px_80px_rgba(0,0,0,0.45)]
-            "
-          >
-            {children}
-          </div>
+function DocumentFrame({ children, innerRef }) {
+  return (
+    <div className="w-full rounded-[36px] border border-white/10 bg-white/[0.03] p-4 md:p-8 overflow-x-auto">
+      <div className="w-full max-w-5xl mx-auto px-2 sm:px-4">
+        <div
+          ref={innerRef}
+          className="
+            w-full
+            bg-white
+            text-black
+            overflow-hidden
+            rounded-[32px]
+            shadow-[0_30px_100px_rgba(0,0,0,0.55)]
+            border
+            border-black/5
+          "
+        >
+          {children}
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
   function ActionButtons({
     onCopy,
@@ -311,16 +310,19 @@ ${editableCoverLetter}`
         <button
           onClick={onCopy}
           className="
-            bg-orange-500
-            hover:bg-orange-400
-            text-black
-            font-black
-            px-6
-            py-3
-            rounded-2xl
-            transition-all
-            duration-300
-          "
+bg-orange-500
+hover:bg-orange-400
+text-black
+font-black
+px-7
+py-3
+rounded-2xl
+shadow-xl
+shadow-orange-500/30
+transition-all
+duration-300
+hover:scale-105
+"
         >
           Text kopieren
         </button>
@@ -580,7 +582,7 @@ ${editableCoverLetter}`
                           "lebenslauf.pdf"
                         )
                       }
-                      downloadLabel="Lebenslauf PDF öffnen"
+                      downloadLabel="PDF herunterladen"
                     />
                   }
                 >
@@ -612,7 +614,7 @@ ${editableCoverLetter}`
                           "anschreiben.pdf"
                         )
                       }
-                      downloadLabel="Anschreiben PDF öffnen"
+                      downloadLabel="PDF herunterladen"
                     />
                   }
                 >
@@ -652,7 +654,7 @@ ${editableCoverLetter}`
                         "anschreiben.pdf"
                       )
                     }
-                    downloadLabel="Anschreiben PDF öffnen"
+                    downloadLabel="PDF herunterladen"
                   />
                 }
               >
@@ -689,7 +691,7 @@ ${editableCoverLetter}`
                         "lebenslauf.pdf"
                       )
                     }
-                    downloadLabel="Lebenslauf PDF öffnen"
+                    downloadLabel="PDF herunterladen"
                   />
                 }
               >
