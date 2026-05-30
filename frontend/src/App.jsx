@@ -12,6 +12,7 @@ import LegalPage from "./LegalPage";
 import AuthPage from "./AuthPage";
 import MyApplications from "./MyApplications";
 
+
 export default function App() {
   const [page, setPage] = useState("landing");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -242,7 +243,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden bg-[#030712] text-white">
+    <div className="min-h-screen w-full overflow-x-hidden bg-[#03012] text-white">
       <div className="relative overflow-x-hidden">
         <>
   <Toaster

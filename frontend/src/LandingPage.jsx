@@ -49,15 +49,7 @@ export default function LandingPage({ goDashboard, goCheckout, goLegal }) {
       action: () => goCheckout("bundle"),
       highlight: true,
     },
-    {
-      title: "Premium",
-      price: "12,99€",
-      text: "Premium Bewerbungspaket",
-      features: ["Lebenslauf + Anschreiben", "Extra KI-Optimierung", "2 moderne Vorlagen"],
-      cta: "Premium erstellen",
-      action: () => goCheckout("bundle"),
-      highlight: false,
-    },
+  
   ];
 
   const faqs = [
