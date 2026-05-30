@@ -1,4 +1,13 @@
 import { useEffect, useRef, useState } from "react";
+import { auth, db } from "./firebase";
+
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+} from "firebase/firestore";
+
+import toast from "react-hot-toast";
 import Topbar from "./components/Topbar";
 
 import ClassicTemplate from "./components/templates/ClassicTemplate";
@@ -46,7 +55,43 @@ export default function OptimizedResume({
       .replace(/Mit freundlichen Grüßen[\s\S]*$/i, "")
       .trim();
   }
+   async function saveApplication() {
+  if (!auth.currentUser) {
+    toast.error(
+      "Bitte zuerst einloggen, um Bewerbungen zu speichern."
+    );
+    return;
+  }
 
+  try {
+    await addDoc(
+      collection(
+        db,
+        "users",
+        auth.currentUser.uid,
+        "applications"
+      ),
+      {
+        title,
+        selectedProduct,
+        selectedTemplate,
+        optimizedText,
+        resumeText,
+        jobText,
+        candidateData,
+        createdAt: serverTimestamp(),
+      }
+    );
+
+    toast.success(
+      "Bewerbung erfolgreich gespeichert."
+    );
+  } catch {
+    toast.error(
+      "Speichern fehlgeschlagen."
+    );
+  }
+}
   const resumePart =
     selectedProduct === "bundle"
       ? optimizedText
@@ -129,7 +174,7 @@ export default function OptimizedResume({
 
   function copyText(text) {
     navigator.clipboard.writeText(text || "");
-    console.log("Text kopiert");
+    toast.success("Text kopiert");
   }
 
   function saveChanges() {
@@ -327,6 +372,8 @@ ${editableCoverLetter}`
       <Topbar
   goHome={goDashboard}
   logout={logout}
+  isLoggedIn={auth.currentUser}
+  goLogin={() => window.location.reload()}
 />
 
       <div className="relative px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
@@ -384,6 +431,25 @@ ${editableCoverLetter}`
               >
                 Text bearbeiten
               </button>
+              <button
+  onClick={saveApplication}
+  className="
+    border
+    border-white/10
+    bg-white/[0.04]
+    hover:border-orange-500/40
+    hover:bg-orange-500/10
+    text-white
+    font-bold
+    px-6
+    py-3
+    rounded-2xl
+    transition-all
+    duration-300
+  "
+>
+  Bewerbung speichern
+</button>
 
               {editMode && (
                 <button
