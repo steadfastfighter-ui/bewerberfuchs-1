@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "./firebase";
+
 import CookieBanner from "./components/CookieBanner";
 import LandingPage from "./LandingPage";
 import Dashboard from "./Dashboard";
@@ -10,9 +13,7 @@ import AuthPage from "./AuthPage";
 
 export default function App() {
   const [page, setPage] = useState("landing");
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    localStorage.getItem("loggedIn") === "true"
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [resumeText, setResumeText] = useState(
     () => localStorage.getItem("resumeText") || ""
@@ -65,13 +66,12 @@ export default function App() {
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   function loginSuccess() {
-    localStorage.setItem("loggedIn", "true");
-    setIsLoggedIn(true);
     setPage("dashboard");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  function logout() {
-    localStorage.removeItem("loggedIn");
+  async function logout() {
+    await signOut(auth);
     setIsLoggedIn(false);
     setPage("landing");
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -119,6 +119,10 @@ export default function App() {
   }
 
   useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsLoggedIn(!!user);
+    });
+
     const params = new URLSearchParams(window.location.search);
 
     if (params.get("success") === "true") {
@@ -139,6 +143,8 @@ export default function App() {
       alert("Zahlung wurde abgebrochen. Du kannst es jederzeit erneut versuchen.");
       window.history.replaceState({}, "", "/");
     }
+
+    return () => unsubscribe();
   }, []);
 
   let content;
