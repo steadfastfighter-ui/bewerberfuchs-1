@@ -5,29 +5,32 @@ export default function Topbar({
   goLogin,
 }) {
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#050816]/85 backdrop-blur-2xl">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-        <button onClick={goHome} className="flex items-center gap-3 min-w-0">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#050816]/90 backdrop-blur-2xl">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+        <button
+          onClick={goHome}
+          className="flex items-center gap-3 min-w-0"
+        >
           <img
             src="/favicon.png"
             alt="BewerberFuchs"
-            className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl object-cover shadow-lg shadow-orange-500/20"
+            className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl object-cover shadow-lg shadow-orange-500/20"
           />
 
           <div className="leading-tight min-w-0">
-            <div className="text-[22px] sm:text-[28px] font-black tracking-tight text-white truncate">
+            <div className="text-[20px] sm:text-[28px] font-black tracking-tight text-white truncate">
               Bewerber<span className="text-orange-500">Fuchs</span>
             </div>
 
-            <div className="hidden sm:block text-[11px] tracking-[5px] text-gray-400 uppercase">
+            <div className="hidden sm:block text-[10px] tracking-[4px] text-gray-400 uppercase truncate">
               KI Bewerbungstool
             </div>
           </div>
         </button>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-2 shrink-0">
           {isLoggedIn && (
-            <div className="hidden md:flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-full px-4 py-2 text-sm text-green-300">
+            <div className="hidden lg:flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-full px-4 py-2 text-sm text-green-300">
               <span className="w-2 h-2 rounded-full bg-green-400" />
               Eingeloggt
             </div>
@@ -35,7 +38,7 @@ export default function Topbar({
 
           <button
             onClick={goHome}
-            className="shrink-0 bg-gradient-to-r from-orange-500 to-orange-600 hover:scale-105 transition text-white font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl shadow-lg shadow-orange-500/20 text-sm sm:text-base"
+            className="hidden md:flex items-center justify-center h-11 px-5 rounded-2xl bg-white/[0.05] border border-white/10 hover:border-orange-500/40 hover:bg-orange-500/10 transition-all text-white font-semibold"
           >
             Startseite
           </button>
@@ -43,7 +46,7 @@ export default function Topbar({
           {!isLoggedIn && goLogin && (
             <button
               onClick={goLogin}
-              className="shrink-0 bg-white/[0.06] border border-white/10 hover:bg-white/[0.12] transition text-white font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl text-sm sm:text-base"
+              className="h-11 px-5 rounded-2xl bg-orange-500 hover:bg-orange-400 transition-all text-black font-black shadow-lg shadow-orange-500/20"
             >
               Einloggen
             </button>
@@ -52,7 +55,7 @@ export default function Topbar({
           {isLoggedIn && (
             <button
               onClick={logout}
-              className="shrink-0 bg-red-500/10 border border-red-500/20 hover:bg-red-500 transition text-red-300 hover:text-white font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl text-sm sm:text-base"
+              className="h-11 px-5 rounded-2xl bg-red-500/10 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all text-red-300 font-bold"
             >
               Abmelden
             </button>

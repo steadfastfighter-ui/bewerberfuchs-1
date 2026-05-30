@@ -236,17 +236,27 @@ export default function Dashboard({
 
           <section className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-14 items-center mb-14 md:mb-20">
             <div>
-              <div className="inline-flex px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 mb-6 text-sm font-bold">
+              <div className="inline-flex px-4 py-2 rounded-full bg-orange-400/10 border border-orange-500/20 text-orange-400 mb-5 text-sm font-bold">
                 Kostenloser ATS-Check
               </div>
 
-              <h1 className="text-4xl md:text-6xl font-black leading-[1.02] tracking-tight mb-6">
+              <h1 className="text-4xl md:text-5xl xl:text-6xl font-black leading-[1.02] tracking-tight mb-5">
                 Mehr Interviews mit
                 <span className="block text-orange-500">
                   besseren Bewerbungen.
                 </span>
               </h1>
+                <div className="flex items-center gap-3 mb-7">
+  <div className="flex -space-x-2">
+    <div className="w-8 h-8 rounded-full bg-orange-500 border border-black" />
+    <div className="w-8 h-8 rounded-full bg-white border border-black" />
+    <div className="w-8 h-8 rounded-full bg-green-500 border border-black" />
+  </div>
 
+  <p className="text-sm text-gray-400">
+    Bereits über <span className="text-white font-bold">500+</span> Bewerbungen optimiert
+  </p>
+</div>
               <p className="text-gray-400 text-lg md:text-xl leading-relaxed max-w-2xl mb-8">
                 Analysiere deinen Lebenslauf, erkenne fehlende Keywords und
                 optimiere deine Bewerbung für Recruiter und ATS-Systeme.
@@ -256,7 +266,7 @@ export default function Dashboard({
                 <button
                   onClick={() => (uploadedFile ? analyzeFile() : analyzeText())}
                   disabled={loading}
-                  className="bg-orange-500 hover:bg-orange-400 disabled:opacity-60 text-black font-black px-8 py-4 rounded-2xl text-base md:text-lg transition"
+                  className="bg-orange-400 hover:bg-orange-400 disabled:opacity-60 text-black font-black px-8 py-4 rounded-2xl text-base md:text-lg transition"
                 >
                   {loading ? "Analyse läuft..." : "Kostenlos analysieren"}
                 </button>
@@ -282,10 +292,10 @@ export default function Dashboard({
             </div>
 
             <div className="relative">
-              <div className="absolute inset-0 bg-orange-500/10 blur-[80px] rounded-full" />
+              <div className="absolute inset-0 bg-orange-400/10 blur-[80px] rounded-full" />
 
               <div className="relative bg-white/[0.04] border border-white/10 rounded-[34px] p-6 md:p-8 backdrop-blur-2xl shadow-2xl">
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center justify-between mb-5">
                   <div>
                     <p className="text-gray-400 text-sm">Live Vorschau</p>
                     <h3 className="text-2xl font-black">
@@ -293,13 +303,13 @@ export default function Dashboard({
                     </h3>
                   </div>
 
-                  <div className="bg-orange-500 text-black px-4 py-2 rounded-2xl font-black">
+                  <div className="bg-orange-400 text-black px-4 py-2 rounded-2xl font-black">
                     91%
                   </div>
                 </div>
 
                 <div className="w-full h-3 bg-white/10 rounded-full overflow-hidden mb-8">
-                  <div className="h-full w-[91%] bg-orange-500 rounded-full" />
+                  <div className="h-full w-[91%] bg-orange-400 rounded-full" />
                 </div>
 
                 <div className="rounded-[28px] border border-white/10 bg-black/25 p-5">
@@ -353,18 +363,18 @@ export default function Dashboard({
                 Lade eine PDF/DOCX hoch oder füge den Text direkt ein.
               </p>
 
-              <div className="bg-white/[0.03] border border-dashed border-orange-500/25 rounded-[28px] p-6 text-center mb-6">
+              <div className="bg-white/[0.03] border border-dashed border-orange-500/25 rounded-[28px] p-6 text-center mb-5">
                 {!uploadedFile ? (
                   <>
                     <div className="text-4xl mb-4">📄</div>
                     <h3 className="text-2xl font-black mb-3">
                       PDF oder DOCX hochladen
                     </h3>
-                    <p className="text-gray-400 mb-6">
+                    <p className="text-gray-400 mb-5">
                       Die Datei wird automatisch ausgelesen.
                     </p>
 
-                    <label className="inline-block bg-orange-500 hover:bg-orange-400 text-black font-black px-7 py-4 rounded-2xl cursor-pointer transition">
+                    <label className="inline-block bg-orange-400 hover:bg-orange-400 text-black font-black px-7 py-4 rounded-2xl cursor-pointer transition">
                       Datei auswählen
                       <input
                         type="file"
@@ -389,7 +399,7 @@ export default function Dashboard({
                       {uploadedFile.name}
                     </p>
 
-                    <p className="text-gray-500 text-sm mb-6">
+                    <p className="text-gray-500 text-sm mb-5">
                       {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
                     </p>
 
@@ -397,7 +407,7 @@ export default function Dashboard({
                       <button
                         onClick={analyzeFile}
                         disabled={loading}
-                        className="bg-orange-500 hover:bg-orange-400 disabled:opacity-60 text-black font-black px-7 py-4 rounded-2xl"
+                        className="bg-orange-400 hover:bg-orange-400 disabled:opacity-60 text-black font-black px-7 py-4 rounded-2xl"
                       >
                         {loading ? "Analyse läuft..." : "Datei analysieren"}
                       </button>
@@ -424,7 +434,7 @@ export default function Dashboard({
               <button
                 onClick={analyzeText}
                 disabled={loading}
-                className="mt-6 w-full bg-orange-500 hover:bg-orange-400 disabled:opacity-60 text-black font-black text-lg py-5 rounded-2xl transition"
+                className="mt-6 w-full bg-orange-400 hover:bg-orange-400 disabled:opacity-60 text-black font-black text-lg py-5 rounded-2xl transition"
               >
                 {loading ? "Analyse läuft..." : "Lebenslauf kostenlos analysieren"}
               </button>
@@ -439,7 +449,7 @@ export default function Dashboard({
 
               <div className="w-full h-3 bg-white/10 rounded-full overflow-hidden mb-7">
                 <div
-                  className="h-full bg-orange-500 rounded-full transition-all duration-700"
+                  className="h-full bg-orange-400 rounded-full transition-all duration-700"
                   style={{
                     width: loading ? "45%" : result?.score ? `${result.score}%` : "0%",
                   }}
@@ -473,7 +483,7 @@ export default function Dashboard({
               Stellenanzeige hinzufügen
             </h2>
 
-            <p className="text-gray-400 mb-6">
+            <p className="text-gray-400 mb-5">
               Optional: Füge die Stellenanzeige ein, damit BewerberFuchs relevante Keywords erkennt.
             </p>
 
@@ -502,7 +512,7 @@ export default function Dashboard({
                     onClick={() => setSelectedTemplate(template.id)}
                     className={`text-left rounded-[24px] border p-5 transition ${
                       active
-                        ? "bg-orange-500 text-black border-orange-400"
+                        ? "bg-orange-400 text-black border-orange-400"
                         : "bg-black/30 text-white border-white/10 hover:border-orange-500/50"
                     }`}
                   >
@@ -518,7 +528,7 @@ export default function Dashboard({
                       className={`mt-5 rounded-2xl py-3 text-center font-black ${
                         active
                           ? "bg-black text-white"
-                          : "bg-orange-500 text-black"
+                          : "bg-orange-400 text-black"
                       }`}
                     >
                       {active ? "Ausgewählt" : "Auswählen"}
@@ -562,7 +572,7 @@ export default function Dashboard({
             </h2>
 
             {!profilePhoto ? (
-              <label className="inline-block bg-orange-500 hover:bg-orange-400 text-black font-bold px-7 py-4 rounded-2xl cursor-pointer">
+              <label className="inline-block bg-orange-400 hover:bg-orange-400 text-black font-bold px-7 py-4 rounded-2xl cursor-pointer">
                 Foto hochladen
                 <input
                   type="file"
@@ -612,7 +622,7 @@ export default function Dashboard({
                   {result.keywords?.map((item, index) => (
                     <div
                       key={index}
-                      className="bg-orange-500/15 text-orange-300 px-4 py-2 rounded-full"
+                      className="bg-orange-400/15 text-orange-300 px-4 py-2 rounded-full"
                     >
                       {item}
                     </div>
@@ -632,7 +642,7 @@ export default function Dashboard({
           )}
 
           {analyzed && (
-            <section className="mt-10 rounded-[32px] border border-orange-500/20 bg-orange-500 p-[1px]">
+            <section className="mt-10 rounded-[32px] border border-orange-500/20 bg-orange-400 p-[1px]">
               <div className="rounded-[32px] bg-[#111827] p-6 md:p-10">
                 <div className="text-center mb-8">
                   <p className="text-orange-400 font-bold mb-3">
@@ -692,7 +702,7 @@ function PremiumCard({ icon, title, price, items, onClick, highlight }) {
       onClick={onClick}
       className={`group rounded-[28px] border p-6 text-left transition ${
         highlight
-          ? "bg-orange-500 text-black border-orange-400"
+          ? "bg-orange-400 text-black border-orange-400"
           : "bg-black/30 text-white border-white/10 hover:border-orange-500/40"
       }`}
     >
@@ -700,7 +710,7 @@ function PremiumCard({ icon, title, price, items, onClick, highlight }) {
       <h3 className="text-2xl font-black mb-2">{title}</h3>
       <div className="text-5xl font-black mb-5">{price}</div>
 
-      <div className="space-y-2 mb-6 text-sm">
+      <div className="space-y-2 mb-5 text-sm">
         {items.map((item) => (
           <div key={item}>✓ {item}</div>
         ))}
@@ -710,7 +720,7 @@ function PremiumCard({ icon, title, price, items, onClick, highlight }) {
         className={`w-full rounded-2xl py-4 text-center font-black ${
           highlight
             ? "bg-black text-white"
-            : "bg-orange-500 text-black"
+            : "bg-orange-400 text-black"
         }`}
       >
         Auswählen

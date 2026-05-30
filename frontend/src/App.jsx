@@ -234,7 +234,24 @@ export default function App() {
   return (
     <div className="min-h-screen w-full overflow-x-hidden bg-[#030712] text-white">
       <div className="relative overflow-x-hidden">
-        {content}
+        <>
+  <Toaster
+    position="top-center"
+    toastOptions={{
+      duration: 3500,
+      style: {
+        background: "#111827",
+        color: "#fff",
+        border: "1px solid rgba(255,255,255,0.08)",
+        borderRadius: "18px",
+        padding: "14px 18px",
+        fontWeight: "600",
+      },
+    }}
+  />
+
+  {content}
+</>
         <CookieBanner />
       </div>
     </div>
