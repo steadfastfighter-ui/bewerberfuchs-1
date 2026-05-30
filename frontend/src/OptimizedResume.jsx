@@ -71,16 +71,24 @@ export default function OptimizedResume({
         auth.currentUser.uid,
         "applications"
       ),
-      {
-        title,
-        selectedProduct,
-        selectedTemplate,
-        optimizedText,
-        resumeText,
-        jobText,
-        candidateData,
-        createdAt: serverTimestamp(),
-      }
+     {
+  title,
+  selectedProduct,
+  selectedTemplate,
+
+  optimizedText: editMode
+    ? `${editableResume}
+
+=== ANSCHREIBEN ===
+
+${editableCoverLetter}`
+    : optimizedText,
+
+  resumeText,
+  jobText,
+  candidateData,
+  createdAt: serverTimestamp(),
+}
     );
 
     toast.success(
