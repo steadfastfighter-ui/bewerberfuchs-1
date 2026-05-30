@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./firebase";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import CookieBanner from "./components/CookieBanner";
 import LandingPage from "./LandingPage";
 import Dashboard from "./Dashboard";
@@ -10,6 +10,7 @@ import Success from "./Success";
 import OptimizedResume from "./OptimizedResume";
 import LegalPage from "./LegalPage";
 import AuthPage from "./AuthPage";
+import MyApplications from "./MyApplications";
 
 export default function App() {
   const [page, setPage] = useState("landing");
@@ -140,7 +141,9 @@ export default function App() {
       localStorage.setItem("selectedProduct", product);
       setPaymentSuccess(false);
       setPage("checkout");
-      alert("Zahlung wurde abgebrochen. Du kannst es jederzeit erneut versuchen.");
+      toast.error(
+  "Zahlung wurde abgebrochen."
+);
       window.history.replaceState({}, "", "/");
     }
 
@@ -150,7 +153,6 @@ export default function App() {
   let content;
 
   if (page === "dashboard") {
-   <Toaster position="top-center" />
     content = (
       <Dashboard
         goHome={goStartseite}
@@ -206,6 +208,14 @@ export default function App() {
         candidateData={candidateData}
       />
     );
+    } else if (page === "applications") {
+  content = (
+    <MyApplications
+      goHome={goStartseite}
+      logout={logout}
+      isLoggedIn={isLoggedIn}
+    />
+  );
   } else if (page === "impressum") {
     content = <LegalPage type="impressum" goHome={goStartseite} />;
   } else if (page === "datenschutz") {
