@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./firebase";
-
+import { Toaster } from "react-hot-toast";
 import CookieBanner from "./components/CookieBanner";
 import LandingPage from "./LandingPage";
 import Dashboard from "./Dashboard";
@@ -146,10 +146,11 @@ export default function App() {
 
     return () => unsubscribe();
   }, []);
-
+   
   let content;
 
   if (page === "dashboard") {
+   <Toaster position="top-center" />
     content = (
       <Dashboard
         goHome={goStartseite}
