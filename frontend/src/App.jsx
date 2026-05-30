@@ -160,6 +160,7 @@ export default function App() {
         logout={logout}
         isLoggedIn={isLoggedIn}
         goLogin={() => setPage("auth")}
+        goApplications={() => setPage("applications")}
         goCheckout={goCheckout}
         setAppResumeText={saveResumeText}
         selectedTemplate={selectedTemplate}

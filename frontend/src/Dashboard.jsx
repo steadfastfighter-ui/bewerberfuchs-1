@@ -8,6 +8,7 @@ export default function Dashboard({
   goHome,
   logout,
   isLoggedIn,
+  goApplications,
   goLogin,
   goCheckout,
   setAppResumeText,
@@ -229,6 +230,7 @@ export default function Dashboard({
         logout={logout}
         isLoggedIn={isLoggedIn}
         goLogin={goLogin}
+        goApplications={goApplications}
       />
 
       <main className="px-5 md:px-8 xl:px-14 py-10 md:py-14">

@@ -3,6 +3,7 @@ export default function Topbar({
   logout,
   isLoggedIn,
   goLogin,
+  goApplications,
 }) {
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[#050816]/90 backdrop-blur-2xl">
@@ -42,6 +43,15 @@ export default function Topbar({
           >
             Startseite
           </button>
+
+          {isLoggedIn && goApplications && (
+            <button
+              onClick={goApplications}
+              className="hidden md:flex items-center justify-center h-11 px-5 rounded-2xl bg-white/[0.05] border border-white/10 hover:border-orange-500/40 hover:bg-orange-500/10 transition-all text-white font-semibold"
+            >
+              Meine Bewerbungen
+            </button>
+          )}
 
           {!isLoggedIn && goLogin && (
             <button
