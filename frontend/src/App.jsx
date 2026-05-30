@@ -218,6 +218,14 @@ export default function App() {
       isLoggedIn={isLoggedIn}
     />
   );
+  } else if (page === "applications") {
+  content = (
+    <MyApplications
+      goHome={goStartseite}
+      logout={logout}
+      isLoggedIn={isLoggedIn}
+    />
+  );
   } else if (page === "impressum") {
     content = <LegalPage type="impressum" goHome={goStartseite} />;
   } else if (page === "datenschutz") {
